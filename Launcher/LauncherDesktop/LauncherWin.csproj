@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<RootNamespace>Template.Desktop</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+	  <PackageReference Include="Silk.NET.Windowing.Desktop" Version="1.9.0" />
+	  <PackageReference Include="Silk.NET.Windowing.Sdl" Version="2.10.1" />
+	  <PackageReference Include="Silk.NET.Input" Version="2.10.1" />
+	  <PackageReference Include="Silk.NET.Input.Common" Version="2.10.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Game\Game.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+</Project>

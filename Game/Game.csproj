@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="JitterPhysics" Version="0.2.0.20" />
+		<PackageReference Include="Silk.NET.OpenGL" Version="2.10.1" />
+		<PackageReference Include="Silk.NET.OpenGLES" Version="2.10.1" />
+		<PackageReference Include="Silk.NET.Windowing.Common" Version="2.10.1" />
+		<PackageReference Include="Silk.NET.Input.Common" Version="2.10.1" />
+		<PackageReference Include="Silk.NET.Windowing.Desktop" Version="1.9.0" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
+		<PackageReference Include="System.Drawing.Common" Version="7.0.0-preview.6.22324.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Launcher\Core\Core.csproj" />
+	</ItemGroup>
+
+</Project>

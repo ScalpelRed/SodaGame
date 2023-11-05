@@ -23,12 +23,12 @@ namespace Game.Graphics.Renderers
             Model = model;
         }
 
-        public override void Draw()
+        public override void Draw(Camera camera)
         {
             Model.PrepareToDraw();
 
             Model.Shader.SetUniform("transform", Transform.GlobalMatrix);
-            Model.Shader.SetUniform("camera", Game.MainCamera.GetMatrix());
+            Model.Shader.SetUniform("camera", camera.GetMatrix());
             foreach (var value in Values) Model.Shader.SetUniform(value.Key, value.Value);
 
             Model.Draw();

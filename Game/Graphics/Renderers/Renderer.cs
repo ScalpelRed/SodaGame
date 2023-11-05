@@ -10,9 +10,6 @@ namespace Game.Graphics.Renderers
 {
     public abstract class Renderer : ObjectModule
     {
-
-
-
         protected Renderer(WorldObject linkedObject) : base(linkedObject, true)
         {
             
@@ -35,11 +32,11 @@ namespace Game.Graphics.Renderers
             Values = new();
         }
 
-        public abstract void Draw();
+        public abstract void Draw(Camera camera);
 
         public override void Step()
         {
-            Draw();
+            Draw(Game.MainCamera);
         }
     }
 }

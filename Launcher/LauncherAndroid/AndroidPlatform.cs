@@ -31,7 +31,8 @@ namespace Triode.PlAndroid
             UpdatesPerSecond = 60,
             VideoMode = VideoMode.Default,
             VSync = true,
-            PreferredDepthBufferBits = 8
+            PreferredDepthBufferBits = 8,
+            PreferredStencilBufferBits = 8,
         });
 
         public override void StartGame(IView view)

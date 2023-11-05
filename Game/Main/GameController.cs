@@ -54,6 +54,7 @@ namespace Game.Main
         {
             ActiveSoda.Step();
             BottomPanel.Step();
+
         }
     }
 

@@ -31,7 +31,8 @@ namespace Triode.Win
                 UpdatesPerSecond = 60,
                 VSync = true,
                 IsVisible = true,
-                PreferredDepthBufferBits = 8
+                PreferredDepthBufferBits = 8,
+                PreferredStencilBufferBits = 8,
             });
 
         public override void StartGame(IView view)

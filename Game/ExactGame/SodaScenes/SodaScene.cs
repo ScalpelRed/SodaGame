@@ -2,6 +2,7 @@
 using Game.Graphics;
 using Game.Graphics.Renderers;
 using Game.Main;
+using Silk.NET.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,14 +26,10 @@ namespace Game.ExactGame.SodaScenes
 
         public abstract Vector3 GetUIColor();
 
-        readonly Stopwatch sw = new();
         public override void Step()
         {
-            //sw.Restart();
             Background.Step();
             foreach (SodaScreen v in SodaScreens) v.Step();
-            /*sw.Stop();
-            Game.Core.Log("bbb " + sw.Elapsed.TotalMilliseconds);*/
         }
     }
 }

@@ -64,8 +64,6 @@ namespace Game.UI
             {
                 if (hover) MouseUp?.Invoke(button);
             };
-
-            Console.WriteLine(Bounds.Rectangle);
         }
 
         public override void Step()

@@ -53,7 +53,7 @@ namespace Game.Graphics
             RecalculateMatrices();
 
             Gl.Resized += () => RecalculateMatrices();
-            Transform.TransformChanged += () => RecalculateMatrices();
+            Transform.Changed += () => RecalculateMatrices();
         }
 
         private Matrix4x4 viewMatrix;

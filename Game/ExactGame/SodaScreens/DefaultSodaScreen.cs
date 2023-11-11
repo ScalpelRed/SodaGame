@@ -12,8 +12,8 @@ namespace Game.ExactGame.SodaScreens
     {
         public DefaultSodaScreen(WorldObject linkedObject, Vector3 color, BubbleLayer bubbleLayer) : base(linkedObject, bubbleLayer)
         {
-            BubbleModel.Shader = Game.Core.Assets.GetShader("meshTextured");
-            BubbleModel.Texture = Game.Core.Assets.GetTexture("soda/bubble");
+            BubbleModel.Shader = Game.Core.Assets.Shaders.Get("meshTextured");
+            BubbleModel.Texture = Game.Core.Assets.Textures.Get("soda/bubble");
         }
     }
 }

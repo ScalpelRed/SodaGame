@@ -1,6 +1,6 @@
 ﻿using Game.Audio;
+using Game.ExactGame.Items;
 using Game.Graphics;
-using Game.Graphics.Renderers;
 using Game.Main;
 using Game.Phys;
 using System;
@@ -27,11 +27,17 @@ namespace Game.ExactGame.SodaScreens
         public readonly float LowerBound;
         public readonly float Height;
         public readonly float WidthHalf;
+#nullable disable
         protected Bubble LastBubble;
+#nullable enable
 
         public Dictionary<string, object> BubbleRendererValues = new();
 
         public Random Random;
+
+        public ItemBubble ItemBubble;
+
+        private bool Initialized;
 
         public SodaScreen(WorldObject linkedObject, BubbleLayer bubbleLayer) : base(linkedObject, false)
         {
@@ -42,13 +48,45 @@ namespace Game.ExactGame.SodaScreens
             LowerBound = Height * -0.5f - Layer.BubbleScale;
             WidthHalf = Game.Core.OpenGL.ScreenSize.X / 2;
 
-            BubbleModel = new(Game.Core.OpenGL, Game.Core.Assets.GetTexture(""), Game.Core.Assets.GetShader(""));
+            BubbleModel = new(Game.Core.OpenGL, Game.Core.Assets.Textures.Get(""), Game.Core.Assets.Shaders.Get(""));
 
-            PopSound = Game.Core.Assets.GetSound("pop");
+            PopSound = Game.Core.Assets.Sounds.Get("pop");
 
             Random = new Random(0);
-            for (float y = LowerBound; y <= UpperBound; y += Layer.BubbleDistance) AddBubble(y);
-            LastBubble = Bubbles[^1];
+
+            ItemBubble = Game.GetItemSlot<ItemBubble>()!;
+
+            Initialized = false;
+        }
+
+        public void SetActive()
+        {
+            if (Initialized)
+            {
+                foreach (Bubble v in Bubbles) v.Active = true;
+            }
+            else
+            {
+                for (float y = LowerBound; y <= UpperBound; y += Layer.BubbleDistance) AddBubble(y);
+                LastBubble = Bubbles[^1];
+                Initialized = true;
+            }
+        }
+
+        public void SetInactive()
+        {
+            foreach (Bubble v in Bubbles) v.Active = false;
+        }
+
+        public void ClearBubbles() // If there's too much soda scenes in memory it's better to clear old ones
+        {
+            foreach (Bubble v in Bubbles) v.Dispose();
+            LastBubble = null!;
+            Bubbles.Clear();
+            InactiveBubbles.Clear();
+            ActiveSwitchQueue.Clear();
+
+            Initialized = false;
         }
 
         private Bubble AddBubble(float y)
@@ -72,7 +110,7 @@ namespace Game.ExactGame.SodaScreens
             return bubble;
         }
 
-        public void MakeInactive(Bubble bubble)
+        public void MakeBubbleInactive(Bubble bubble)
         {
             ActiveSwitchQueue.Add(bubble);
         }
@@ -114,7 +152,7 @@ namespace Game.ExactGame.SodaScreens
             {
                 AddBubble(LowerBound);
             }
-            if (!LastBubble.active) LastBubble.Step();
+            if (!LastBubble.Active) LastBubble.Step();
         }
     }
 }

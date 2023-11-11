@@ -43,7 +43,7 @@ namespace Game.Graphics
                 opengl.Api.CompileShader(handle);
                 subshaderHandles.Add(handle);
                 string log = opengl.Api.GetShaderInfoLog(handle);
-                opengl.Core.Log($"--- Shader log {name} : {shaderType} ---{((log.Length > 0) ? log + '\n' : log)}");
+                opengl.Core.Log($"--- Shader log {name} : {shaderType} ---\n{log}");
                 return handle;
             }
 
@@ -135,7 +135,7 @@ namespace Game.Graphics
                 log = "";
             }
 
-            opengl.Core.Log($"--- Shader log {name} : GENERAL ---{((log.Length > 0) ? log + '\n' : log)}");
+            opengl.Core.Log($"--- Shader log {name} : GENERAL ---\n{log}");
         }
 
         public bool IsEmpty() => Handle <= 0;

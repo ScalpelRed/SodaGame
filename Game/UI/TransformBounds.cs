@@ -12,7 +12,7 @@ namespace Game.UI
         public TransformBounds(WorldObject linkedObject) : base(linkedObject)
         {
             Rectangle = Rectangle.Transform(Transform.GlobalMatrix);
-            Transform.TransformChanged += () =>
+            Transform.Changed += () =>
             {
                 Rectangle = Util.Rectangle.One.Transform(Transform.GlobalMatrix);
                 InvokeChanged();

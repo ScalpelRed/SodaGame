@@ -16,7 +16,7 @@ namespace Game.Graphics
             Api = api;
         }
 
-        public void EnableStencil()
+        public void DrawStencil()
         {
             Api.StencilMask(0xFF);
             Api.StencilFunc(StencilFunction.Always, 1, 0xFF);

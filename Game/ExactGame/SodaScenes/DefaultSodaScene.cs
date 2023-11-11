@@ -24,7 +24,7 @@ namespace Game.ExactGame.SodaScenes
                 SodaScreens.Add(s);
             }
 
-            Background.Model.Shader = Game.Core.Assets.GetShader("bubbleBackground");
+            Background.Model.Shader = Game.Core.Assets.Shaders.Get("bubbleBackground");
             Background.SetValue("upColor", color);
             Background.SetValue("downColor", color * 0.2f);  
         }

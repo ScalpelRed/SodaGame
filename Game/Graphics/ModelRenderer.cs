@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Game.Main;
 
 
-namespace Game.Graphics.Renderers
+namespace Game.Graphics
 {
     public class ModelRenderer : Renderer
     {

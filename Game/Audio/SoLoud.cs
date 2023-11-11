@@ -1,5 +1,3 @@
-#define PL_WIN
-
 using System.Runtime.InteropServices;
 
 namespace SoLoud
@@ -34,8 +32,10 @@ namespace SoLoud
         public const int LEFT_HANDED_3D = 4;
         public const int NO_FPU_REGISTER_CHANGE = 8;
 
-#if PL_WIN
-        public const string libpath = "soloud.dll";
+#if PL_WIN64
+        public const string libpath = "soloud_x64.dll";
+#elif PL_WIN86 || PL_WIN32
+        public const string libpath = "soloud_x86.dll";
 #elif PL_ANDROID
         public const string libpath = "libsoloud-android.so";
 #else

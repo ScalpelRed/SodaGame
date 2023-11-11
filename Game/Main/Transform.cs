@@ -154,13 +154,13 @@ namespace Game.Main
                 {
                     if (hasParent)
                     {
-                        parent!.TransformChanged -= RecalculateMatrices;
+                        parent!.Changed -= RecalculateMatrices;
                     }
                     hasParent = value is not null;
                     parent = value;
                     if (hasParent)
                     {
-                        parent!.TransformChanged += RecalculateMatrices;
+                        parent!.Changed += RecalculateMatrices;
                     }
                     RecalculateMatrices();
                 }
@@ -173,13 +173,13 @@ namespace Game.Main
         public Matrix4x4 GlobalMatrix { get; private set; }
 
 
-        public event Action? TransformChanged;
+        public event Action? Changed;
         private void RecalculateMatrices()
         {
             LocalMatrix = pivotMatrix * localScaleMatrix * localRotMatrix * localPosMatrix;
             GlobalMatrix = hasParent ? (LocalMatrix * Parent!.GlobalMatrix) : LocalMatrix;
             RecalculateGlobalPos();
-            TransformChanged?.Invoke();
+            Changed?.Invoke();
         }
 
         public Transform(Vector3 pos, Transform? par = null)

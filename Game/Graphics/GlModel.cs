@@ -35,17 +35,17 @@ namespace Game.Graphics
             ResetRenderMode();
         }
 
-        public GlModel(OpenGL gl, GlMesh mesh, GlShader shader) : this(gl, mesh, gl.Core.Assets.GetTexture(""), shader)
+        public GlModel(OpenGL gl, GlMesh mesh, GlShader shader) : this(gl, mesh, gl.Core.Assets.Textures.Get(""), shader)
         {
             
         }
 
-        public GlModel(OpenGL gl, GlShader shader) : this(gl, gl.Core.Assets.GetGlMesh("sprite"), shader)
+        public GlModel(OpenGL gl, GlShader shader) : this(gl, gl.Core.Assets.GlMeshes.Get("sprite"), shader)
         {
 
         }
 
-        public GlModel(OpenGL gl, GlTexture texture, GlShader shader) : this(gl, gl.Core.Assets.GetGlMesh("sprite"), texture, shader)
+        public GlModel(OpenGL gl, GlTexture texture, GlShader shader) : this(gl, gl.Core.Assets.GlMeshes.Get("sprite"), texture, shader)
         {
 
         }

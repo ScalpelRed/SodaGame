@@ -253,7 +253,7 @@ namespace Game.Text.Ttf2mesh
         };
 
         [DllImport(libpath, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int ttf_load_from_mem(IntPtr data, int size, IntPtr output, bool headers_only);
+        internal static extern int ttf_load_from_mem(IntPtr data, int size, IntPtr output, bool headers_only); //
 
         [DllImport(libpath, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         internal static extern int ttf_load_from_file(string filename, IntPtr output, bool headers_only); //

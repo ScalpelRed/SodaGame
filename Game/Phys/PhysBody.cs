@@ -27,7 +27,7 @@ namespace Game.Phys
             PhysWorld = world;
             world.AddBody(this);
 
-            Transform.TransformChanged += () =>
+            Transform.Changed += () =>
             {
                 if (allowTransformUpdating) JitterBody.Position = Transform.GlobalPosition.ToJitter();
             };

@@ -17,6 +17,9 @@ namespace Game.Util
         private Vector2 P1 = Vector2.Zero;
         private Vector2 P2 = Vector2.Zero;
 
+        public float Width { get => MathF.Abs(P1.X - P2.X); }
+        public float Height { get => MathF.Abs(P1.Y - P2.Y); }
+
         public static Rectangle ByCenterAndSize(Vector2 pos, Vector2 size) => new(pos + size, pos - size);
 
         public Rectangle(Vector2 p1, Vector2 p2)

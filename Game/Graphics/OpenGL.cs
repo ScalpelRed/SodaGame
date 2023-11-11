@@ -4,7 +4,6 @@ using System.Numerics;
 using Game.Main;
 using Game.OtherAssets;
 using System.Diagnostics;
-using Game.Graphics.Renderers;
 
 namespace Game.Graphics
 {
@@ -65,6 +64,8 @@ namespace Game.Graphics
             Api.ClearColor(0.5f, 0.5f, 0, 1);
             Api.Clear(ClearBufferMask.ColorBufferBit);
             //Api.Clear(ClearBufferMask.DepthBufferBit);
+
+            Api.Enable(EnableCap.CullFace);
 
             View.Render += (double t) => RenderFrame(t);
             View.Resize += (Silk.NET.Maths.Vector2D<int> size) =>

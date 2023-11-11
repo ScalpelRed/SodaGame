@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using static Game.Graphics.OpenGL;
 
-namespace Game.Graphics.Renderers
+namespace Game.Graphics
 {
     public abstract class Renderer : ObjectModule
     {
         protected Renderer(WorldObject linkedObject) : base(linkedObject, true)
         {
-            
+
         }
 
         protected Dictionary<string, object> Values = new();

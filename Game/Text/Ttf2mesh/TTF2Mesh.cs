@@ -52,31 +52,21 @@ namespace Game.Text.Ttf2mesh
             return res;
         }
 
-        public static unsafe TTFResult GlyphToMesh(Glyph glyph, byte quality, int features, out Mesh? output)
+        public static unsafe TTFResult LoadFromMem(byte[] data, out File output)
         {
-            if (glyph.HasOutline) 
+            IntPtr res = Marshal.AllocHGlobal(Marshal.SizeOf<ttf_file>());
+            fixed (byte* dat = &data[0])
             {
-                IntPtr res = Marshal.AllocHGlobal(Marshal.SizeOf<ttf_mesh>());
-                int res2 = ttf_glyph2mesh(glyph.Handle, res, quality, features);
-                if (res2 == (int)TTFResult.GlyphHasNoOutline)
-                {
-                    output = null;
-                }
-                else
-                {
-                    res = Marshal.ReadIntPtr(res);
-                    output = new Mesh(res, glyph.Outline!);
-                }
+                int res2 = ttf_load_from_mem((IntPtr)dat, data.Length, res, false);
+                res = Marshal.ReadIntPtr(res);
+                output = new File(res, true);
                 return (TTFResult)res2;
             }
-
-            output = null;
-            return TTFResult.GlyphHasNoOutline;
         }
 
-        public static unsafe Mesh? GlyphToMesh(Glyph glyph, byte quality, int features, out TTFResult result)
+        public static unsafe File LoadFromMem(byte[] data, out TTFResult result)
         {
-            result = GlyphToMesh(glyph, quality, features, out Mesh? res);
+            result = LoadFromMem(data, out File res);
             return res;
         }
 

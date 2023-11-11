@@ -241,5 +241,18 @@ namespace Game.Text.Ttf2mesh
                 Userdata = raw.userdata;
             }
         }
+
+        public int GetGlyphIndex(char c)
+        {
+            return ttf_find_glyph(Handle, c);
+        }
+
+        public Glyph? GetGlyph(char c)
+        {
+            int i = GetGlyphIndex(c);
+            if (i == -1) return null;
+            if (i >= NGlyphs) throw new IndexOutOfRangeException($"Internal error: glyph index ({i}) is out of glyph array bounds ({NGlyphs - 1})");
+            return Glyphs[i];
+        }
     }
 }

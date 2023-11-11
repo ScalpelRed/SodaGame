@@ -194,8 +194,10 @@ namespace Game.Text.Ttf2mesh
         {
             public int nvert;
             public int nfaces;
+
             public IntPtr vert;
             public IntPtr faces;
+
             public IntPtr outline;
 
             public struct vert_t

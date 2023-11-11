@@ -1,6 +1,8 @@
-﻿/*using Game.Graphics;
+﻿using Game.Graphics;
 using Game.Main;
 using Game.OtherAssets;
+using Game.Text.Ttf2mesh;
+using Game.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,97 +10,85 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game.Graphics.Renderers
+namespace Game.Text
 {
     public class TextRenderer : Renderer
     {
-        public GlModel CharModel;
-        protected OpenGL Gl;
+        protected ReferenceString text;
 
-        private string text = "";
-        public string Text
+        public ReferenceString Text
         {
             get => text;
             set
             {
-                text = value.ToUpper();
-                width = 0;
-
-                CharBounds = new (int, int)[text.Length];
-                int i = 0;
-                foreach (char c in text)
-                {
-                    var cb = Charmap.GetCharBounds(c);
-                    CharBounds[i] = cb;
-                    width += (cb.right - cb.left) * Scale;
-                    i++;
-                }
+                text = value;
+                RefreshText();
             }
         }
-        private (int left, int right)[] CharBounds;
-        private readonly Charmap Charmap;
 
-        public readonly float Scale;
+        protected Font font;
 
-        private float width;
-        public float Width
+        public Font Font
         {
-            get => width;
+            get => font;
+            set
+            {
+                font = value;
+                RefreshText();
+            }
         }
 
-        public TextRenderer(WorldObject linkedObject, string text, Charmap charmap, float scale = 1f) : base(linkedObject)
+        protected List<Glyph?> CharGlyphs = new();
+        protected List<GlMesh?> CharMeshes = new();
+
+        public Vector4 Color = Vector4.UnitW;
+
+        public GlModel Model { get; protected set; }
+
+        public TextRenderer(WorldObject linkedObject, ReferenceString text, Font font) : base(linkedObject)
         {
-            Gl = linkedObject.Game.Core.OpenGL;
-            CharModel = new(Gl, Gl.Core.Assets.GetTexture("chars"), Gl.Core.Assets.GetShader("char"));
-            CharBounds = Array.Empty<(int, int)>(); // Не обязательно
-            Charmap = charmap;
-            Text = text;
-            Scale = scale;
+            this.text = text;
+            this.font = font;
+            Model = new GlModel(Game.Core.OpenGL, Game.Core.Assets.Shaders.Get("textSolid"));
+
+            text.StringChanged += (s) => RefreshText();
+
+            RefreshText();
         }
 
-        public override void Draw()
+        protected void RefreshText()
         {
-            CharModel.PrepareToDraw();
+            while (CharMeshes.Count < text.Length) CharMeshes.Add(null);
+            while (CharGlyphs.Count < text.Length) CharGlyphs.Add(null);
 
-            CharModel.Shader.UniformMat4("transform", Transform.LocalMatrix);
-            CharModel.Shader.UniformMat4("camera", Game.MainCamera.GetMatrix());
-            CharModel.Shader.UniformInt("totalWidth", Charmap.TotalWidth);
-            CharModel.Shader.UniformFloat("charHeight", Charmap.CharHeight * Scale);
-
-            Vector2 localPos = Vector2.Zero;
-            float prevWidth = 0;
             for (int i = 0; i < text.Length; i++)
             {
-                var (leftBound, rightBound) = CharBounds[i];
-                float charWidth = (rightBound - leftBound) * Scale;
-
-                CharModel.Shader.UniformInt("leftBound", leftBound);
-                CharModel.Shader.UniformInt("rightBound", rightBound);
-                CharModel.Shader.UniformFloat("charWidth", charWidth);
-
-                if (text[i] != '\n')
-                {
-                    localPos.X += prevWidth;
-                    prevWidth = charWidth;
-
-                    CharModel.Shader.UniformVec2("localPos", localPos);
-                    CharModel.Draw();
-                }
-                else
-                {
-                    localPos.X = 0;
-                    localPos.Y += Charmap.CharHeight * Scale;
-                    prevWidth = 0;
-                }
+                CharMeshes[i] = Font.GetGlMeshFor(text.String[i]);
+                CharGlyphs[i] = Font.GetGlyphFor(text.String[i]);
             }
         }
 
-
-        public override void Step()
+        public override void Draw(Camera camera)
         {
-            Draw();
+            Model.Shader.SetUniform("transform", Transform.GlobalMatrix);
+            Model.Shader.SetUniform("camera", camera.GetMatrix());
+            Model.Shader.SetUniform("inColor", Color);
 
+            Vector3 pos = Vector3.Zero;
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                GlMesh? mesh = CharMeshes[i];
+                if (mesh is not null)
+                {
+                    Model.Shader.SetUniform("textransform", Matrix4x4.CreateTranslation(pos));
+                    Model.Mesh = CharMeshes[i]!;
+                    Model.PrepareToDraw();
+                    Model.Draw();
+                }
+
+                pos += Vector3.UnitX * CharGlyphs[i]!.Advance;
+            }
         }
     }
 }
-*/

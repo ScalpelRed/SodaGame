@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using static Game.Text.Ttf2mesh.Binding;
+using static Game.Text.Ttf2mesh.TTF2Mesh;
 
 namespace Game.Text.Ttf2mesh
 {
@@ -55,6 +56,34 @@ namespace Game.Text.Ttf2mesh
             HasOutline = Outline is not null;
 
             Userdata = raw.userdata;
+        }
+
+        public unsafe TTFResult ToMesh(byte quality, int features, out Mesh? output)
+        {
+            if (HasOutline)
+            {
+                IntPtr res = Marshal.AllocHGlobal(Marshal.SizeOf<ttf_mesh>());
+                int res2 = ttf_glyph2mesh(Handle, res, quality, features);
+                if (res2 == (int)TTFResult.GlyphHasNoOutline)
+                {
+                    output = null;
+                }
+                else
+                {
+                    res = Marshal.ReadIntPtr(res);
+                    output = new Mesh(res, Outline!);
+                }
+                return (TTFResult)res2;
+            }
+
+            output = null;
+            return TTFResult.GlyphHasNoOutline;
+        }
+
+        public unsafe Mesh? ToMesh(byte quality, int features, out TTFResult result)
+        {
+            result = ToMesh(quality, features, out Mesh? res);
+            return res;
         }
     }
 }

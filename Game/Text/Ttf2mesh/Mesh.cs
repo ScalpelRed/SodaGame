@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.OtherAssets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -33,6 +34,11 @@ namespace Game.Text.Ttf2mesh
                 V2 = raw.v2;
                 V3 = raw.v3;
             }
+
+            public override string ToString()
+            {
+                return $"[{V1} {V2} {V3}]";
+            }
         }
 
         internal Mesh(IntPtr handle, Outline outline)
@@ -48,8 +54,9 @@ namespace Game.Text.Ttf2mesh
                 IntPtr adr = raw.vert;
                 for (int i = 0; i < NVert; i++)
                 {
-                    ttf_mesh.vert_t vert = Marshal.PtrToStructure<ttf_mesh.vert_t>(handle);
+                    ttf_mesh.vert_t vert = Marshal.PtrToStructure<ttf_mesh.vert_t>(adr);
                     Vert[i] = new Vector2(vert.x, vert.y);
+                    adr = IntPtr.Add(adr, Marshal.SizeOf<ttf_mesh.vert_t>());
                 }
             }
 
@@ -58,8 +65,9 @@ namespace Game.Text.Ttf2mesh
                 IntPtr adr = raw.faces;
                 for (int i = 0; i < NFaces; i++)
                 {
-                    ttf_mesh.faces_t face = Marshal.PtrToStructure<ttf_mesh.faces_t>(handle);
+                    ttf_mesh.faces_t face = Marshal.PtrToStructure<ttf_mesh.faces_t>(adr);
                     Faces[i] = new Face(face);
+                    adr = IntPtr.Add(adr, Marshal.SizeOf<ttf_mesh.faces_t>());
                 }
             }
 
@@ -69,6 +77,23 @@ namespace Game.Text.Ttf2mesh
         ~Mesh()
         {
             ttf_free_mesh(Handle);
+        }
+
+        public RawMesh ToRawMesh()
+        {
+            RawMesh res = new();
+
+            foreach (Vector2 vert in Vert)
+            {
+                res.AddVertex(new Vector3(vert, 0), vert, Vector3.UnitZ);
+            }
+
+            foreach (Face face in Faces)
+            {
+                res.AddFace(face.V1, face.V2, face.V3);
+            }
+
+            return res;
         }
     }
 }

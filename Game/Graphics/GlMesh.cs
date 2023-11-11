@@ -1,17 +1,34 @@
 ﻿using Game.OtherAssets;
 using Game.Util;
 using Silk.NET.OpenGL;
+using System.Numerics;
 
 namespace Game.Graphics
 {
     public class GlMesh
     {
-        public uint VBOHandle;
-        public uint VAOHandle;
-        public uint EBOHandle;
+        public uint VBOHandle { get; protected set; }
+        public uint VAOHandle { get; protected set; }
+        public uint EBOHandle { get; protected set; }
 
-        public uint VertexCount;
-        public int VertsPerPolygon;
+        public uint VertexCount { get; protected set; }
+        public int VertsPerPolygon { get; protected set; }
+
+#nullable disable
+        protected Attribute[] Attributes;
+#nullable enable
+
+        public GlMesh()
+        {
+            VBOHandle = 0;
+            VAOHandle = 0;
+            EBOHandle = 0;
+            VertexCount = 0;
+            VertsPerPolygon = 0;
+            Attributes = Array.Empty<Attribute>();
+        }
+
+        public bool IsEmpty() => VertexCount == 0;
 
         public unsafe GlMesh(OpenGL gl, int vertsPerPolygon, int vertexCount, int[] indexArray, params float[][] data)
         {
@@ -20,25 +37,38 @@ namespace Game.Graphics
 
         public unsafe GlMesh(OpenGL gl, RawMesh source)
         {
-            Vertex[] verts = source.GetVertexArray();
+            int[][] inds = source.GetIndexArray();
 
-            Build(gl, source.VertsPerPolygon, source.VertexCount, source.GetIndexArray(), 
-                RawMesh.GetPositionArray(verts), RawMesh.GetTexcoordArray(verts), RawMesh.GetNormalArray(verts));
+            Build(gl, inds[0].Length, source.VertexCount, UtilFunc.ToLinear(inds),
+                ToLinearArray(source.GetPosArray()),
+                ToLinearArray(source.GetTexcoordArray()),
+                ToLinearArray(source.GetNormalArray()));
         }
 
-        protected unsafe void Build(OpenGL gl, int vertsPerPolygon, int vertexCount, int[] indexArray, params float[][] data)
+        public unsafe GlMesh(OpenGL gl, RawMesh source, params float[][] additionalData)
         {
-            Attribute[] attributes = new Attribute[data.Length];
-            float[] vertexArray;
+            int[][] inds = source.GetIndexArray();
 
+            Build(gl, inds[0].Length, source.VertexCount, UtilFunc.ToLinear(inds),
+                new float[][] {
+                    ToLinearArray(source.GetPosArray()),
+                    ToLinearArray(source.GetTexcoordArray()),
+                    ToLinearArray(source.GetNormalArray()) }
+                .Concat(additionalData).ToArray());
+        }
+
+        protected virtual unsafe void Build(OpenGL gl, int vertsPerPolygon, int vertexCount, int[] indexArray, params float[][] data)
+        {
+            float[] vertexArray;
+            Attributes = new Attribute[data.Length];
             {
                 List<float> vertexArrayList = new();
                 uint offset = 0;
                 for (uint i = 0; i < data.Length; i++)
                 {
-                    Attribute attribute = new(data[i], vertsPerPolygon, vertexCount, i, offset);
+                    Attribute attribute = new(data[i], vertexCount, i, offset);
                     offset += (uint)(attribute.Data.Length * sizeof(float));
-                    attributes[i] = attribute;
+                    Attributes[i] = attribute;
 
                     vertexArrayList.AddRange(attribute.Data);
                 }
@@ -60,7 +90,7 @@ namespace Game.Graphics
                 BufferUsageARB.StaticDraw);
             }
 
-            foreach (Attribute a in attributes)
+            foreach (Attribute a in Attributes)
             {
                 gl.Api.VertexAttribPointer(a.Index, a.Size, VertexAttribPointerType.Float, false, a.Stride, (void*)a.Offset);
                 gl.Api.EnableVertexAttribArray(a.Index);
@@ -82,6 +112,29 @@ namespace Game.Graphics
             VertsPerPolygon = vertsPerPolygon;
         }
 
+        public static float[] ToLinearArray(Vector3[] arr)
+        {
+            List<float> res = new();
+            foreach (Vector3 vert in arr)
+            {
+                res.Add(vert.X);
+                res.Add(vert.Y);
+                res.Add(vert.Z);
+            }
+            return res.ToArray();
+        }
+
+        public static float[] ToLinearArray(Vector2[] arr)
+        {
+            List<float> res = new();
+            foreach (Vector2 vert in arr)
+            {
+                res.Add(vert.X);
+                res.Add(vert.Y);
+            }
+            return res.ToArray();
+        }
+
         protected struct Attribute
         {
             public uint Index;
@@ -90,10 +143,10 @@ namespace Game.Graphics
             public uint Offset;
             public float[] Data;
 
-            public Attribute(float[] data, int vertsPerPolygon, int vertexCount, uint index, uint offset)
+            public Attribute(float[] data, int vertexCount, uint index, uint offset)
             {
-                if (data.Length % vertsPerPolygon != 0) throw new Exception(
-                    $"Attribute {index}: length of the attribute array ({data.Length}) must be a multiple of the number of vertices per polygon ({vertsPerPolygon})");
+                if (data.Length % vertexCount != 0) throw new Exception(
+                    $"Extra values are not allowed (got {data.Length} values, expected multiple of {vertexCount} at attribute {index})");
 
                 Index = index;
                 Size = data.Length / vertexCount;

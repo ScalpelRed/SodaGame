@@ -4,10 +4,10 @@ $ShaderType FragmentShader
 precision lowp sampler2D;
 precision lowp float;
 
-uniform vec4 inColor;
+uniform vec4 color;
 
 out vec4 outColor;
 
 void main(){
-	outColor = inColor;
+	outColor = color;
 }

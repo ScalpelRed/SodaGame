@@ -21,8 +21,8 @@ namespace Game.Text.Ttf2mesh
         public bool Composite { get; protected set; }
         public uint Reserved { get; protected set; }
 
-        public Vector2 XBounds { get; protected set; }
-        public Vector2 YBounds { get; protected set; }
+        public Vector2 BoundP { get; protected set; }
+        public Vector2 BoundN { get; protected set; }
 
         public float Advance { get; protected set; }
         public float LBearing { get; protected set; }
@@ -45,8 +45,36 @@ namespace Game.Text.Ttf2mesh
             Composite = raw.composite == 1;
             Reserved = raw.reserved;
 
-            XBounds = new Vector2(raw.xbounds[0], raw.xbounds[1]);
-            YBounds = new Vector2(raw.ybounds[0], raw.ybounds[1]);
+            {
+                Vector2 boundp;
+                Vector2 boundn;
+
+                // it's faster than using max and min
+                if (raw.xbounds[0] > raw.xbounds[1])
+                {
+                    boundp.X = raw.xbounds[0];
+                    boundn.X = raw.xbounds[1];
+                }
+                else
+                {
+                    boundp.X = raw.xbounds[1];
+                    boundn.X = raw.xbounds[0];
+                }
+
+                if (raw.ybounds[0] > raw.ybounds[1])
+                {
+                    boundp.Y = raw.ybounds[0];
+                    boundn.Y = raw.ybounds[1];
+                }
+                else
+                {
+                    boundp.Y = raw.ybounds[1];
+                    boundn.Y = raw.ybounds[0];
+                }
+
+                BoundP = boundp;
+                BoundN = boundn;
+            }
 
             Advance = raw.advance;
             LBearing = raw.lbearing;

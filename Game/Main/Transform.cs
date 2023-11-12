@@ -170,6 +170,7 @@ namespace Game.Main
 
 
         public Matrix4x4 LocalMatrix { get; private set; }
+        public Matrix4x4 ParentMatrix { get; private set; }
         public Matrix4x4 GlobalMatrix { get; private set; }
 
 
@@ -177,7 +178,8 @@ namespace Game.Main
         private void RecalculateMatrices()
         {
             LocalMatrix = pivotMatrix * localScaleMatrix * localRotMatrix * localPosMatrix;
-            GlobalMatrix = hasParent ? (LocalMatrix * Parent!.GlobalMatrix) : LocalMatrix;
+            ParentMatrix = hasParent ? Parent!.GlobalMatrix : Matrix4x4.Identity;
+            GlobalMatrix = LocalMatrix * ParentMatrix;
             RecalculateGlobalPos();
             Changed?.Invoke();
         }

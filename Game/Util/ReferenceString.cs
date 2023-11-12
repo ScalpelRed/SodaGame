@@ -6,18 +6,31 @@ using System.Threading.Tasks;
 
 namespace Game.Util
 {
-
-    /// <summary>
-    /// This class should not be used the same way as default string.
-    /// </summary>
     public class ReferenceString
     {
-        public string String { get; set; }
+        private string @string;
+
+        public string String 
+        {
+            get => @string;
+            set
+            {
+                @string = value;
+                StringChanged?.Invoke(value);
+            }
+        }
 
         public ReferenceString(string value = "")
         {
-            String = value;
+            @string = value;
         }
+
+        public int Length
+        {
+            get => @string.Length;
+        }
+
+        public event Action<string>? StringChanged;
 
         public static bool operator ==(ReferenceString a, ReferenceString b) => a.ToString() == b.ToString();
         public static bool operator !=(ReferenceString a, ReferenceString b) => a.ToString() != b.ToString();

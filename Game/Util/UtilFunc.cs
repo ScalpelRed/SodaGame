@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using Jitter.LinearMath;
 
@@ -10,10 +11,7 @@ namespace Game.Util
 {
 	public static class UtilFunc
 	{
-		public static Vector2 XY(this Vector3 vec) => new(vec.X, vec.Y);
-
-		public static Vector3 ToNumerics(this JVector vec) => new(vec.X, vec.Y, vec.Z);
-		public static JVector ToJitter(this Vector3 vec) => new(vec.X, vec.Y, vec.Z);
+		
 
 		public static MemoryStream StreamToMemoryStream(Stream stream)
 		{
@@ -91,24 +89,28 @@ namespace Game.Util
 
 		public static unsafe T[] GetNullTerminatedArray<T>(IntPtr pointerToFirst) where T : struct
 		{
-			List<T> str = new();
-			while (pointerToFirst != IntPtr.Zero)
+			// Didn't tested if works
+
+			List<T> res = new();
+			while (true)
 			{
-				str.Add(Marshal.PtrToStructure<T>(pointerToFirst));
-				pointerToFirst = Marshal.ReadIntPtr(pointerToFirst, Marshal.SizeOf<T>());
+				IntPtr ptr = Marshal.ReadIntPtr(pointerToFirst);
+				if (ptr == IntPtr.Zero) return res.ToArray();
+
+				res.Add(Marshal.PtrToStructure<T>(ptr));
+				pointerToFirst += sizeof(IntPtr);
 			}
-			return str.ToArray();
 		}
 
-		public static unsafe IntPtr[] GetNullTerminatedArrayReferences<T>(IntPtr pointerToFirst) where T : struct
+		public static unsafe IntPtr[] GetNullTerminatedArrayReferences(IntPtr pointerToFirst)
 		{
-			List<IntPtr> str = new();
-			while (pointerToFirst != IntPtr.Zero)
+			List<IntPtr> res = new();
+			while (Marshal.ReadIntPtr(pointerToFirst) != IntPtr.Zero)
 			{
-				str.Add(pointerToFirst);
-				pointerToFirst = Marshal.ReadIntPtr(pointerToFirst, Marshal.SizeOf<T>());
+				res.Add(pointerToFirst);
+				pointerToFirst += sizeof(IntPtr);
 			}
-			return str.ToArray();
+			return res.ToArray();
 		}
 
 		public static T[] ToLinear<T>(T[][] source)

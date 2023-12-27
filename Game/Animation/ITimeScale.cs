@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game.Animation.Value
+namespace Game.Animation
 {
-    public interface ITimedValueProvider<T>
+    public interface ITimeScale<T>
     {
-        public T GetValue(double seconds);
+        public T GetValue(float seconds);
     }
 }

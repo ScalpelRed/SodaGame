@@ -43,37 +43,24 @@ namespace Game.Text.Ttf2mesh
             }
         }
 
-        private unsafe Outline(IntPtr handle, ttf_outline raw)
+        public unsafe Outline(IntPtr handle)
         {
             Handle = handle;
-            
+
+            ttf_outline raw = Marshal.PtrToStructure<ttf_outline>(handle);
+
             TotalPoints = raw.total_points;
             NContours = raw.ncontours;
 
             Cont = new Contour[NContours];
             {
-                IntPtr adr = raw.cont0;
+                IntPtr adr = handle + 8; // The values are written in array that have predefined size of 1, and I don't know how to marshal it correctly
                 for (int i = 0; i < NContours; i++)
                 {
                     Cont[i] = new Contour(adr);
                     adr = IntPtr.Add(adr, Marshal.SizeOf<ttf_outline.ttf_contour>());
                 }
             }
-        }
-
-        public static Outline? TryMarshal(IntPtr handle)
-        {
-            ttf_outline raw;
-            try
-            {
-                raw = Marshal.PtrToStructure<ttf_outline>(handle);
-            }
-            catch (NullReferenceException)
-            {
-                return null;
-            }
-
-            return new Outline(handle, raw);
         }
     }
 }

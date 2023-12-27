@@ -6,32 +6,55 @@ namespace Game.Graphics
 {
     public class GlModel
     {
-        private static uint currentBuffer;
+        public static uint currentVAO;
         private static uint currentTexture;
         private static uint currentShader;
-        private static GlModel currentModel;
+        private static GlModel? currentModel;
 
         public readonly OpenGL Gl;
 
-        public GlMesh Mesh;
-        public GlTexture Texture;
-        public GlShader Shader;
-        public PrimitiveType RenderMode;
+        protected GlMesh mesh;
+        protected GlTexture texture;
+        protected GlShader shader;
 
-
-        public static bool IsCurrentShader(GlShader shader)
+        public GlMesh Mesh
         {
-            return currentShader == shader.Handle;
+            get => mesh;
+            set
+            {
+                mesh = value;
+                if (currentModel == this) currentModel = null;
+            }
         }
+        public GlTexture Texture
+        {
+            get => texture;
+            set
+            {
+                texture = value;
+                if (currentModel == this) currentModel = null;
+            }
+        }
+        public GlShader Shader
+        {
+            get => shader;
+            set
+            {
+                shader = value;
+                if (currentModel == this) currentModel = null;
+            }
+        }
+
+        public PrimitiveType RenderMode;
 
 
         public GlModel(OpenGL gl, GlMesh mesh, GlTexture texture, GlShader shader)
         {
             Gl = gl;
 
-            Mesh = mesh;
-            Shader = shader;
-            Texture = texture;
+            this.mesh = mesh;
+            this.shader = shader;
+            this.texture = texture;
             ResetRenderMode();
         }
 
@@ -65,13 +88,13 @@ namespace Game.Graphics
 
         public unsafe void PrepareToDraw()
         {
-            if (ReferenceEquals(this, currentModel)) return;
+            if (currentModel == this) return;
             currentModel = this;
 
-            if (Mesh.VAOHandle != currentBuffer)
+            if (Mesh.VAOHandle != currentVAO)
             {
                 Gl.Api.BindVertexArray(Mesh.VAOHandle);
-                currentBuffer = Mesh.VAOHandle;
+                currentVAO = Mesh.VAOHandle;
             }
 
             if (Texture.Handle != currentTexture)

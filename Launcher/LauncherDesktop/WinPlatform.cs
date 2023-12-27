@@ -4,7 +4,7 @@ using Silk.NET.Windowing;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace Triode.Win
+namespace Triode.PlWin
 {
     public class WinPlatform : Platform
     {
@@ -31,6 +31,7 @@ namespace Triode.Win
                 UpdatesPerSecond = 60,
                 VSync = true,
                 IsVisible = true,
+                Samples = 4,
                 PreferredDepthBufferBits = 8,
                 PreferredStencilBufferBits = 8,
             });

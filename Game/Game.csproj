@@ -2,22 +2,26 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <FileAlignment>512</FileAlignment>
+    <DefineConstants>$(DefineConstants);PL_WIN64;TRACE;PL_WIN86;PL_WIN32;PL_ANDROID</DefineConstants>
+    <WarningLevel>7</WarningLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <FileAlignment>512</FileAlignment>
+    <WarningLevel>7</WarningLevel>
   </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="JitterPhysics" Version="0.2.0.20" />
+		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.6" />
 		<PackageReference Include="Silk.NET.OpenGL" Version="2.10.1" />
 		<PackageReference Include="Silk.NET.OpenGLES" Version="2.10.1" />
 		<PackageReference Include="Silk.NET.Windowing.Common" Version="2.10.1" />

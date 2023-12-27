@@ -15,8 +15,9 @@ namespace Game.Util
             get => @string;
             set
             {
+                string prev = @string;
                 @string = value;
-                StringChanged?.Invoke(value);
+                StringChanged?.Invoke(prev, value);
             }
         }
 
@@ -30,7 +31,7 @@ namespace Game.Util
             get => @string.Length;
         }
 
-        public event Action<string>? StringChanged;
+        public event Action<string, string>? StringChanged;
 
         public static bool operator ==(ReferenceString a, ReferenceString b) => a.ToString() == b.ToString();
         public static bool operator !=(ReferenceString a, ReferenceString b) => a.ToString() != b.ToString();

@@ -1,81 +1,98 @@
-﻿using Game.Graphics;
-using Game.Graphics.Renderers;
+﻿using Game.Animation;
+using Game.Animation.Interpolations;
+using Game.Graphics;
 using Game.Main;
 using Game.UI;
+using Game.UI.Bounds;
+using Game.UI.Interactors;
+using Game.Util;
 using Silk.NET.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using static Game.UI.UITransform;
 
 namespace Game.ExactGame.UI
 {
-    public sealed class BottomPanel : ObjectGroup
+    public sealed class BottomPanel : UIModule
     {
         private readonly float Opacity = 0.5f;
-        private readonly ModelRenderer Background;
+        private readonly UIModelRenderer Background;
 
-        /*private readonly ModelRenderer ButtonSeparator1;
-        private readonly ModelRenderer ButtonSeparator2;
-        private readonly float SeparatorDarkness = 0.5f;*/
-
-        private readonly ModelRenderer Highlighting;
-        private readonly UIButton Button1;
-        private readonly UIButton Button2;
-        private readonly UIButton Button3;
-        private readonly float ButtonWidth = 1f / 3;
+        private readonly UIModelRenderer Highlighting;
+        public readonly MouseInteractor Button1L;
+        public readonly MouseInteractor Button00;
+        public readonly MouseInteractor Button1R;
+        private const float ButtonWidth = 1f / 3;
 
         public readonly OpenGL Gl;
-        private readonly int Width;
-        private readonly int Height;
+        public readonly int Width;
+        public const int Height = 100;
 
-        public BottomPanel(WorldObject linkedObject) : base(linkedObject)
+        private readonly AnimationController HighlightingAnim;
+        private readonly InterpolationScale<float> HAnimPos;
+
+        public BottomPanel(WorldObject linkedObject) : base(linkedObject, false)
         {
             Gl = Game.Core.OpenGL;
             Width = (int)Gl.ScreenSize.X;
-            Height = 100;
-            Transform.LocalScale2 = new Vector2(Width, Height);
-            Transform.LocalPosition2 = Vector2.UnitY * (-Gl.ScreenSize.Y + Height) * 0.5f;
-            Background = new ModelRenderer(linkedObject, Game.Core.Assets.GetShader("uiBackground"));
+            UITransform.SetAnchoringX(AnchoringX.Stretch);
+            UITransform.SetAnchoringY(AnchoringY.Down);
+            UITransform.MarginUp = Height;
 
-            Highlighting = new ModelRenderer(new WorldObject(Vector3.Zero, Game, Transform), Game.Core.Assets.GetShader("uiBackground"));
-            Highlighting.Transform.LocalScale2 = new Vector2(ButtonWidth, 1);
+            Background = new UIModelRenderer(linkedObject, Game.Core.Assets.Shaders.Get("meshSolid"));
 
-            Button1 = new UIButton(new TransformBounds(new WorldObject(Vector3.UnitX * ButtonWidth * 1, Game, Transform)));
-            Button1.Transform.LocalScale2 = new Vector2(ButtonWidth, 1);
-            Button1.MouseUp += (MouseButton _) => Highlighting.Transform.LocalPosition2 = Button1.Transform.LocalPosition2;
+            Highlighting = new(new WorldObject(Vector3.Zero, Game, Transform), Game.Core.Assets.Shaders.Get("meshSolid"));
+            Highlighting.UITransform.Parent = UITransform;
+            Highlighting.UITransform.SetAnchors(new Vector2(ButtonWidth * 1, 0), new Vector2(ButtonWidth * 2, 1));
+            Highlighting.UITransform.PosZ = 0.1f;
 
-            Button2 = new UIButton(new TransformBounds(new WorldObject(Vector3.UnitX * ButtonWidth * 0, Game, Transform)));
-            Button2.Transform.LocalScale2 = new Vector2(ButtonWidth, 1);
-            Button2.MouseUp += (MouseButton _) => Highlighting.Transform.LocalPosition2 = Button2.Transform.LocalPosition2;
+            Button1L = new UIButton(new TransformBounds(new WorldObject(Vector3.Zero, Game, Transform)));
+            Button1L.UITransform.Parent = UITransform;
+            Button1L.UITransform.SetAnchors(new Vector2(0, 0), new Vector2(ButtonWidth, 1));
+            Button1L.UITransform.PosZ = 0.1f;
+            Button1L.MouseUp += (MouseButton _) => MoveHighlighning(Button1L);
 
-            Button3 = new UIButton(new TransformBounds(new WorldObject(Vector3.UnitX * ButtonWidth * -1, Game, Transform)));
-            Button3.Transform.LocalScale2 = new Vector2(ButtonWidth, 1);
-            Button3.MouseUp += (MouseButton _) => Highlighting.Transform.LocalPosition2 = Button3.Transform.LocalPosition2;
+            Button00 = new UIButton(new TransformBounds(new WorldObject(Vector3.Zero, Game, Transform)));
+            Button00.UITransform.Parent = UITransform;
+            Button00.UITransform.SetAnchors(new Vector2(ButtonWidth, 0), new Vector2(ButtonWidth * 2, 1));
+            Button00.UITransform.PosZ = 0.1f;
+            Button00.MouseUp += (MouseButton _) => MoveHighlighning(Button00);
 
-            /*ButtonSeparator1 = new ModelRenderer(new WorldObject(new Vector3(-0.33f * 0.5f, 0, 0), Game, Transform), Game.Core.Assets.GetShader("uiBackground"));
-            ButtonSeparator1.Transform.LocalScale2 = new Vector2(0.01f, 0.8f);
+            Button1R = new UIButton(new TransformBounds(new WorldObject(Vector3.Zero, Game, Transform)));
+            Button1R.UITransform.Parent = UITransform;
+            Button1R.UITransform.SetAnchors(new Vector2(ButtonWidth * 2, 0), new Vector2(ButtonWidth * 3, 1));
+            Button1R.UITransform.PosZ = 0.1f;
+            Button1R.MouseUp += (MouseButton _) => MoveHighlighning(Button1R);
 
-            ButtonSeparator2 = new ModelRenderer(new WorldObject(new Vector3(0.33f * 0.5f, 0, 0), Game, Transform), Game.Core.Assets.GetShader("uiBackground"));
-            ButtonSeparator2.Transform.LocalScale2 = new Vector2(0.01f, 0.8f);*/
+            HAnimPos = new(0, 0, 0.1f, new LinearInterpolation<float>());
+            HighlightingAnim = new(new Range<float>(0, HAnimPos.Duration),
+                new SetterAnimator<float>(HAnimPos, (float v) =>
+                {
+                    Vector2 t = Highlighting.UITransform.AnchorCenter;
+                    t.X = v;
+                    Highlighting.UITransform.AnchorCenter = t;
+                })
+            );
         }
-
+        
         public void SetColor(Vector3 color)
         {
-            Background.SetValue("inColor", new Vector4(color, Opacity));
-            Highlighting.SetValue("inColor", new Vector4(new Vector3(color.X + color.Y + color.Z) / 3, Opacity));
-            /*ButtonSeparator1.SetValue("inColor", new Vector4(color * SeparatorDarkness, Opacity));
-            ButtonSeparator2.SetValue("inColor", new Vector4(color * SeparatorDarkness, Opacity));*/
+            Background.SetValue("color", new Vector4(color, Opacity));
+            Highlighting.SetValue("color", new Vector4(new Vector3(color.X + color.Y + color.Z) / 3, Opacity));
+        }
+
+        private void MoveHighlighning(MouseInteractor bt)
+        {
+            HAnimPos.Value1 = Highlighting.UITransform.AnchorCenter.X;
+            HAnimPos.Value2 = bt.UITransform.AnchorCenter.X;
+            HighlightingAnim.Time = 0;
+            HighlightingAnim.Paused = false;
         }
 
         public override void Step()
         {
             Background.Step();
-            Highlighting.Step();
-            /*ButtonSeparator1.Step();
-            ButtonSeparator2.Step();*/
+            HighlightingAnim.Update();
+            Highlighting.LinkedObject.Step();
         }
     }
 }

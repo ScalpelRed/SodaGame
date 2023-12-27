@@ -1,8 +1,6 @@
 ﻿using Game.ExactGame.SodaScreens;
-using Game.Graphics.Renderers;
 using Game.Main;
 using Game.Phys;
-using Game.UI;
 using Silk.NET.Input;
 using System;
 using System.Collections.Generic;
@@ -11,6 +9,8 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Jitter.Collision.Shapes;
+using Game.Graphics;
+using Game.UI.Bounds;
 
 namespace Game.ExactGame
 {
@@ -18,26 +18,18 @@ namespace Game.ExactGame
     {
         protected readonly SodaScreen SodaScreen;
 
-        public volatile bool active = false;
-        public bool Active
-        {
-            get => active;
-            set
-            {
-                active = value;
-            }
-        }
+        public volatile bool Active = false;
 
-        protected TransformBounds Bounds;
+        protected UIBounds Bounds;
         protected ModelRenderer Renderer;
 
 
         public Bubble(WorldObject linkedObject, SodaScreen sodaScreen) : base(linkedObject, true)
         {
             SodaScreen = sodaScreen;
-            Transform.LocalScale = Vector3.One * SodaScreen.Layer.BubbleScale;
+            Transform.Scale = Vector3.One * SodaScreen.Layer.BubbleScale;
 
-            Bounds = new(linkedObject);
+            Bounds = new TransformBounds(linkedObject);
             Game.Core.Input.MouseMove += (Vector2 pos) => CheckPop();
 
             Renderer = new(linkedObject, sodaScreen.BubbleModel);
@@ -50,7 +42,8 @@ namespace Game.ExactGame
         {
             if (Active && Bounds.Contains(Game.MainCamera.WorldToScreen(Game.Core.Input.MousePosition)))
             {
-                SodaScreen.MakeInactive(this);
+                SodaScreen.ItemBubble.Count += 1;
+                SodaScreen.MakeBubbleInactive(this);
                 //Game.Core.Audio.Play(sodaScreen.PopSound);
             }
         }
@@ -58,7 +51,12 @@ namespace Game.ExactGame
         public override void Step()
         {
             Transform.LocalPosition += SodaScreen.GetSpeedAt(Transform.LocalPosition.Y) * Vector3.UnitY * Game.DeltaTime;
-            if (Transform.GlobalPosition.Y > SodaScreen.UpperBound) SodaScreen.MakeInactive(this);
+            if (Transform.GlobalPosition.Y > SodaScreen.UpperBound) SodaScreen.MakeBubbleInactive(this);
+        }
+
+        public void Dispose()
+        {
+            Game.Core.Input.MouseMove -= (Vector2) => CheckPop();
         }
     }
 }

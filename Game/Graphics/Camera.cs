@@ -14,24 +14,13 @@ namespace Game.Graphics
         private float far;
         public readonly OpenGL Gl;
 
-        public Vector3 LocalPosition
-        {
-            get => Transform.LocalPosition;
-            set => Transform.LocalPosition = value;
-        }
-
-        public Vector3 GlobalPosition
-        {
-            get => Transform.GlobalPosition;
-        }
-
         public float Near 
         { 
             get => near;
             set
             {
                 near = value;
-                RecalculateMatrices();
+                RecalculateViewMat();
             }
         }
 
@@ -41,43 +30,71 @@ namespace Game.Graphics
             set
             {
                 far = value;
-                RecalculateMatrices();
+                RecalculateViewMat();
             }
         }
+
+        public Matrix4x4 ViewMatrix { get; protected set; }
+
+        protected void RecalculateViewMat()
+        {
+            ViewMatrix = Matrix4x4.CreateOrthographic(Gl.ScreenSize.X, Gl.ScreenSize.Y, Near, Far);
+            needsMatrixUpdate = true;
+        }
+
+
+        private bool needsMatrixUpdate = false;
+        private Matrix4x4 finalMatrix = Matrix4x4.Identity;
+        private Matrix4x4 finalInverse = Matrix4x4.Identity;
+
+        public Matrix4x4 FinalMatrix
+        {
+            get
+            {
+                if (needsMatrixUpdate)
+                {
+                    Matrix4x4.Invert(Transform.Matrix, out var TransformInv);
+                    finalMatrix = TransformInv * ViewMatrix;
+
+                    needsMatrixUpdate = false;
+                }
+                return finalMatrix;
+            }
+        }
+
+        public Matrix4x4 FinalInverse
+        {
+            get
+            {
+                if (needsMatrixUpdate)
+                {
+                    Matrix4x4.Invert(FinalMatrix, out finalInverse);
+                }
+                return finalInverse;
+            }
+        }
+
 
         public Camera(WorldObject linkedObject, OpenGL gl, float far, float near = 0.05f) : base(linkedObject, false)
         {
             Gl = gl;
-            Far = far;
-            Near = near;
-            RecalculateMatrices();
+            this.far = far;
+            this.near = near;
+            RecalculateViewMat();
 
-            Gl.Resized += () => RecalculateMatrices();
-            Transform.Changed += () => RecalculateMatrices();
+            Gl.Resized += RecalculateViewMat;
+            Transform.Changed += () => needsMatrixUpdate = true;
         }
 
-        private Matrix4x4 viewMatrix;
-        private Matrix4x4 transformInv;
-
-        private void RecalculateMatrices()
-        {
-            Matrix4x4.Invert(Transform.GlobalMatrix, out transformInv);
-            viewMatrix = transformInv * Matrix4x4.CreateOrthographic(Gl.ScreenSize.X, Gl.ScreenSize.Y, Near, Far);
-        }
-
-        public Matrix4x4 GetMatrix()
-        {
-            return viewMatrix;
-        }
 
         public Vector2 ScreenToWorld(Vector2 screenPos)
         {
-            return Vector2.Transform(screenPos, Transform.GlobalMatrix);
+             return Vector2.Transform(screenPos, FinalInverse);
         }
 
         public Vector2 WorldToScreen(Vector2 worldPos)
         {
-            return Vector2.Transform(worldPos, transformInv);
+            return Vector2.Transform(worldPos, FinalMatrix) * Gl.ScreenSize * 0.5f;
         }
 
         public override void Step()

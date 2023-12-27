@@ -9,6 +9,16 @@ namespace SoLoud
 
     public class SoLoud : SoloudObject
     {
+#if PL_WIN64
+        public const string libpath = "soloud_x64.dll";
+#elif PL_WIN86 || PL_WIN32
+        public const string libpath = "soloud_x86.dll";
+#elif PL_ANDROID
+        public const string libpath = "libsoloud-android.so";
+#else
+#error Unknown platform
+#endif
+
         public const int AUTO = 0;
         public const int SDL1 = 1;
         public const int SDL2 = 2;
@@ -31,16 +41,6 @@ namespace SoLoud
         public const int ENABLE_VISUALIZATION = 2;
         public const int LEFT_HANDED_3D = 4;
         public const int NO_FPU_REGISTER_CHANGE = 8;
-
-#if PL_WIN64
-        public const string libpath = "soloud_x64.dll";
-#elif PL_WIN86 || PL_WIN32
-        public const string libpath = "soloud_x86.dll";
-#elif PL_ANDROID
-        public const string libpath = "libsoloud-android.so";
-#else
-#error Unknown platform
-#endif
 
         [DllImport(SoLoud.libpath, CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr Soloud_create();

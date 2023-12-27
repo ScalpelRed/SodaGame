@@ -9,6 +9,7 @@ namespace Game.Text.Ttf2mesh
 {
     internal class Binding
     {
+
 #if PL_WIN64
         public const string libpath = "ttf2mesh_x64.dll";
 #elif PL_WIN86 || PL_WIN32
@@ -21,6 +22,8 @@ namespace Game.Text.Ttf2mesh
 
         const int TTF_GLYPH_USERDATA = 4;
         const int TTF_FILE_USERDATA = 4;
+
+#pragma warning disable 0649
 
         [StructLayout(LayoutKind.Sequential)]
         internal unsafe struct ttf_file
@@ -172,7 +175,6 @@ namespace Game.Text.Ttf2mesh
                 public IntPtr pt;
             }
 
-            public IntPtr cont0;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
             public ttf_contour[] cont;
         }
@@ -254,17 +256,19 @@ namespace Game.Text.Ttf2mesh
             public IntPtr name;
         };
 
+#pragma warning restore 0649
+
         [DllImport(libpath, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int ttf_load_from_mem(IntPtr data, int size, IntPtr output, bool headers_only); //
+        internal static extern int ttf_load_from_mem(IntPtr data, int size, IntPtr output, bool headers_only);
 
         [DllImport(libpath, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-        internal static extern int ttf_load_from_file(string filename, IntPtr output, bool headers_only); //
+        internal static extern int ttf_load_from_file(string filename, IntPtr output, bool headers_only);
 
         [DllImport(libpath, CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr ttf_list_fonts(IntPtr directories, int dir_count, IntPtr mask);
 
         [DllImport(libpath, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-        internal static extern IntPtr ttf_list_system_fonts(string mask); //
+        internal static extern IntPtr ttf_list_system_fonts(string mask);
 
         /*[DllImport(libpath, CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr ttf_list_match(IntPtr list, IntPtr deflt, IntPtr requirements, ...);
@@ -294,7 +298,7 @@ namespace Game.Text.Ttf2mesh
         internal static extern IntPtr ttf_glyph2svgpath(IntPtr glyph, float xscale, float yscale);
 
         [DllImport(libpath, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int ttf_glyph2mesh(IntPtr glyph, IntPtr output, byte quality, int features); //
+        internal static extern int ttf_glyph2mesh(IntPtr glyph, IntPtr output, byte quality, int features);
 
         [DllImport(libpath, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int ttf_glyph2mesh3d(IntPtr glyph, IntPtr output, byte quality, int features, float depth);
@@ -306,13 +310,13 @@ namespace Game.Text.Ttf2mesh
         internal static extern void ttf_free_outline(IntPtr outline);
 
         [DllImport(libpath, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void ttf_free_mesh(IntPtr mesh); //
+        internal static extern void ttf_free_mesh(IntPtr mesh);
 
         [DllImport(libpath, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void ttf_free_mesh3d(IntPtr mesh);
 
         [DllImport(libpath, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void ttf_free_list(IntPtr list); //
+        internal static extern void ttf_free_list(IntPtr list);
 
         [DllImport(libpath, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void ttf_free(IntPtr ttf);

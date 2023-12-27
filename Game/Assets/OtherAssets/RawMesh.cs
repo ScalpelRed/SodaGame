@@ -7,10 +7,10 @@ namespace Game.OtherAssets
 {
     public partial class RawMesh
     {
-        private readonly List<Vector3> Positions = new();
-        private readonly List<Vector2> Texcoords = new();
-        private readonly List<Vector3> Normals = new();
-        private readonly List<int[]> Faces = new();
+        private readonly List<Vector3> Positions = [];
+        private readonly List<Vector2> Texcoords = [];
+        private readonly List<Vector3> Normals = [];
+        private readonly List<int[]> Faces = [];
 
         public int VertexCount { get => Positions.Count; }
         public int FaceCount { get => Faces.Count; }
@@ -22,12 +22,12 @@ namespace Game.OtherAssets
 
         public RawMesh(string[] source)
         {
-            List<Vector3> pos = new();
-            List<Vector2> texc = new();
-            List<Vector3> norm = new();
-            HashSet<Vertex> verts = new();
-            SortedDictionary<Vertex, int> vertInds = new();
-            List<Vertex[]> faces = new();
+            List<Vector3> pos = [];
+            List<Vector2> texc = [];
+            List<Vector3> norm = [];
+            HashSet<Vertex> verts = [];
+            SortedDictionary<Vertex, int> vertInds = [];
+            List<Vertex[]> faces = [];
 
             foreach (string v in source)
             {
@@ -45,7 +45,7 @@ namespace Game.OtherAssets
                         norm.Add(new Vector3(float.Parse(words[1]), float.Parse(words[2]), float.Parse(words[3])));
                         break;
                     case "f":
-                        List<Vertex> face = new();
+                        List<Vertex> face = [];
                         for (int i = 1; i < words.Length; i += 3)
                         {
                             Vertex vert = new(int.Parse(words[i]), int.Parse(words[i + 1]), int.Parse(words[i + 2]));
@@ -164,7 +164,7 @@ namespace Game.OtherAssets
                 Normal = norm;
             }
 
-            public int CompareTo(object? obj)
+            public readonly int CompareTo(object? obj)
             {
                 Vertex v = (Vertex)obj!;
                 int c = Position.CompareTo(v.Position);

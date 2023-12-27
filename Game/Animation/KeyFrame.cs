@@ -1,6 +1,6 @@
 ﻿using Game.Animation.Interpolations;
 
-namespace Game.Animation.Value
+namespace Game.Animation
 {
     public struct KeyFrame<T>
     {

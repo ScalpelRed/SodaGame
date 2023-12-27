@@ -14,7 +14,7 @@ namespace Game.Phys
 
         public readonly RigidBody JitterBody;
 
-        private volatile bool allowTransformUpdating = true;
+        private bool transformUpdated;
 
         public PhysBody(WorldObject linkedObject, float mass, PhysWorld world, Shape collisionShape) : base(linkedObject, true)
         {
@@ -27,17 +27,21 @@ namespace Game.Phys
             PhysWorld = world;
             world.AddBody(this);
 
-            Transform.Changed += () =>
-            {
-                if (allowTransformUpdating) JitterBody.Position = Transform.GlobalPosition.ToJitter();
-            };
+            Transform.Changed += () => transformUpdated = true;
         }
 
         public override void Step()
         {
-            allowTransformUpdating = false;
-            Transform.GlobalPosition = JitterBody.Position.ToNumerics();
-            allowTransformUpdating = true;
+            if (transformUpdated)
+            {
+                JitterBody.Position = Transform.GlobalPosition.ToJitter();
+
+                transformUpdated = false;
+            }
+            else
+            {
+                Transform.GlobalPosition = JitterBody.Position.ToNumerics();
+            }
         }
 
         public float Mass

@@ -1,13 +1,18 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using Game.ExactGame;
+using Game.ExactGame.Items;
 using Game.ExactGame.SodaScenes;
 using Game.ExactGame.SodaScreens;
 using Game.ExactGame.UI;
 using Game.Graphics;
-using Game.Graphics.Renderers;
 using Game.Main;
 using Game.Phys;
+using Game.Text;
+using Game.Text.Ttf2mesh;
+using Game.Util;
+using Microsoft.Win32.SafeHandles;
 using Silk.NET.Input;
 
 namespace Game.Main
@@ -19,18 +24,27 @@ namespace Game.Main
 
         public float DeltaTime { get => Core.OpenGL.DeltaTime; }
 
-        public readonly List<BubbleLayer> Layers = new();
-        public readonly List<SodaScene> Sodas = new();
-        SodaScene ActiveSoda;
+        public readonly Multifont Fonts;
 
-        readonly BottomPanel BottomPanel;
+        public readonly List<BubbleLayer> Layers = [];
+        public readonly List<SodaScene> Sodas = [];
+        SodaScene? ActiveSoda;
+
+        public readonly Tabs UITabs;
+
+        public readonly List<Item> Inventory = [];
 
         public GameController(GameCore core)
         {
             Core = core;
-            MainCamera = new Camera(new WorldObject(Vector3.Zero, this), core.OpenGL, 10);
 
-            BottomPanel = new BottomPanel(new WorldObject(Vector3.Zero, this));
+            MainCamera = new Camera(new WorldObject(Vector3.Zero, this), core.OpenGL, 200);
+
+            //Fonts = new Multifont(core, "Arial");
+            //Fonts = core.Assets.Multifonts.Get("default");
+
+            AddItemSlot(new ItemBubble(core), 0);
+            //GetItemSlot<ItemBubble>()!.CountChanged += (float v) => Console.WriteLine(v);
 
             BubbleLayer layer1 = new(1, 100, 50f, 50f);
             Layers.Add(layer1);
@@ -38,24 +52,60 @@ namespace Game.Main
             Layers.Add(BubbleLayer.Scale(layer1, 0.5f, 3));
 
             Sodas.Add(new DefaultSodaScene(new(Vector3.Zero, this), new Vector3(1, 0.5f, 0)));
-            ActiveSoda = Sodas[0];
-            SetActiveSoda(0);
+            Sodas.Add(new DefaultSodaScene(new(Vector3.Zero, this), new Vector3(0, 0.75f, 0)));
+
+            UITabs = new Tabs(new WorldObject(Vector3.Zero, this));
+
+            //Core.Assets.GlMeshes.Enlist("jellyCube", Jelly.CreateRiggedGlMesh(Core.OpenGL, Core.Assets.RawMeshes.Get("jellyCube"), -Vector3.UnitY));
+            //Core.Assets.GlMeshes.Enlist("jellyTest", Jelly.CreateRiggedGlMesh(Core.OpenGL, Core.Assets.RawMeshes.Get("jellyTest"), -Vector3.UnitY));
+
+            SetActiveSoda(Sodas[0]);
 
             //core.Assets.GetSound("pop");
         }
 
-        public void SetActiveSoda(int index)
+        public void SetActiveSoda(SodaScene soda)
         {
-            ActiveSoda = Sodas[index];
-            BottomPanel.SetColor(ActiveSoda.GetUIColor());
+            if (soda != ActiveSoda)
+            {
+                ActiveSoda?.SetInactive();
+
+                ActiveSoda = soda;
+                ActiveSoda.SetActive();
+                UITabs.SetColor(ActiveSoda.GetUIColor());
+            }
+        }
+
+        public bool TryGetItemSlot<T>(out T? slot)
+        {
+            foreach (Item v in Inventory)
+            {
+                if (v is T res)
+                {
+                    slot = res;
+                    return true;
+                }
+            }
+            slot = default;
+            return false;
+        }
+
+        public T? GetItemSlot<T>()
+        {
+            foreach (Item v in Inventory) if (v is T res) return res;
+            return default;
+        }
+
+        public void AddItemSlot(Item slot, float initialCount = 0)
+        {
+            Inventory.Add(slot);
+            slot.Count += initialCount;
         }
 
         public void Step()
         {
-            ActiveSoda.Step();
-            BottomPanel.Step();
-
+            //ActiveSoda?.Step();
+            UITabs.Step();
         }
     }
-
 }

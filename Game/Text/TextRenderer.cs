@@ -21,20 +21,23 @@ namespace Game.Text
             get => text;
             set
             {
+                text.StringChanged -= (string prev, string _) => RefreshTextChange(prev);
+                string prevText = text.String;
                 text = value;
-                RefreshText();
+                text.StringChanged += (string prev, string _) => RefreshTextChange(prev);
+                RefreshTextChange(prevText);
             }
         }
 
-        protected Font font;
+        protected IGlyphProvider font;
 
-        public Font Font
+        public IGlyphProvider Font
         {
             get => font;
             set
             {
                 font = value;
-                RefreshText();
+                RefreshTextGlyphs();
             }
         }
 
@@ -51,33 +54,44 @@ namespace Game.Text
 
         public float LineDistance = 1;
 
-        protected List<Glyph?> CharGlyphs = new();
-        protected List<GlMesh?> CharMeshes = new();
-        protected List<float> LineAls = new();
+        protected List<Glyph?> CharGlyphs = [];
+        protected List<GlMesh?> CharMeshes = [];
+        protected List<float> LineAls = [];
 
         public Vector4 Color = Vector4.UnitW;
 
         public GlModel Model { get; protected set; }
 
-        public TextRenderer(WorldObject linkedObject, ReferenceString text, Font font) : base(linkedObject)
+        public TextRenderer(WorldObject linkedObject, ReferenceString text, IGlyphProvider font, float scale) : base(linkedObject)
         {
             this.text = text;
+            text.StringChanged += (string prev, string _) => RefreshTextChange(prev);
             this.font = font;
             Model = new GlModel(Game.Core.OpenGL, Game.Core.Assets.Shaders.Get("textSolid"));
 
-            text.StringChanged += (s) => RefreshText();
-
-            RefreshText();
+            RefreshTextChange("");
         }
 
-        protected void RefreshText()
+        protected void RefreshTextGlyphs()
+        {
+            for (int i = 0; i < text.Length; i++)
+            {
+                CharMeshes[i] = Font.GetGlMeshFor(text.String[i]);
+                CharGlyphs[i] = Font.GetGlyphFor(text.String[i]);
+            }
+
+            RefreshAlignmentX();
+        }
+
+        protected void RefreshTextChange(string prevText)
         {
             while (CharMeshes.Count < text.Length) CharMeshes.Add(null);
             while (CharGlyphs.Count < text.Length) CharGlyphs.Add(null);
 
-            // TODO check if char didn't changed
             for (int i = 0; i < text.Length; i++)
             {
+                if (i < prevText.Length && text.String[i] == prevText[i]) continue;
+
                 CharMeshes[i] = Font.GetGlMeshFor(text.String[i]);
                 CharGlyphs[i] = Font.GetGlyphFor(text.String[i]);
             }
@@ -106,7 +120,7 @@ namespace Game.Text
             LineAls.Add(0.5f * (alignmentX + 1) * lineAdvance);
         }
 
-        public Vector3 GetCharPos(int index)
+        public Vector3 GetGlobalCharPos(int index)
         {
             Vector3 pos = -LineAls[0] * Vector3.UnitX;
             int line = 0;
@@ -126,13 +140,13 @@ namespace Game.Text
                 }
             }
 
-            return Vector3.Transform(Vector3.Zero, Matrix4x4.CreateTranslation(pos) * Transform.GlobalMatrix);
+            return Vector3.Transform(Vector3.Zero, Matrix4x4.CreateTranslation(pos) * Transform.Matrix);
         }
 
         public override void Draw(Camera camera)
         {
-            Model.Shader.SetUniform("transform", Transform.GlobalMatrix);
-            Model.Shader.SetUniform("camera", camera.GetMatrix());
+            Model.Shader.SetUniform("transform", Transform.Matrix);
+            Model.Shader.SetUniform("camera", camera.FinalMatrix);
             Model.Shader.SetUniform("color", Color);
 
             Vector3 pos = -LineAls[0] * Vector3.UnitX;

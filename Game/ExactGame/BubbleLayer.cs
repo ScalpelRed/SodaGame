@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game.ExactGame
 {
-    public struct BubbleLayer
+    public readonly struct BubbleLayer
     {
         public readonly float BubbleSpeed;
         public readonly float BubbleScale;

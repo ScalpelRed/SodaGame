@@ -1,11 +1,12 @@
-﻿using Game.Graphics;
+﻿using Game.Assets;
+using Game.Graphics;
 using Game.Main;
 using Game.OtherAssets;
 using Game.Text.Ttf2mesh;
 
 namespace Game.Text
 {
-    public class Font
+    public class Font : IGlyphProvider
     {
         public readonly GameCore Core;
 
@@ -36,6 +37,7 @@ namespace Game.Text
 
         protected SortedDictionary<char, GlMesh?> CharGlMeshes = new();
         protected SortedDictionary<char, RawMesh?> CharRawMeshes = new();
+        protected SortedDictionary<char, Glyph?> CharGlyphs = new();
 
         public GlMesh? GetGlMeshFor(char c)
         {
@@ -85,7 +87,11 @@ namespace Game.Text
 
         public Glyph? GetGlyphFor(char c)
         {
-            return FontFile.GetGlyph(c);
+            if (CharGlyphs.TryGetValue(c, out Glyph? mesh)) return mesh!;
+
+            Glyph? glyph = FontFile.GetGlyph(c);
+            CharGlyphs[c] = glyph;
+            return glyph;
         }
     }
 }

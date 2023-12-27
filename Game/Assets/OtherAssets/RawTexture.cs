@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using SixLabors.ImageSharp.Advanced;
+using Game.Assets;
 
 namespace Game.OtherAssets
 {

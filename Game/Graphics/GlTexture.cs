@@ -31,7 +31,7 @@ namespace Game.Graphics
             SizeX = SizeY = 1;
 
             color *= 255;
-            byte[] data = new byte[] { (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W };
+            byte[] data = [(byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W];
 
             Handle = opengl.Api.GenTexture();
             opengl.Api.BindTexture(TextureTarget.Texture2D, Handle);
@@ -44,7 +44,7 @@ namespace Game.Graphics
 
             opengl.Api.GenerateMipmap(TextureTarget.Texture2D);
 
-            opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+            opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMinFilter.Linear);
 
             opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);

@@ -28,8 +28,6 @@ namespace Game.Graphics
             Attributes = Array.Empty<Attribute>();
         }
 
-        public bool IsEmpty() => VertexCount == 0;
-
         public unsafe GlMesh(OpenGL gl, int vertsPerPolygon, int vertexCount, int[] indexArray, params float[][] data)
         {
             Build(gl, vertsPerPolygon, vertexCount, indexArray, data);
@@ -39,7 +37,7 @@ namespace Game.Graphics
         {
             int[][] inds = source.GetIndexArray();
 
-            Build(gl, inds[0].Length, source.VertexCount, UtilFunc.ToLinear(inds),
+            Build(gl, inds.Length > 0 ? inds[0].Length : 1, source.VertexCount, UtilFunc.ToLinear(inds),
                 ToLinearArray(source.GetPosArray()),
                 ToLinearArray(source.GetTexcoordArray()),
                 ToLinearArray(source.GetNormalArray()));
@@ -49,7 +47,7 @@ namespace Game.Graphics
         {
             int[][] inds = source.GetIndexArray();
 
-            Build(gl, inds[0].Length, source.VertexCount, UtilFunc.ToLinear(inds),
+            Build(gl, inds.Length > 0 ? inds[0].Length : 1, source.VertexCount, UtilFunc.ToLinear(inds),
                 new float[][] {
                     ToLinearArray(source.GetPosArray()),
                     ToLinearArray(source.GetTexcoordArray()),
@@ -79,6 +77,7 @@ namespace Game.Graphics
             VBOHandle = gl.Api.GenBuffer();
             EBOHandle = gl.Api.GenBuffer();
 
+            gl.Api.GetInteger(GetPName.VertexArrayBinding, out int prevVao);
             gl.Api.BindVertexArray(VAOHandle);
 
             fixed (void* d = &vertexArray[0])
@@ -106,7 +105,7 @@ namespace Game.Graphics
             }
 
             gl.Api.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
-            gl.Api.BindVertexArray(0);
+            gl.Api.BindVertexArray((uint)prevVao);
 
             VertexCount = (uint)indexArray.Length;
             VertsPerPolygon = vertsPerPolygon;

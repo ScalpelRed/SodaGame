@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-ios</TargetFramework>
+    <TargetFramework>net8.0-ios</TargetFramework>
     <OutputType>Exe</OutputType>
     <ImplicitUsings>true</ImplicitUsings>
     <SupportedOSPlatformVersion>11.2</SupportedOSPlatformVersion>
-	<RootNamespace>Template.iOS</RootNamespace>
+	<RootNamespace>Triode.PliOS</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Silk.NET.Windowing.Sdl" Version="2.10.1" />

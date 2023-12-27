@@ -20,7 +20,7 @@ namespace Game.ExactGame.SodaScenes
         public SodaScene(WorldObject linkedObject) : base(linkedObject, false)
         {
             Background = new ModelRenderer(new WorldObject(Vector3.Zero, Game), Game.Core.Assets.Shaders.Get(""));
-            Background.Transform.LocalScale2 = Game.Core.OpenGL.ScreenSize;
+            Background.Transform.Scale2 = Game.Core.OpenGL.ScreenSize;
         }
 
         public abstract Vector3 GetUIColor();

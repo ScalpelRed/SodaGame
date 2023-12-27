@@ -16,10 +16,7 @@ namespace Game.Text.Ttf2mesh
         {
             Handle = pointer;
 
-            pointer = Marshal.ReadIntPtr(pointer);
-
-            IntPtr[] pointers = Util.UtilFunc.GetNullTerminatedArrayReferences<ttf_file>(pointer);
-
+            IntPtr[] pointers = Util.UtilFunc.GetNullTerminatedArrayReferences(pointer);
             foreach (IntPtr p in pointers) Add(new File(p, false));
         }
 

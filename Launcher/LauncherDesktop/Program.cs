@@ -1,4 +1,4 @@
 ﻿using Triode;
-using Triode.Win;
+using Triode.PlWin;
 
 new Core(new WinPlatform()).Run();

@@ -80,8 +80,16 @@ namespace Game.Text.Ttf2mesh
             LBearing = raw.lbearing;
             RBearing = raw.rbearing;
 
-            Outline = Outline.TryMarshal(raw.outline);
-            HasOutline = Outline is not null;
+            if (raw.outline != IntPtr.Zero)
+            {
+                Outline = new Outline(raw.outline);
+                HasOutline = true;
+            }
+            else
+            {
+                Outline = null;
+                HasOutline = false;
+            }
 
             Userdata = raw.userdata;
         }

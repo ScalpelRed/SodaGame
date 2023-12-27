@@ -15,7 +15,7 @@ namespace Game.Main
         public WorldObject(Vector3 position, GameController game, Transform? parent = null)
         {
             Game = game;
-            Modules = new List<ObjectModule>();
+            Modules = [];
             Transform = new Transform(position, parent);
         }
 

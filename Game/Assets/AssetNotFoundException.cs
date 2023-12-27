@@ -1,6 +1,4 @@
-﻿
-
-namespace Game.Main
+﻿namespace Game.Assets
 {
 
 

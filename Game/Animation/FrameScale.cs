@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game.Animation.Value
+namespace Game.Animation
 {
-    public class TimeScale<T> : ITimedValueProvider<T>
+    public class FrameScale<T> : ITimeScale<T>
     {
         public readonly SortedDictionary<int, KeyFrame<T>> Keyframes = new();
 
@@ -19,7 +19,7 @@ namespace Game.Animation.Value
             get => Keyframes.Keys.ElementAt(Keyframes.Count - 1) / Fps;
         }
 
-        public T GetValue(double seconds)
+        public T GetValue(float seconds)
         {
             int pos = (int)(seconds * Fps);
 

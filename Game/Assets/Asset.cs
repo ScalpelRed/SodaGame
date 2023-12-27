@@ -9,7 +9,10 @@ namespace Game.Assets
 {
     public sealed class Asset<K, V>
     {
-        private Dictionary<K, V> List = new();
+
+#nullable disable
+        private readonly Dictionary<K, V> List = new();
+#nullable enable
 
         public readonly GameCore Core;
         private readonly Func<K, V> CreateFunc;

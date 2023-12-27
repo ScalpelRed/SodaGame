@@ -41,6 +41,7 @@ namespace Game.Assets
             GlMeshes = new Asset<string, GlMesh>(core, (string name) => new(Core.OpenGL, RawMeshes.Get(name)));
             Sounds = new Asset<string, Sound>(core, (string name) => new(name, Core.Audio));
             Fonts = new Asset<string, Font>(core, (string name) => new(name, core));
+            Multifonts = new Asset<string, Multifont>(core, (string name) => Multifont.FromFile(core, name));
 
             Shaders.Enlist("", new GlShader(core.OpenGL));
             RawTextures.Enlist("", new RawTexture(0, 0));
@@ -57,5 +58,6 @@ namespace Game.Assets
         public readonly Asset<string, GlMesh> GlMeshes;
         public readonly Asset<string, Sound> Sounds;
         public readonly Asset<string, Font> Fonts;
+        public readonly Asset<string, Multifont> Multifonts;
     }
 }

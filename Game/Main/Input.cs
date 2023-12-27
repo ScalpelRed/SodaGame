@@ -2,6 +2,7 @@
 using Silk.NET.Input;
 
 using Game.Graphics;
+using Triode;
 
 namespace Game.Main
 {
@@ -42,9 +43,10 @@ namespace Game.Main
 			{
 				v.MouseMove += (IMouse mouse, Vector2 pos) =>
 				{
-					MousePosition = pos - Gl.ScreenSize * 0.5f;
-					MousePosition = new Vector2(MousePosition.X, -MousePosition.Y);
+					pos -= Gl.ScreenSize * 0.5f;
+					MousePosition = new Vector2(pos.X, -pos.Y);
 					MouseMove?.Invoke(MousePosition);
+					Gl.Core.Game.MainCamera.WorldToScreen(pos);
 				};
 				v.MouseDown += (IMouse mouse, MouseButton button) => MouseDown?.Invoke(button);
 				v.MouseUp += (IMouse mouse, MouseButton button) => MouseUp?.Invoke(button);

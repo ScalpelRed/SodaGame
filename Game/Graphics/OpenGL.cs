@@ -61,7 +61,7 @@ namespace Game.Graphics
             Api.Enable(EnableCap.StencilTest);
             Api.ClearStencil(0);
 
-            Api.ClearColor(0.5f, 0.5f, 0, 1);
+            Api.ClearColor(0, 0.5f, 0, 1);
             Api.Clear(ClearBufferMask.ColorBufferBit);
             //Api.Clear(ClearBufferMask.DepthBufferBit);
 

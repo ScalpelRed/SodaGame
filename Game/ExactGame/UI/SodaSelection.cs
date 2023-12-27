@@ -1,15 +1,6 @@
-﻿using FastSerialization;
-using Game.ExactGame.SodaScenes;
-using Game.Graphics;
+﻿using Game.Graphics;
 using Game.Main;
-using Game.UI;
-using Silk.NET.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.ExactGame.UI
 {

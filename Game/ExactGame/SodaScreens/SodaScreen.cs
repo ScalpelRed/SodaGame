@@ -2,14 +2,7 @@
 using Game.ExactGame.Items;
 using Game.Graphics;
 using Game.Main;
-using Game.Phys;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.ExactGame.SodaScreens
 {

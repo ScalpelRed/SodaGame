@@ -3,7 +3,6 @@ using System.Numerics;
 using Game.Util;
 using Jitter.Dynamics;
 using Jitter.Collision.Shapes;
-using Jitter.Collision;
 using Jitter.LinearMath;
 
 namespace Game.Phys

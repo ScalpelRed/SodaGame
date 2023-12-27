@@ -1,8 +1,6 @@
 ﻿using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
-using System.Drawing;
-using System.Runtime.InteropServices;
 
 namespace Triode.PlWin
 {

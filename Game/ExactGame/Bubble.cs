@@ -1,14 +1,6 @@
 ﻿using Game.ExactGame.SodaScreens;
 using Game.Main;
-using Game.Phys;
-using Silk.NET.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Jitter.Collision.Shapes;
 using Game.Graphics;
 using Game.UI.Bounds;
 

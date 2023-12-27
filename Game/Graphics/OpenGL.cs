@@ -2,7 +2,6 @@ using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using System.Numerics;
 using Game.Main;
-using Game.OtherAssets;
 using System.Diagnostics;
 
 namespace Game.Graphics

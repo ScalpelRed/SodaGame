@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Game.Assets;
-using Game.Main;
+﻿using Game.Assets;
 using SoLoud;
 
 namespace Game.Audio

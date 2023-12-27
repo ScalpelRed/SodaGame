@@ -1,19 +1,10 @@
-﻿using System.Diagnostics;
-using System.Numerics;
-using System.Runtime.InteropServices;
+﻿using System.Numerics;
 using Game.ExactGame;
 using Game.ExactGame.Items;
 using Game.ExactGame.SodaScenes;
-using Game.ExactGame.SodaScreens;
 using Game.ExactGame.UI;
 using Game.Graphics;
-using Game.Main;
-using Game.Phys;
 using Game.Text;
-using Game.Text.Ttf2mesh;
-using Game.Util;
-using Microsoft.Win32.SafeHandles;
-using Silk.NET.Input;
 
 namespace Game.Main
 {

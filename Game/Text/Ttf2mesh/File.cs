@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System.Text;
 using static Game.Text.Ttf2mesh.Binding;
 
 namespace Game.Text.Ttf2mesh

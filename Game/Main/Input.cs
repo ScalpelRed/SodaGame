@@ -2,7 +2,6 @@
 using Silk.NET.Input;
 
 using Game.Graphics;
-using Triode;
 
 namespace Game.Main
 {

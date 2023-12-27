@@ -1,11 +1,10 @@
 ﻿using Game.Main;
 using Game.Util;
-using System.Net.Http.Headers;
 using System.Numerics;
 
 namespace Game.UI
 {
-	public class UITransform : ObjectModule
+    public class UITransform : ObjectModule
 	{
         // pivot = pivot
         // scale = anchors and margins

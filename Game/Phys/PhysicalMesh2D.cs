@@ -1,11 +1,4 @@
-﻿using Game.OtherAssets;
-using System.Numerics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Game.Phys
+﻿namespace Game.Phys
 {
     public class PhysicalMesh2D
     {

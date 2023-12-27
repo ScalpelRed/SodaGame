@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Game.Animation.Interpolations
+﻿namespace Game.Animation.Interpolations
 {
     public struct FuncInterpolation<T> : IInterpolation<T>
     {

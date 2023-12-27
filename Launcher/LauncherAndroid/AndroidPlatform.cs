@@ -1,12 +1,9 @@
-﻿using Silk.NET.OpenGLES;
+﻿using Android.Util;
+using Silk.NET.OpenGLES;
 using Silk.NET.Windowing;
 using Silk.NET.Windowing.Sdl.Android;
-using Android.Util;
-using Android.Graphics;
-using Android.Content.Res;
-using Java.IO;
 
-namespace Triode.PlAndroid 
+namespace Triode.PlAndroid
 {
     public class AndroidPlatform : Platform
     {

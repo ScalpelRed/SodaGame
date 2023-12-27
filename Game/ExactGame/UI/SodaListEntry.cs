@@ -1,16 +1,7 @@
 ﻿using Game.ExactGame.SodaScenes;
 using Game.Graphics;
 using Game.Main;
-using Game.Text;
-using Game.UI;
-using Game.UI.Bounds;
-using Silk.NET.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.ExactGame.UI
 {

@@ -1,10 +1,4 @@
-﻿using Game.Animation.Interpolations;
-using Game.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Game.Util;
 
 namespace Game.Animation
 {

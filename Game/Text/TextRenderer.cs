@@ -1,14 +1,8 @@
 ﻿using Game.Graphics;
 using Game.Main;
-using Game.OtherAssets;
 using Game.Text.Ttf2mesh;
 using Game.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.Text
 {

@@ -1,7 +1,4 @@
 ﻿using System.Numerics;
-using System.Linq;
-using Game.Phys;
-using Game.Util;
 
 namespace Game.OtherAssets
 {

@@ -1,10 +1,10 @@
-﻿using Game.Main;
+﻿using Game.Graphics;
 using Game.Util;
 using System.Numerics;
 
 namespace Game.UI
 {
-    public class UITransform : ObjectModule
+    public class UITransform
 	{
         // pivot = pivot
         // scale = anchors and margins
@@ -224,7 +224,7 @@ namespace Game.UI
                 }
                 else
                 {
-                    pborder2 = Game.Core.OpenGL.ScreenSize * 0.5f;
+                    pborder2 = Gl.ScreenSize * 0.5f;
                     pborder1 = -pborder2;
                     pmatrix = Matrix4x4.Identity;
                 }
@@ -251,16 +251,13 @@ namespace Game.UI
             }
         }
 
+        public readonly OpenGL Gl;
 
-        public UITransform(WorldObject linkedObject) : base(linkedObject, false)
+        public UITransform(OpenGL gl)
 		{
-            Game.Core.OpenGL.Resized += () => needsMatrixUpdate = true;
+            Gl = gl;
+            gl.Resized += () => needsMatrixUpdate = true;
             needsMatrixUpdate = true;
-		}
-
-		public override void Step()
-		{
-			
 		}
 
 		public void SetAnchoringX(AnchoringX anchoring)

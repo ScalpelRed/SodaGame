@@ -361,3 +361,14 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Assets/fonts/arial.ttf
+/Assets/fonts/arialbd.ttf
+/Assets/fonts/arialbi.ttf
+/Assets/fonts/ariali.ttf
+/Assets/fonts/ARIALN.TTF
+/Assets/fonts/ARIALNB.TTF
+/Assets/fonts/ARIALNBI.TTF
+/Assets/fonts/ARIALNI.TTF
+/Assets/fonts/ariblk.ttf
+/Assets/fonts/Vinylcuts.ttf
+/sodas.txt

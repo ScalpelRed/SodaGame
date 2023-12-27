@@ -8,7 +8,7 @@ namespace Game.UI
 
         protected UIModule(WorldObject linkedObject, bool stepFromObject) : base(linkedObject, stepFromObject)
         {
-            UITransform = linkedObject.TryGetModule(out UITransform uiTransform) ? uiTransform : new UITransform(linkedObject);
+            UITransform = (linkedObject.TryGetModule(out UITransformCont uiTransform) ? uiTransform : new UITransformCont(linkedObject)).UITransform;
         }
     }
 }

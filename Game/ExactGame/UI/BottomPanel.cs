@@ -63,7 +63,7 @@ namespace Game.ExactGame.UI
             Button1R.UITransform.PosZ = 0.1f;
             Button1R.MouseUp += (MouseButton _) => MoveHighlighning(Button1R);
 
-            HAnimPos = new(0, 0, 0.1f, new LinearInterpolation<float>());
+            HAnimPos = new(0, 0, 0.1f, new LinearFloatInterpolation());
             HighlightingAnim = new(new Range<float>(0, HAnimPos.Duration),
                 new SetterAnimator<float>(HAnimPos, (float v) =>
                 {

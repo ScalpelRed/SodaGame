@@ -2,6 +2,6 @@
 {
     public interface IInterpolation<T>
     {
-        public T Interpolate(T a, T b, double time);
+        public T Interpolate(T a, T b, float time);
     }
 }

@@ -2,13 +2,13 @@
 {
     public struct FuncInterpolation<T> : IInterpolation<T>
     {
-        public Func<T, T, double, T> Func;
+        public Func<T, T, float, T> Func;
 
-        public  FuncInterpolation(Func<T, T, double, T> func)
+        public  FuncInterpolation(Func<T, T, float, T> func)
         {
             Func = func;
         }
 
-        public readonly T Interpolate(T a, T b, double time) => Func(a, b, time);
+        public readonly T Interpolate(T a, T b, float time) => Func(a, b, time);
     }
 }

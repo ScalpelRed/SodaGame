@@ -2,6 +2,6 @@
 {
     public struct ConstantInterpolation<T> : IInterpolation<T>
     {
-        public readonly T Interpolate(T a, T b, double time) => a;
+        public readonly T Interpolate(T a, T b, float time) => a;
     }
 }

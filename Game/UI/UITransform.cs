@@ -1,5 +1,7 @@
 ﻿using Game.Graphics;
+using Game.Main;
 using Game.Util;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace Game.UI
@@ -10,7 +12,7 @@ namespace Game.UI
         // scale = anchors and margins
         // rotation = rotation
         // position = anchors
-        // === parent = parent
+        // parent = parent
 
         private Vector3 pivot;
         private Matrix4x4 PivotMatrix = Matrix4x4.Identity;
@@ -81,7 +83,7 @@ namespace Game.UI
 
 
 
-        /*private Vector3 rotation = Vector3.Zero;
+        private Vector3 rotation = Vector3.Zero;
 
         private Matrix4x4 RotMatrix = Matrix4x4.Identity;
 
@@ -100,8 +102,7 @@ namespace Game.UI
         {
             get => rotation.Z;
             set => Rotation = new Vector3(Rotation.XY(), value);
-        }*/
-
+        }
 
 
         private Vector2 anchor1 = Vector2.Zero;
@@ -159,15 +160,6 @@ namespace Game.UI
 
         private Vector2 bound1;
         private Vector2 bound2;
-        private Matrix4x4 InheritableMatrix;
-        protected void GetInheritedValues(out Vector2 border1, out Vector2 border2, out Matrix4x4 inhMatrix) 
-        {
-            Matrix4x4 _ = Matrix;
-
-            border1 = bound1;
-            border2 = bound2;
-            inhMatrix = InheritableMatrix;
-        }
 
         public Vector2 Bound1
         {
@@ -186,6 +178,8 @@ namespace Game.UI
                 return bound2;
             }
         }
+
+        private Matrix4x4 InheritableMatrix;
 
 
         private bool needsMatrixUpdate = false;
@@ -220,7 +214,11 @@ namespace Game.UI
 
                 if (HasParent)
                 {
-                    parent!.GetInheritedValues(out pborder1, out pborder2, out pmatrix);
+                    var parentn = parent!; // For some reason it's ~40 ns faster
+                    parentn.UpdateIfNecessary();
+                    pborder1 = parentn.bound1;
+                    pborder2 = parentn.bound2;
+                    pmatrix = parentn.InheritableMatrix;
                 }
                 else
                 {
@@ -228,8 +226,6 @@ namespace Game.UI
                     pborder1 = -pborder2;
                     pmatrix = Matrix4x4.Identity;
                 }
-
-                Matrix4x4 res = PivotMatrix;
 
                 bound1 = pborder1 + (pborder2 - pborder1) * anchor1;
                 bound1.X -= MarginLeft;
@@ -239,14 +235,14 @@ namespace Game.UI
                 bound2.X += MarginRight;
                 bound2.Y += MarginUp;
 
-                res *= Matrix4x4.CreateScale(new Vector3(bound2 - bound1, 1));
-                //res *= RotMatrix;
-                res *= Matrix4x4.CreateTranslation(new Vector3((bound1 + bound2) * 0.5f, posZ));
-                //res *= pmatrix;
+                InheritableMatrix = RotMatrix;
+                InheritableMatrix *= Matrix4x4.CreateTranslation(new Vector3((bound1 - pborder1 + bound2 - pborder2) * 0.5f, posZ));
+                InheritableMatrix *= pmatrix;
 
-                InheritableMatrix = Matrix4x4.Identity;
+                Matrix4x4 scmat = Matrix4x4.CreateScale(new Vector3(bound2 - bound1, 1));
+                matrix = PivotMatrix * scmat * InheritableMatrix;
+                InheritableMatrix = Matrix4x4.CreateTranslation(Vector3.Transform(-pivot, scmat)) * InheritableMatrix;
 
-                matrix = res;
                 needsMatrixUpdate = false;
             }
         }
@@ -260,7 +256,12 @@ namespace Game.UI
             needsMatrixUpdate = true;
 		}
 
-		public void SetAnchoringX(AnchoringX anchoring)
+        public UITransform(GameController game) : this(game.Core.OpenGL)
+        {
+            
+        }
+
+        public void SetAnchoringX(AnchoringX anchoring)
 		{
 			switch (anchoring)
 			{

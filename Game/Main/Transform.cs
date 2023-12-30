@@ -128,6 +128,8 @@ namespace Game.Main
             get => parent;
             set
             {
+                if (value == this) throw new ArgumentException("Transform cannot be a parent to itself.");
+
                 if (HasParent) parent!.Changed -= InvokeChanged;
                 parent = value;
                 HasParent = value is not null;

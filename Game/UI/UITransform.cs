@@ -149,6 +149,7 @@ namespace Game.UI
             set
             {
                 if (value == this) throw new ArgumentException("Transform cannot be a parent to itself.");
+
                 if (HasParent) parent!.Changed -= InvokeChanged;
                 parent = value;
                 HasParent = value is not null;
@@ -324,12 +325,12 @@ namespace Game.UI
             InvokeChanged();
         }
 
-        public Vector2 MarginCenter
+        public Vector2 MarginRectCenter
         {
             get => new Vector2(MarginRight - MarginLeft, MarginUp - MarginDown) * 0.5f;
             set
             {
-                Vector2 delta = value - new Vector2(MarginRight - MarginLeft, MarginUp - MarginDown) * 0.5f;
+                Vector2 delta = value - MarginRectCenter;
 
                 marginRight += delta.X;
                 marginLeft += delta.X;
@@ -340,7 +341,63 @@ namespace Game.UI
             }
         }
 
-        public Vector2 AnchorCenter
+        public float MarginRectUp
+        {
+            get => MarginUp;
+            set
+            {
+                float delta = value - MarginRectUp;
+
+                marginUp += delta;
+                marginDown += delta;
+
+                InvokeChanged();
+            }
+        }
+
+        public float MarginRectDown
+        {
+            get => MarginDown;
+            set
+            {
+                float delta = value - MarginRectDown;
+
+                marginUp += delta;
+                marginDown += delta;
+
+                InvokeChanged();
+            }
+        }
+
+        public float MarginRectLeft
+        {
+            get => MarginLeft;
+            set
+            {
+                float delta = value - MarginRectLeft;
+
+                marginLeft += delta;
+                marginRight += delta;
+
+                InvokeChanged();
+            }
+        }
+
+        public float MarginRectRight
+        {
+            get => MarginRight;
+            set
+            {
+                float delta = value - MarginRectRight;
+
+                marginLeft += delta;
+                marginRight += delta;
+
+                InvokeChanged();
+            }
+        }
+
+        public Vector2 AnchorRectCenter
         {
             get => (anchor2 + anchor1) * 0.5f;
             set
@@ -352,6 +409,72 @@ namespace Game.UI
 
                 InvokeChanged();
             }
+        }
+
+        public float AnchorRectUp
+        {
+            get => Anchor2.Y;
+            set
+            {
+                float delta = value - AnchorRectUp;
+
+                anchor1.Y += delta;
+                anchor2.Y += delta;
+
+                InvokeChanged();
+            }
+        }
+
+        public float AnchorRectDown
+        {
+            get => Anchor1.Y;
+            set
+            {
+                float delta = value - AnchorRectDown;
+
+                anchor1.Y += delta;
+                anchor2.Y += delta;
+
+                InvokeChanged();
+            }
+        }
+
+        public float AnchorRectLeft
+        {
+            get => Anchor1.X;
+            set
+            {
+                float delta = value - AnchorRectLeft;
+
+                anchor1.X += delta;
+                anchor2.X += delta;
+
+                InvokeChanged();
+            }
+        }
+
+        public float AnchorRectRight
+        {
+            get => Anchor2.X;
+            set
+            {
+                float delta = value - AnchorRectRight;
+
+                anchor1.X += delta;
+                anchor2.X += delta;
+
+                InvokeChanged();
+            }
+        }
+
+        public Vector2 ToNormalized(Vector2 vec)
+        {
+            return (vec - Bound1) / (bound2 - bound1);
+        }
+
+        public Vector2 FromNormalized(Vector2 vec)
+        {
+            return Bound1 + (bound2 - bound1) * vec;
         }
 
         public enum AnchoringX

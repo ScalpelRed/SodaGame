@@ -95,7 +95,7 @@ namespace Game.Main
 
         public void Step()
         {
-            //ActiveSoda?.Step();
+            ActiveSoda?.Step();
             UITabs.Step();
         }
     }

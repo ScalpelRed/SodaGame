@@ -67,9 +67,9 @@ namespace Game.ExactGame.UI
             HighlightingAnim = new(new Range<float>(0, HAnimPos.Duration),
                 new SetterAnimator<float>(HAnimPos, (float v) =>
                 {
-                    Vector2 t = Highlighting.UITransform.AnchorCenter;
+                    Vector2 t = Highlighting.UITransform.AnchorRectCenter;
                     t.X = v;
-                    Highlighting.UITransform.AnchorCenter = t;
+                    Highlighting.UITransform.AnchorRectCenter = t;
                 })
             );
         }
@@ -82,8 +82,8 @@ namespace Game.ExactGame.UI
 
         private void MoveHighlighning(MouseInteractor bt)
         {
-            HAnimPos.Value1 = Highlighting.UITransform.AnchorCenter.X;
-            HAnimPos.Value2 = bt.UITransform.AnchorCenter.X;
+            HAnimPos.Value1 = Highlighting.UITransform.AnchorRectCenter.X;
+            HAnimPos.Value2 = bt.UITransform.AnchorRectCenter.X;
             HighlightingAnim.Time = 0;
             HighlightingAnim.Paused = false;
         }

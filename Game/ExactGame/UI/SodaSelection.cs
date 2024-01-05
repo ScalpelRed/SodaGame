@@ -1,34 +1,39 @@
-﻿using Game.Graphics;
+﻿using Game.ExactGame.SodaScenes;
 using Game.Main;
+using Game.UI;
 using System.Numerics;
 
 namespace Game.ExactGame.UI
 {
-    public sealed class SodaSelection : ObjectModule
+    public sealed class SodaSelection : UIModule
     {
         private readonly float Opacity = 0.5f;
-        private readonly ModelRenderer Background;
+        private readonly UIModelRenderer Background;
 
-        public List<SodaListEntry> SodaEntries = [];
+        private readonly List<SodaListEntry> SodaEntries = [];
+        private readonly UIList SodaList; 
 
         private const float EntrySpacing = 10f;
 
         public SodaSelection(WorldObject linkedObject) : base(linkedObject, false)
         {
+            UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
+            UITransform.SetAnchoringY(UITransform.AnchoringY.Stretch);
+            UITransform.MarginDown = -BottomPanel.Height;
 
-            /*Background = new ModelRenderer(linkedObject, Game.Core.Assets.Shaders.Get("meshSolid"));
+            Background = new UIModelRenderer(linkedObject, Game.Core.Assets.Shaders.Get("meshSolid"));
 
-            //Transform.UISize2 = Game.Core.OpenGL.ScreenSize - Vector2.UnitY * BottomPanel.Height;
+            SodaList = new UIList(linkedObject)
+            {
+                Offset = EntrySpacing
+            };
 
-            float y = 0.5f * Game.Core.OpenGL.ScreenSize.Y - BottomPanel.Height;
             foreach (SodaScene s in Game.Sodas)
             {
-                Console.WriteLine(y);
-                SodaListEntry e = new(new WorldObject(new Vector3(0, y, 0), Game, Transform), s);
-                e.Transform.Pivot = Vector3.UnitY;
+                SodaListEntry e = new(new WorldObject(Vector3.Zero, Game, Transform), s);
                 SodaEntries.Add(e);
-                y -= e.Transform.UISize.Y + EntrySpacing;
-            }*/
+                SodaList.Affected.Add(e.UITransform);
+            }
         }
 
         public void SetColor(Vector3 color)
@@ -39,11 +44,11 @@ namespace Game.ExactGame.UI
 
         public override void Step()
         {
-            /*Game.Core.OpenGL.Stencil.DrawStencil();
+            Game.Core.OpenGL.Stencil.DrawStencil();
             Background.Step();
             Game.Core.OpenGL.Stencil.DrawLimited();
             foreach (SodaListEntry v in SodaEntries) v.Step();
-            Game.Core.OpenGL.Stencil.DrawAll();*/
+            Game.Core.OpenGL.Stencil.DrawAll();
         }
     }
 }

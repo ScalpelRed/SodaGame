@@ -51,7 +51,7 @@ namespace Game.Graphics
         private unsafe void CreateGlTex(int sizeX, int sizeY, byte[] data)
         {
             Handle = Gl.Api.GenTexture();
-            Gl.Api.GetInteger(GetPName.ActiveTexture, out int prevTex);
+            Gl.Api.GetInteger(GetPName.TextureBinding2D, out int prevTex);
             Gl.Api.BindTexture(TextureTarget.Texture2D, Handle);
             fixed (byte* d = &data[0])
             {

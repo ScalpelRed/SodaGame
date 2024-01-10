@@ -39,7 +39,7 @@ namespace Game.Assets
 
             Shaders.Enlist("", new GlShader(core.OpenGL));
             RawTextures.Enlist("", new RawTexture(0, 0));
-            Textures.Enlist("", new GlTexture());
+            Textures.Enlist("", new GlTexture(core.OpenGL));
             RawMeshes.Enlist("", new RawMesh());
             GlMeshes.Enlist("", new GlMesh());
         }

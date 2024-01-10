@@ -21,8 +21,7 @@ namespace Game.Graphics
             Gl = gl;
             Handle = 0;
             Name = "Empty";
-            Uniforms = new();
-            //Uniforms = Array.Empty<ShaderUniform>();
+            Uniforms = [];
         }
 
         public GlShader(string name, OpenGL opengl)
@@ -32,8 +31,8 @@ namespace Game.Graphics
 
             Handle = opengl.Api.CreateProgram();
 
-            List<uint> subshaderHandles = new();
-            Dictionary<string, string> uniformLines = new();
+            List<uint> subshaderHandles = [];
+            Dictionary<string, string> uniformLines = [];
 
             uint compile(string code, ShaderType shaderType)
             {
@@ -110,12 +109,12 @@ namespace Game.Graphics
                 }
             }
 
-            processFile(name, new());
+            processFile(name, []);
             opengl.Api.LinkProgram(Handle);
 
             foreach (uint h in subshaderHandles) opengl.Api.DeleteShader(h);
 
-            Uniforms = new();
+            Uniforms = [];
             foreach (var line in uniformLines)
             {
                 if (Enum.TryParse<ShaderUniform.ShaderValueType>(line.Value, true, out var type))
@@ -265,7 +264,7 @@ namespace Game.Graphics
             }
 
             public enum ShaderValueType
-        {
+            {
                 Int,
                 Float,
                 Double,

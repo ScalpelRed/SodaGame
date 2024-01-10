@@ -66,7 +66,7 @@ namespace Game.Graphics
 
             Api.Enable(EnableCap.CullFace);
 
-            View.Render += (double t) => RenderFrame(t);
+            View.Render += RenderFrame;
             View.Resize += (Silk.NET.Maths.Vector2D<int> size) =>
             {
                 ScreenSize = new Vector2(size.X, size.Y);

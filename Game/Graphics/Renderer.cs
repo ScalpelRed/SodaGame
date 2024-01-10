@@ -9,7 +9,7 @@ namespace Game.Graphics
 
         }
 
-        protected Dictionary<string, object> Values = new();
+        protected Dictionary<string, object> Values = [];
 
         public void SetValue(string name, object value)
         {
@@ -23,7 +23,7 @@ namespace Game.Graphics
 
         public void UnassignValuesDictionary()
         {
-            Values = new();
+            Values = [];
         }
 
         public abstract void Draw(Camera camera);

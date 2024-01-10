@@ -7,16 +7,16 @@ namespace Game.ExactGame.SodaScenes
 {
     public abstract class SodaScene : ObjectModule
     {
-        public readonly List<SodaScreen> SodaScreens = new();
+        public readonly List<SodaScreen> SodaScreens = [];
         protected ModelRenderer Background;
+
+        public abstract Vector3 UIColor { get; }
 
         public SodaScene(WorldObject linkedObject) : base(linkedObject, false)
         {
             Background = new ModelRenderer(new WorldObject(Vector3.Zero, Game), Game.Core.Assets.Shaders.Get(""));
             Background.Transform.Scale2 = Game.Core.OpenGL.ScreenSize;
         }
-
-        public abstract Vector3 GetUIColor();
 
         public override void Step()
         {

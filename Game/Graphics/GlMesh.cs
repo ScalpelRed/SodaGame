@@ -25,7 +25,7 @@ namespace Game.Graphics
             EBOHandle = 0;
             VertexCount = 0;
             VertsPerPolygon = 0;
-            Attributes = Array.Empty<Attribute>();
+            Attributes = [];
         }
 
         public unsafe GlMesh(OpenGL gl, int vertsPerPolygon, int vertexCount, int[] indexArray, params float[][] data)
@@ -60,7 +60,7 @@ namespace Game.Graphics
             float[] vertexArray;
             Attributes = new Attribute[data.Length];
             {
-                List<float> vertexArrayList = new();
+                List<float> vertexArrayList = [];
                 uint offset = 0;
                 for (uint i = 0; i < data.Length; i++)
                 {
@@ -113,7 +113,7 @@ namespace Game.Graphics
 
         public static float[] ToLinearArray(Vector3[] arr)
         {
-            List<float> res = new();
+            List<float> res = [];
             foreach (Vector3 vert in arr)
             {
                 res.Add(vert.X);
@@ -125,7 +125,7 @@ namespace Game.Graphics
 
         public static float[] ToLinearArray(Vector2[] arr)
         {
-            List<float> res = new();
+            List<float> res = [];
             foreach (Vector2 vert in arr)
             {
                 res.Add(vert.X);

@@ -63,14 +63,6 @@
             }
         }
 
-        public Range(T val)
-        {
-            value1 = value2 = val;
-
-            Max = value1;
-            Min = value2;
-        }
-
         public readonly T Clamp(T x)
         {
             if (x.CompareTo(Max) > 0) return Max;

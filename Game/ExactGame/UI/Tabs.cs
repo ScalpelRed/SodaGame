@@ -13,7 +13,7 @@ namespace Game.ExactGame.UI
         public readonly SodaSelection SodaSelection;
         public readonly BottomPanel BottomPanel;
 
-        private UITransform TabsTransform;
+        private readonly UITransform TabsTransform;
 
         public readonly float ScreenWidth;
 

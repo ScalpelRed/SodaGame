@@ -63,7 +63,7 @@ namespace Game.Main
 
                 ActiveSoda = soda;
                 ActiveSoda.SetActive();
-                UITabs.SetColor(ActiveSoda.GetUIColor());
+                UITabs.SetColor(ActiveSoda.UIColor);
             }
         }
 

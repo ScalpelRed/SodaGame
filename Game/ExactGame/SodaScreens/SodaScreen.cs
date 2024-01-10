@@ -8,9 +8,9 @@ namespace Game.ExactGame.SodaScreens
 {
     public abstract class SodaScreen : ObjectModule
     {
-        protected List<Bubble> Bubbles = new();
-        protected List<Bubble> InactiveBubbles = new();
-        protected List<Bubble> ActiveSwitchQueue = new();
+        protected List<Bubble> Bubbles = [];
+        protected List<Bubble> InactiveBubbles = [];
+        protected List<Bubble> ActiveSwitchQueue = [];
 
         public GlModel BubbleModel;
         public Sound PopSound;
@@ -20,11 +20,9 @@ namespace Game.ExactGame.SodaScreens
         public readonly float LowerBound;
         public readonly float Height;
         public readonly float WidthHalf;
-#nullable disable
-        protected Bubble LastBubble;
-#nullable enable
+        protected Bubble? LastBubble;
 
-        public Dictionary<string, object> BubbleRendererValues = new();
+        public Dictionary<string, object> BubbleRendererValues = [];
 
         public Random Random;
 
@@ -74,7 +72,7 @@ namespace Game.ExactGame.SodaScreens
         public void ClearBubbles() // If there's too much soda scenes in memory it's better to clear old ones
         {
             foreach (Bubble v in Bubbles) v.Dispose();
-            LastBubble = null!;
+            LastBubble = null;
             Bubbles.Clear();
             InactiveBubbles.Clear();
             ActiveSwitchQueue.Clear();
@@ -133,15 +131,9 @@ namespace Game.ExactGame.SodaScreens
             }
             ActiveSwitchQueue.Clear();
 
-            foreach (Bubble v in Bubbles)
-            {
-                v.LinkedObject.Step();
-                int c = 0;
-                foreach (Bubble b in Bubbles) if (b == v) c++;
-                if (c != 1) Console.WriteLine(c);
-            }
+            foreach (Bubble v in Bubbles) v.LinkedObject.Step();
 
-            if (LastBubble.Transform.GlobalPosition.Y - LowerBound >= Layer.BubbleDistance)
+            if (LastBubble!.Transform.GlobalPosition.Y - LowerBound >= Layer.BubbleDistance)
             {
                 AddBubble(LowerBound);
             }

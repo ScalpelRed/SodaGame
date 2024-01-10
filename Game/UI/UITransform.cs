@@ -181,7 +181,15 @@ namespace Game.UI
             }
         }
 
-        private Matrix4x4 InheritableMatrix;
+        private Matrix4x4 inheritableMatrix;
+        public Matrix4x4 InheritableMatrix
+        {
+            get
+            {
+                UpdateIfNecessary();
+                return inheritableMatrix;
+            }
+        }
 
 
         private bool needsMatrixUpdate = false;
@@ -237,13 +245,13 @@ namespace Game.UI
                 bound2.X += MarginRight;
                 bound2.Y += MarginUp;
 
-                InheritableMatrix = RotMatrix;
-                InheritableMatrix *= Matrix4x4.CreateTranslation(new Vector3((bound1 - pborder1 + bound2 - pborder2) * 0.5f, posZ));
-                InheritableMatrix *= pmatrix;
+                inheritableMatrix = RotMatrix;
+                inheritableMatrix *= Matrix4x4.CreateTranslation(new Vector3((bound1 - pborder1 + bound2 - pborder2) * 0.5f, posZ));
+                inheritableMatrix *= pmatrix;
 
                 Matrix4x4 scmat = Matrix4x4.CreateScale(new Vector3(bound2 - bound1, 1));
-                matrix = PivotMatrix * scmat * InheritableMatrix;
-                InheritableMatrix = Matrix4x4.CreateTranslation(Vector3.Transform(-pivot, scmat)) * InheritableMatrix;
+                matrix = PivotMatrix * scmat * inheritableMatrix;
+                inheritableMatrix = Matrix4x4.CreateTranslation(Vector3.Transform(-pivot, scmat)) * inheritableMatrix;
 
                 needsMatrixUpdate = false;
             }

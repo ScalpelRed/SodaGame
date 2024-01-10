@@ -1,7 +1,7 @@
 ﻿namespace Game.Util
 {
 
-    public class TranslatableString : ReferenceString // TODO
+    public class TranslatableString : ReferenceValue<string> // TODO
     {
         public TranslatableString(string rawString) : base(rawString)
         {

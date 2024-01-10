@@ -18,68 +18,57 @@ namespace Game.Graphics
             }
         }
 
-        private readonly OpenGL? Gl;
+        private readonly OpenGL Gl;
 
-        public GlTexture()
+        public GlTexture(OpenGL gl)
         {
+            Gl = gl;
             SizeX = SizeY = 0;
             Handle = 0;
         }
 
         public unsafe GlTexture(Vector4 color, OpenGL opengl)
         {
+            Gl = opengl;
             SizeX = SizeY = 1;
-
             color *= 255;
-            byte[] data = [(byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W];
-
-            Handle = opengl.Api.GenTexture();
-            opengl.Api.BindTexture(TextureTarget.Texture2D, Handle);
-            fixed (byte* d = &data[0])
-            {
-                opengl.Api.TexImage2D(TextureTarget.Texture2D, 0,
-                    InternalFormat.Rgba, (uint)SizeX, (uint)SizeY,
-                    0, PixelFormat.Rgba, PixelType.UnsignedByte, d);
-            }
-
-            opengl.Api.GenerateMipmap(TextureTarget.Texture2D);
-
-            opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMinFilter.Linear);
-
-            opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            CreateGlTex(SizeX, SizeY, [(byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W]);
         }
 
         public unsafe GlTexture(RawTexture raw, OpenGL opengl)
         {
             Gl = opengl;
-
             SizeX = raw.SizeX;
             SizeY = raw.SizeY;
-            byte[] data = raw.Data;
-
-            Handle = opengl.Api.GenTexture();
-            opengl.Api.BindTexture(TextureTarget.Texture2D, Handle);
-            fixed (byte* d = &data[0])
-            {
-                opengl.Api.TexImage2D(TextureTarget.Texture2D, 0,
-                    InternalFormat.Rgba, (uint)SizeX, (uint)SizeY,
-                    0, PixelFormat.Rgba, PixelType.UnsignedByte, d);
-            }
-
-            opengl.Api.GenerateMipmap(TextureTarget.Texture2D);
-
-            opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMinFilter.Linear);
-
-            opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            opengl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            CreateGlTex(SizeX, SizeY, raw.Data);
         }
 
         public unsafe GlTexture(string rawtexname, OpenGL opengl) : this(opengl.Core.Assets.RawTextures.Get(rawtexname), opengl)
         {
 
+        }
+
+        private unsafe void CreateGlTex(int sizeX, int sizeY, byte[] data)
+        {
+            Handle = Gl.Api.GenTexture();
+            Gl.Api.GetInteger(GetPName.ActiveTexture, out int prevTex);
+            Gl.Api.BindTexture(TextureTarget.Texture2D, Handle);
+            fixed (byte* d = &data[0])
+            {
+                Gl.Api.TexImage2D(TextureTarget.Texture2D, 0,
+                    InternalFormat.Rgba, (uint)SizeX, (uint)SizeY,
+                    0, PixelFormat.Rgba, PixelType.UnsignedByte, d);
+            }
+
+            Gl.Api.GenerateMipmap(TextureTarget.Texture2D);
+
+            Gl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+            Gl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMinFilter.Linear);
+
+            Gl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            Gl.Api.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+
+            Gl.Api.BindTexture(TextureTarget.Texture2D, (uint)prevTex);
         }
     }
 }

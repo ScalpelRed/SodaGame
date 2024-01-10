@@ -150,54 +150,130 @@ namespace Game.Graphics
 
         public void ApplyUniforms()
         {
+            Gl.SetActiveShader(this);
             foreach (ShaderUniform v in Uniforms.Values) v.Apply();
         }
 
-        public int GetDirectUniformLocation(string name)
+        private int GetDirectUniformLocation(string name)
         {
             return Gl.Api.GetUniformLocation(Handle, name);
         }
 
-        public void DirectUniformInt(int pos, int value)
+        private void DirectUniformInt(int pos, int value)
         {
             Gl.Api.Uniform1(pos, value);
         }
 
-        public void DirectUniformFloat(int pos, float value)
+        private void DirectUniformFloat(int pos, float value)
         {
             Gl.Api.Uniform1(pos, value);
         }
 
-        public void DirectUniformDouble(int pos, double value)
+        private void DirectUniformDouble(int pos, double value)
         {
             Gl.Api.Uniform1(pos, value);
         }
 
-        public void DirectUniformVec2(int pos, Vector2 value)
+        private void DirectUniformVec2(int pos, Vector2 value)
         {
             Gl.Api.Uniform2(pos, ref value);
         }
 
-        public void DirectUniformVec3(int pos, Vector3 value)
+        private void DirectUniformVec3(int pos, Vector3 value)
         {
             Gl.Api.Uniform3(pos, ref value);
         }
 
-        public void DirectUniformVec4(int pos, Vector4 value)
+        private void DirectUniformVec4(int pos, Vector4 value)
         {
             Gl.Api.Uniform4(pos, ref value);
         }
 
-        public unsafe void DirectUniformMat4(int pos, Matrix4x4 value)
+        private unsafe void DirectUniformMat4(int pos, Matrix4x4 value)
         {
             Gl.Api.UniformMatrix4(pos, 1, true, (float*)&value);
         }
 
-        public override bool Equals(object? obj) => ReferenceEquals(this, obj);
-
-        public override int GetHashCode()
+        private class ShaderUniform
         {
-            return (int)Handle;
+            public readonly GlShader Shader;
+            private readonly int Location;
+
+            private object Value;
+
+            private bool NeedsUpdate;
+
+            private readonly Action apply;
+
+            public ShaderUniform(GlShader shader, ShaderValueType type, string name)
+            {
+                Shader = shader;
+                Location = Shader.GetDirectUniformLocation(name);
+                NeedsUpdate = true;
+                switch (type)
+                {
+                    case ShaderValueType.Int:
+                        Value = 0;
+                        apply = () => shader.DirectUniformInt(Location, (int)Value);
+                        break;
+                    case ShaderValueType.Float:
+                        Value = 0f;
+                        apply = () => shader.DirectUniformFloat(Location, (float)Value);
+                        break;
+                    case ShaderValueType.Double:
+                        Value = 0.0;
+                        apply = () => shader.DirectUniformDouble(Location, (double)Value);
+                        break;
+                    case ShaderValueType.Vec2:
+                        Value = Vector2.Zero;
+                        apply = () => shader.DirectUniformVec2(Location, (Vector2)Value);
+                        break;
+                    case ShaderValueType.Vec3:
+                        Value = Vector3.Zero;
+                        apply = () => shader.DirectUniformVec3(Location, (Vector3)Value);
+                        break;
+                    case ShaderValueType.Vec4:
+                        Value = Vector4.Zero;
+                        apply = () => shader.DirectUniformVec4(Location, (Vector4)Value);
+                        break;
+                    case ShaderValueType.Mat4:
+                        Value = Matrix4x4.Identity;
+                        apply = () => shader.DirectUniformMat4(Location, (Matrix4x4)Value);
+                        break;
+                    default:
+                        Value = null!;
+                        apply = () => { };
+                        break;
+                }
+            }
+
+            public void SetValue(object value)
+            {
+                if (Value.Equals(value)) return;
+
+                Value = value;
+                NeedsUpdate = true;
+            }
+
+            public void Apply()
+            {
+                if (NeedsUpdate)
+                {
+                    NeedsUpdate = false;
+                    apply.Invoke();
+                }
+            }
+
+            public enum ShaderValueType
+        {
+                Int,
+                Float,
+                Double,
+                Vec2,
+                Vec3,
+                Vec4,
+                Mat4,
+            }
         }
     }
 }

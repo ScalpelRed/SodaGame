@@ -116,6 +116,37 @@ namespace Game.Graphics
 
         public event Action? Resized;
 
+
+        private uint ActiveShaderHandle = 0;
+        public void SetActiveShader(GlShader shader)
+        {
+            if (ActiveShaderHandle != shader.Handle)
+            {
+                Api.UseProgram(shader.Handle);
+                ActiveShaderHandle = shader.Handle;
+            }
+        }
+
+        private uint ActiveTextureHandle = 0;
+        public void SetActiveTexture(GlTexture texture)
+        {
+            if (ActiveTextureHandle != texture.Handle)
+            {
+                Api.BindTexture(TextureTarget.Texture2D, texture.Handle);
+                ActiveTextureHandle = texture.Handle;
+            }
+        }
+
+        private uint ActiveMeshHandle = 0;
+        public void SetActiveMesh(GlMesh mesh)
+        {
+            if (ActiveMeshHandle != mesh.VAOHandle)
+            {
+                Api.BindVertexArray(mesh.VAOHandle);
+                ActiveMeshHandle = mesh.VAOHandle;
+            }
+        }
+
         static void Main()
         {
             // unused

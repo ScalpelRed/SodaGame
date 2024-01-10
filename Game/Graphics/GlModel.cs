@@ -4,44 +4,11 @@ namespace Game.Graphics
 {
     public class GlModel
     {
-        public static uint currentVAO;
-        private static uint currentTexture;
-        private static uint currentShader;
-        private static GlModel? currentModel;
-
         public readonly OpenGL Gl;
 
-        protected GlMesh mesh;
-        protected GlTexture texture;
-        protected GlShader shader;
-
-        public GlMesh Mesh
-        {
-            get => mesh;
-            set
-            {
-                mesh = value;
-                if (currentModel == this) currentModel = null;
-            }
-        }
-        public GlTexture Texture
-        {
-            get => texture;
-            set
-            {
-                texture = value;
-                if (currentModel == this) currentModel = null;
-            }
-        }
-        public GlShader Shader
-        {
-            get => shader;
-            set
-            {
-                shader = value;
-                if (currentModel == this) currentModel = null;
-            }
-        }
+        public GlMesh Mesh;
+        public GlTexture Texture;
+        public GlShader Shader;
 
         public PrimitiveType RenderMode;
 
@@ -50,9 +17,9 @@ namespace Game.Graphics
         {
             Gl = gl;
 
-            this.mesh = mesh;
-            this.shader = shader;
-            this.texture = texture;
+            Mesh = mesh;
+            Shader = shader;
+            Texture = texture;
             ResetRenderMode();
         }
 
@@ -79,37 +46,9 @@ namespace Game.Graphics
                 1 => PrimitiveType.Points,
                 2 => PrimitiveType.Lines,
                 3 => PrimitiveType.Triangles,
-                4 => PrimitiveType.Quads, // does not work :(
+                4 => PrimitiveType.Quads, // does not work
                 _ => PrimitiveType.Triangles,
             };
-        }
-
-        public unsafe void PrepareToDraw()
-        {
-            if (currentModel == this) return;
-            currentModel = this;
-
-            if (Mesh.VAOHandle != currentVAO)
-            {
-                Gl.Api.BindVertexArray(Mesh.VAOHandle);
-                currentVAO = Mesh.VAOHandle;
-            }
-
-            if (Texture.Handle != currentTexture)
-            {
-                Gl.Api.BindTexture(TextureTarget.Texture2D, Texture.Handle);
-                currentTexture = Texture.Handle;
-            }
-
-            if (Shader.Handle != currentShader)
-            {
-                Gl.Api.UseProgram(Shader.Handle);
-                currentShader = Shader.Handle;
-            }
-
-            /*Gl.Api.BindVertexArray(VAOHandle);
-            Gl.Api.BindTexture(TextureTarget.Texture2D, Texture.Handle);
-            Gl.Api.UseProgram(Shader.Handle);*/
         }
 
         public unsafe void Draw()
@@ -117,6 +56,8 @@ namespace Game.Graphics
             if (Shader.Handle == 0) return;
 
             Shader.ApplyUniforms();
+            Gl.SetActiveTexture(Texture);
+            Gl.SetActiveMesh(Mesh);
 
             Gl.Api.DrawElements(RenderMode, Mesh.VertexCount, DrawElementsType.UnsignedInt, (void*)null);
 

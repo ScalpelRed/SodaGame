@@ -19,8 +19,6 @@ namespace Game.Graphics
 
         public override void Draw(Camera camera)
         {
-            Model.PrepareToDraw();
-
             Model.Shader.SetUniform("transform", Transform.Matrix);
             Model.Shader.SetUniform("camera", camera.FinalMatrix);
             foreach (var value in Values) Model.Shader.SetUniform(value.Key, value.Value);

@@ -1,11 +1,11 @@
 ﻿using System.Numerics;
-using Game.ExactGame;
 using Game.ExactGame.Items;
 using Game.ExactGame.SodaLayers;
 using Game.ExactGame.SodaScenes;
 using Game.ExactGame.UI;
 using Game.Graphics;
 using Game.Text;
+using Game.UI;
 
 namespace Game.Main
 {
@@ -32,11 +32,11 @@ namespace Game.Main
 
             MainCamera = new Camera(new WorldObject(Vector3.Zero, this), core.OpenGL, 200);
 
-            //Fonts = new Multifont(core, "Arial");
+            Fonts = new Multifont(core, "Arial");
             //Fonts = core.Assets.Multifonts.Get("default");
 
             AddItemSlot(new ItemBubble(core), 0);
-            //GetItemSlot<ItemBubble>()!.CountChanged += (float v) => Console.WriteLine(v);
+            GetItemSlot<ItemBubble>()!.CountChanged += Console.WriteLine;
 
             LayerParameters layer1 = new(1, 100, 50f, 50f);
             Layers.Add(layer1);

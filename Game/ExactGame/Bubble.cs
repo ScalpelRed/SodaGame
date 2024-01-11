@@ -32,7 +32,7 @@ namespace Game.ExactGame
 
         protected void CheckPop()
         {
-            if (Active && Bounds.Contains(Game.MainCamera.ScreenToWorld(Game.Core.Input.MousePosition)))
+            if (Active && Bounds.Contains(Game.MainCamera.WorldToScreen(Game.Core.Input.MousePosition)))
             {
                 SodaScreen.ItemBubble.Count += 1;
                 SodaScreen.MakeBubbleInactive(this);

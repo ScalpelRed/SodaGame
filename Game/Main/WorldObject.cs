@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using Game.UI;
+using System.Numerics;
 
 namespace Game.Main
 {
@@ -17,6 +18,11 @@ namespace Game.Main
             Game = game;
             Modules = [];
             Transform = new Transform(position, parent);
+        }
+
+        public WorldObject(GameController game, UITransform? parent = null) : this(Vector3.Zero, game, null)
+        {
+            new UITransformCont(this).UITransform.Parent = parent;
         }
 
         public void Step()

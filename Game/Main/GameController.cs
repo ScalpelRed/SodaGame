@@ -5,6 +5,7 @@ using Game.ExactGame.SodaScenes;
 using Game.ExactGame.UI;
 using Game.Graphics;
 using Game.Text;
+using Game.UI;
 
 namespace Game.Main
 {
@@ -25,17 +26,30 @@ namespace Game.Main
 
         public readonly List<Item> Inventory = [];
 
+        public UITextRenderer t;
+
         public GameController(GameCore core)
         {
             Core = core;
 
             MainCamera = new Camera(new WorldObject(Vector3.Zero, this), core.OpenGL, 200);
 
-            //Fonts = new Multifont(core, "Arial");
+            Fonts = new Multifont(core, "Arial");
             //Fonts = core.Assets.Multifonts.Get("default");
 
+            t = new UITextRenderer(new WorldObject(this), "ABC", Fonts);
+            new UITextRenderer(t.LinkedObject, "DEF", Fonts).AlignmentY = 0;
+            new UITextRenderer(t.LinkedObject, "GHI", Fonts).AlignmentY = -1;
+            t.UITransform.SetAnchors(new Vector2(0.1f, 0.1f), new Vector2(0.9f, 0.9f));
+            Core.Input.MouseMove += (Vector2 pos) =>
+            {
+                t.UITransform.Anchor1 = pos / new Vector2(240, 400);
+                //Console.WriteLine(pos.Y / 400);
+            };
+            new UIModelRenderer(t.LinkedObject, Core.Assets.Shaders.Get("meshSolid")).SetValue("color", Vector4.One * 0.5f);
+
             AddItemSlot(new ItemBubble(core), 0);
-            //GetItemSlot<ItemBubble>()!.CountChanged += (float v) => Console.WriteLine(v);
+            GetItemSlot<ItemBubble>()!.CountChanged += Console.WriteLine;
 
             BubbleLayer layer1 = new(1, 100, 50f, 50f);
             Layers.Add(layer1);
@@ -97,6 +111,7 @@ namespace Game.Main
         {
             ActiveSoda?.Step();
             UITabs.Step();
+            t.LinkedObject.Step();
         }
     }
 }

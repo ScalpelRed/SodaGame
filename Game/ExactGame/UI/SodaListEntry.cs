@@ -1,11 +1,13 @@
 ﻿using Game.ExactGame.SodaScenes;
 using Game.Graphics;
 using Game.Main;
+using Game.Text;
 using Game.UI;
 using Game.UI.Bounds;
 using Game.UI.Interactors;
 using Silk.NET.Input;
 using System.Numerics;
+using Triode;
 
 namespace Game.ExactGame.UI
 {
@@ -16,7 +18,7 @@ namespace Game.ExactGame.UI
 
         public const float EntryHeight = 100;
 
-        //private TextRenderer NameText;
+        private readonly UITextRenderer NameText;
 
         public SodaListEntry(WorldObject linkedObject, SodaScene soda) : base(linkedObject, false)
         {
@@ -26,11 +28,9 @@ namespace Game.ExactGame.UI
 
             Background = new UIModelRenderer(linkedObject, Game.Core.Assets.Shaders.Get("meshSolid"));
 
-            /*Multifont font = Game.Core.Assets.Multifonts.Get("default");
-            NameText = new(new WorldObject(new Vector3(0, 0, 0), Game), new Util.ReferenceString("NAME"), font, TextHeight)
-            {
-                AlignmentX = 0,
-            };*/
+            NameText = new(new WorldObject(Game, UITransform), "NAME", Game.Fonts);
+            NameText.UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
+            NameText.UITransform.SetAnchoringY(UITransform.AnchoringY.Stretch);
 
             new UIButton(new TransformBounds(linkedObject)).MouseUp += (MouseButton _) => Game.SetActiveSoda(soda);
         }
@@ -38,12 +38,13 @@ namespace Game.ExactGame.UI
         public void SetColor(Vector3 color)
         {
             Background.SetValue("color", new Vector4(color, Opacity));
+            NameText.SetValue("color", new Vector4(Vector3.One - color, Opacity));
         }
 
         public override void Step()
         {
             Background.Step();
-            //NameText.Step();
+            NameText.LinkedObject.Step();
         }
     }
 }

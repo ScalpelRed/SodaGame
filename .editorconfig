@@ -1,10 +1,16 @@
-﻿[*.cs]
+﻿[*.{cs,vb}]
 
-# CA1806: Do not ignore method results
-dotnet_diagnostic.CA1806.severity = none
+# IDE0305: Simplify collection initialization
+dotnet_style_prefer_collection_expression = false
 
-# CA2211: Non-constant fields should not be visible
-dotnet_diagnostic.CA2211.severity = none
+# IDE0290: Use primary constructor
+csharp_style_prefer_primary_constructors = false
 
+# CA2101: Specify marshaling for P/Invoke string arguments
+dotnet_diagnostic.CA2101.severity = none
+
+# SYSLIB1054: Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
+dotnet_diagnostic.SYSLIB1054.severity = none
+
+# IDE1006: Naming Styles
 dotnet_diagnostic.IDE1006.severity = none
-dotnet_diagnostic.IDE0290.severity = none

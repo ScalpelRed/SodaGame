@@ -29,9 +29,10 @@ namespace Game.Util
 			stream.Write(buffer, 0, byteCount);
 		}
 
+        private static readonly char[] separator = new[] { '\r', '\n' };
 		public static string[] SplitLines(string text)
 		{
-			return text.Split(new[] { '\r', '\n' });
+			return text.Split(separator);
 		}
 
 		public static bool Between(float a, float value, float b)
@@ -49,9 +50,9 @@ namespace Game.Util
 			// From: https://stackoverflow.com/questions/20981551/c-sharp-marshal-copy-intptr-to-16-bit-managed-unsigned-integer-array
 
 			if (source == IntPtr.Zero) throw new ArgumentNullException(nameof(source));
-			if (destination is null) throw new ArgumentNullException(nameof(destination));
-			if (startIndex < 0) throw new ArgumentOutOfRangeException(nameof(startIndex));
-			if (length < 0) throw new ArgumentOutOfRangeException(nameof(length));
+            ArgumentNullException.ThrowIfNull(destination);
+            ArgumentOutOfRangeException.ThrowIfNegative(startIndex);
+            ArgumentOutOfRangeException.ThrowIfNegative(length);
 
 			void* sourcePtr = (void*)source;
 			Span<T> srcSpan = new(sourcePtr, length);

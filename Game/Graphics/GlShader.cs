@@ -7,8 +7,8 @@ namespace Game.Graphics
 {
     public class GlShader
     {
-        public static string AppendKeyword = "$Append ";
-        public static string ShaderTypeKeyword = "$ShaderType ";
+        public const string AppendKeyword = "$Append ";
+        public const string ShaderTypeKeyword = "$ShaderType ";
 
         public readonly uint Handle;
         private readonly Dictionary<string, ShaderUniform> Uniforms;

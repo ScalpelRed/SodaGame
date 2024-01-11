@@ -49,13 +49,13 @@ namespace Game.Text.Ttf2mesh
                 public struct macStyle_t
                 {
                     public byte bit;
-                    public byte bold { get => (byte)(bit & 1); }
-                    public byte italic { get => (byte)(bit & 2); }
-                    public byte underline { get => (byte)(bit & 4); }
-                    public byte outline { get => (byte)(bit & 8); }
-                    public byte shadow { get => (byte)(bit & 16); }
-                    public byte condensed { get => (byte)(bit & 32); }
-                    public byte extended { get => (byte)(bit & 64); }
+                    public readonly byte bold { get => (byte)(bit & 1); }
+                    public readonly byte italic { get => (byte)(bit & 2); }
+                    public readonly byte underline { get => (byte)(bit & 4); }
+                    public readonly byte outline { get => (byte)(bit & 8); }
+                    public readonly byte shadow { get => (byte)(bit & 16); }
+                    public readonly byte condensed { get => (byte)(bit & 32); }
+                    public readonly byte extended { get => (byte)(bit & 64); }
                 }
             }
 
@@ -82,15 +82,15 @@ namespace Game.Text.Ttf2mesh
                 public struct fsSelection_t
                 {
                     public short bit;
-                    public byte italic { get => (byte)(bit & 1); }
-                    public byte underscore { get => (byte)(bit & 2); }
-                    public byte negative { get => (byte)(bit & 4); }
-                    public byte outlined { get => (byte)(bit & 8); }
-                    public byte strikeout { get => (byte)(bit & 16); }
-                    public byte bold { get => (byte)(bit & 32); }
-                    public byte regular { get => (byte)(bit & 64); }
-                    public byte utm { get => (byte)(bit & 128); }
-                    public byte oblique { get => (byte)(bit & 256); }
+                    public readonly byte italic { get => (byte)(bit & 1); }
+                    public readonly byte underscore { get => (byte)(bit & 2); }
+                    public readonly byte negative { get => (byte)(bit & 4); }
+                    public readonly byte outlined { get => (byte)(bit & 8); }
+                    public readonly byte strikeout { get => (byte)(bit & 16); }
+                    public readonly byte bold { get => (byte)(bit & 32); }
+                    public readonly byte regular { get => (byte)(bit & 64); }
+                    public readonly byte utm { get => (byte)(bit & 128); }
+                    public readonly byte oblique { get => (byte)(bit & 256); }
                 }
             }
 
@@ -136,8 +136,8 @@ namespace Game.Text.Ttf2mesh
             public int ncontours;
 
             public uint bit;
-            public byte composite { get => (byte)(bit & 1); }
-            public uint reserved { get => bit & 0b11111110; }
+            public readonly byte composite { get => (byte)(bit & 1); }
+            public readonly uint reserved { get => bit & 0b11111110; }
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
             public float[] xbounds;
@@ -180,10 +180,10 @@ namespace Game.Text.Ttf2mesh
             public float x;
             public float y;
             public uint bit;
-            public uint spl { get => bit & 1; }
-            public uint onc { get => bit & 2; }
-            public uint shd { get => bit & 4; }
-            public uint res { get => bit & (uint.MaxValue - 7); }
+            public readonly uint spl { get => bit & 1; }
+            public readonly uint onc { get => bit & 2; }
+            public readonly uint shd { get => bit & 4; }
+            public readonly uint res { get => bit & (uint.MaxValue - 7); }
         }
 
         [StructLayout(LayoutKind.Sequential)]

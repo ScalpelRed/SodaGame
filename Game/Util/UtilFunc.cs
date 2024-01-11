@@ -30,7 +30,7 @@ namespace Game.Util
 		}
 
         private static readonly char[] separator = new[] { '\r', '\n' };
-		public static string[] SplitLines(string text)
+        public static string[] SplitLines(string text)
 		{
 			return text.Split(separator);
 		}
@@ -54,7 +54,7 @@ namespace Game.Util
             ArgumentOutOfRangeException.ThrowIfNegative(startIndex);
             ArgumentOutOfRangeException.ThrowIfNegative(length);
 
-			void* sourcePtr = (void*)source;
+            void* sourcePtr = (void*)source;
 			Span<T> srcSpan = new(sourcePtr, length);
 			Span<T> destSpan = new(destination, startIndex, length);
 

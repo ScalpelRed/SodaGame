@@ -1,11 +1,11 @@
 ﻿using Game.Main;
 using System.Numerics;
 
-namespace Game.ExactGame.SodaScreens
+namespace Game.ExactGame.SodaLayers
 {
-    public class DefaultSodaScreen : SodaScreen
+    public class DefaultSodaLayer : SodaLayer
     {
-        public DefaultSodaScreen(WorldObject linkedObject, Vector3 color, BubbleLayer bubbleLayer) : base(linkedObject, bubbleLayer)
+        public DefaultSodaLayer(WorldObject linkedObject, LayerParameters bubbleLayer) : base(linkedObject, bubbleLayer)
         {
             BubbleModel.Shader = Game.Core.Assets.Shaders.Get("meshTextured");
             BubbleModel.Texture = Game.Core.Assets.Textures.Get("soda/bubble");

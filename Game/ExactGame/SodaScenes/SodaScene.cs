@@ -1,4 +1,4 @@
-﻿using Game.ExactGame.SodaScreens;
+﻿using Game.ExactGame.SodaLayers;
 using Game.Graphics;
 using Game.Main;
 using System.Numerics;
@@ -7,7 +7,7 @@ namespace Game.ExactGame.SodaScenes
 {
     public abstract class SodaScene : ObjectModule
     {
-        public readonly List<SodaScreen> SodaScreens = [];
+        public readonly List<SodaLayer> SodaLayers = [];
         protected ModelRenderer Background;
 
         public abstract Vector3 UIColor { get; }
@@ -21,22 +21,22 @@ namespace Game.ExactGame.SodaScenes
         public override void Step()
         {
             Background.Step();
-            foreach (SodaScreen v in SodaScreens) v.Step();
+            foreach (SodaLayer v in SodaLayers) v.Step();
         }
 
         public void SetActive()
         {
-            foreach (SodaScreen v in SodaScreens) v.SetActive();
+            foreach (SodaLayer v in SodaLayers) v.SetActive();
         }
 
         public void SetInactive()
         {
-            foreach (SodaScreen v in SodaScreens) v.SetInactive();
+            foreach (SodaLayer v in SodaLayers) v.SetInactive();
         }
 
         public void ClearBubbles()
         {
-            foreach (SodaScreen v in SodaScreens) v.ClearBubbles();
+            foreach (SodaLayer v in SodaLayers) v.ClearBubbles();
         }
     }
 }

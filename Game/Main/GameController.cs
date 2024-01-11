@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using Game.ExactGame;
 using Game.ExactGame.Items;
+using Game.ExactGame.SodaLayers;
 using Game.ExactGame.SodaScenes;
 using Game.ExactGame.UI;
 using Game.Graphics;
@@ -17,7 +18,7 @@ namespace Game.Main
 
         public readonly Multifont Fonts;
 
-        public readonly List<BubbleLayer> Layers = [];
+        public readonly List<LayerParameters> Layers = [];
         public readonly List<SodaScene> Sodas = [];
         SodaScene? ActiveSoda;
 
@@ -37,10 +38,10 @@ namespace Game.Main
             AddItemSlot(new ItemBubble(core), 0);
             //GetItemSlot<ItemBubble>()!.CountChanged += (float v) => Console.WriteLine(v);
 
-            BubbleLayer layer1 = new(1, 100, 50f, 50f);
+            LayerParameters layer1 = new(1, 100, 50f, 50f);
             Layers.Add(layer1);
-            Layers.Add(BubbleLayer.Scale(layer1, 0.75f, 2));
-            Layers.Add(BubbleLayer.Scale(layer1, 0.5f, 3));
+            Layers.Add(LayerParameters.Scale(layer1, 0.75f, 2));
+            Layers.Add(LayerParameters.Scale(layer1, 0.5f, 3));
 
             Sodas.Add(new DefaultSodaScene(new(Vector3.Zero, this), new Vector3(1, 0.5f, 0)));
             Sodas.Add(new DefaultSodaScene(new(Vector3.Zero, this), new Vector3(0, 0.75f, 0)));

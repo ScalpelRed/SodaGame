@@ -1,4 +1,4 @@
-﻿using Game.ExactGame.SodaScreens;
+﻿using Game.ExactGame.SodaLayers;
 using Game.Main;
 using System.Numerics;
 
@@ -17,11 +17,11 @@ namespace Game.ExactGame.SodaScenes
         {
             Color = color;
 
-            foreach (BubbleLayer v in Game.Layers)
+            foreach (LayerParameters v in Game.Layers)
             {
-                DefaultSodaScreen s = new(linkedObject, color, v);
+                DefaultSodaLayer s = new(linkedObject, v);
                 s.BubbleRendererValues.Add("tint", new Vector4(color, 1));
-                SodaScreens.Add(s);
+                SodaLayers.Add(s);
             }
 
             Background.Model.Shader = Game.Core.Assets.Shaders.Get("bubbleBackground");

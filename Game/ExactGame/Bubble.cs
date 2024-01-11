@@ -1,4 +1,4 @@
-﻿using Game.ExactGame.SodaScreens;
+﻿using Game.ExactGame.SodaLayers;
 using Game.Main;
 using System.Numerics;
 using Game.Graphics;
@@ -8,7 +8,7 @@ namespace Game.ExactGame
 {
     public class Bubble : ObjectModule
     {
-        protected readonly SodaScreen SodaScreen;
+        protected readonly SodaLayer SodaLayer;
 
         public volatile bool Active = false;
 
@@ -16,16 +16,16 @@ namespace Game.ExactGame
         protected ModelRenderer Renderer;
 
 
-        public Bubble(WorldObject linkedObject, SodaScreen sodaScreen) : base(linkedObject, true)
+        public Bubble(WorldObject linkedObject, SodaLayer sodaLayer) : base(linkedObject, true)
         {
-            SodaScreen = sodaScreen;
-            Transform.Scale = Vector3.One * SodaScreen.Layer.BubbleScale;
+            SodaLayer = sodaLayer;
+            Transform.Scale = Vector3.One * SodaLayer.Layer.BubbleScale;
 
             Bounds = new TransformBounds(linkedObject);
             Game.Core.Input.MouseMove += (Vector2 pos) => CheckPop();
 
-            Renderer = new(linkedObject, sodaScreen.BubbleModel);
-            Renderer.AssignValuesDictionary(sodaScreen.BubbleRendererValues);
+            Renderer = new(linkedObject, sodaLayer.BubbleModel);
+            Renderer.AssignValuesDictionary(sodaLayer.BubbleRendererValues);
 
             Active = true;
         }
@@ -34,16 +34,16 @@ namespace Game.ExactGame
         {
             if (Active && Bounds.Contains(Game.MainCamera.WorldToScreen(Game.Core.Input.MousePosition)))
             {
-                SodaScreen.ItemBubble.Count += 1;
-                SodaScreen.MakeBubbleInactive(this);
+                SodaLayer.ItemBubble.Count += 1;
+                SodaLayer.MakeBubbleInactive(this);
                 //Game.Core.Audio.Play(sodaScreen.PopSound);
             }
         }
 
         public override void Step()
         {
-            Transform.LocalPosition += SodaScreen.GetSpeedAt(Transform.LocalPosition.Y) * Vector3.UnitY * Game.DeltaTime;
-            if (Transform.GlobalPosition.Y > SodaScreen.UpperBound) SodaScreen.MakeBubbleInactive(this);
+            Transform.LocalPosition += SodaLayer.GetSpeedAt(Transform.LocalPosition.Y) * Vector3.UnitY * Game.DeltaTime;
+            if (Transform.GlobalPosition.Y > SodaLayer.UpperBound) SodaLayer.MakeBubbleInactive(this);
         }
 
         public void Dispose()

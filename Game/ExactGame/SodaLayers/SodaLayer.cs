@@ -4,9 +4,9 @@ using Game.Graphics;
 using Game.Main;
 using System.Numerics;
 
-namespace Game.ExactGame.SodaScreens
+namespace Game.ExactGame.SodaLayers
 {
-    public abstract class SodaScreen : ObjectModule
+    public abstract class SodaLayer : ObjectModule
     {
         protected List<Bubble> Bubbles = [];
         protected List<Bubble> InactiveBubbles = [];
@@ -15,7 +15,7 @@ namespace Game.ExactGame.SodaScreens
         public GlModel BubbleModel;
         public Sound PopSound;
 
-        public readonly BubbleLayer Layer;
+        public readonly LayerParameters Layer;
         public readonly float UpperBound;
         public readonly float LowerBound;
         public readonly float Height;
@@ -30,7 +30,7 @@ namespace Game.ExactGame.SodaScreens
 
         private bool Initialized;
 
-        public SodaScreen(WorldObject linkedObject, BubbleLayer bubbleLayer) : base(linkedObject, false)
+        public SodaLayer(WorldObject linkedObject, LayerParameters bubbleLayer) : base(linkedObject, false)
         {
             Layer = bubbleLayer;
 

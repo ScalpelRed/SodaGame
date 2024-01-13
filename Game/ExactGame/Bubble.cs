@@ -3,6 +3,7 @@ using Game.Main;
 using System.Numerics;
 using Game.Graphics;
 using Game.UI.Bounds;
+using Game.UI.Interactors;
 
 namespace Game.ExactGame
 {
@@ -12,7 +13,7 @@ namespace Game.ExactGame
 
         public volatile bool Active = false;
 
-        protected UIBounds Bounds;
+        protected MouseInteractor MouseInteractor;
         protected ModelRenderer Renderer;
 
 
@@ -21,8 +22,8 @@ namespace Game.ExactGame
             SodaLayer = sodaLayer;
             Transform.Scale = Vector3.One * SodaLayer.Layer.BubbleScale;
 
-            Bounds = new TransformBounds(linkedObject);
-            Game.Core.Input.MouseMove += (Vector2 pos) => CheckPop();
+            MouseInteractor = new(new TransformBounds(linkedObject));
+            MouseInteractor.MouseIn += (_) => Pop();
 
             Renderer = new(linkedObject, sodaLayer.BubbleModel);
             Renderer.AssignValuesDictionary(sodaLayer.BubbleRendererValues);
@@ -30,9 +31,9 @@ namespace Game.ExactGame
             Active = true;
         }
 
-        protected void CheckPop()
+        protected void Pop()
         {
-            if (Active && Bounds.Contains(Game.MainCamera.WorldToScreen(Game.Core.Input.MousePosition)))
+            if (Active)
             {
                 SodaLayer.ItemBubble.Count += 1;
                 SodaLayer.MakeBubbleInactive(this);
@@ -48,7 +49,7 @@ namespace Game.ExactGame
 
         public void Dispose()
         {
-            Game.Core.Input.MouseMove -= (Vector2) => CheckPop();
+            Game.Core.Input.MouseMove -= (_) => Pop();
         }
     }
 }

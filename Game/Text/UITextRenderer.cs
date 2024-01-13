@@ -132,17 +132,19 @@ namespace Game.Text
 
 					if (c == '\n')
 					{
-                        LineAlignments.Add(new Vector2(edgeX - cposX * (alignmentX + 1) * 0.5f, -lineHeight * scale * (line + 1)));
                         cposX = 0;
 						line++;
-					}
+                        LineAlignments.Add(new Vector2(edgeX - cposX * (alignmentX + 1) * 0.5f, -lineHeight * scale * line));
+                    }
 				}
 
-                LineAlignments.Add(new Vector2(edgeX - cposX * (alignmentX + 1) * 0.5f, -lineHeight * scale * (line + 1)));
+				line++;
+				float totalHeight = -lineHeight * scale * line;
+                LineAlignments.Add(new Vector2(edgeX - cposX * (alignmentX + 1) * 0.5f, totalHeight));
 
-                // Not simplified: (UITransform.Bound2.Y - UITransform.Bound1.Y) * 0.5f * alignmentY + lineHeight * scale * (line + 1) * (-alignmentY + 1) * 0.5f;
-                VerticalAlignment = ((UITransform.Bound2.Y - UITransform.Bound1.Y) * alignmentY + lineHeight * scale * (line + 1) * (-alignmentY + 1)) * 0.5f;
-
+                // Not simplified: VerticalAlignment = (UITransform.Bound2.Y - UITransform.Bound1.Y) * 0.5f * alignmentY - totalHeight * (-alignmentY + 1) * 0.5f;
+                VerticalAlignment = ((UITransform.Bound2.Y - UITransform.Bound1.Y + totalHeight) * alignmentY - totalHeight) * 0.5f;
+				
                 NeedsUpdate = false;
 			}
 		}

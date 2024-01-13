@@ -6,6 +6,7 @@ using Game.ExactGame.UI;
 using Game.Graphics;
 using Game.Text;
 using Game.UI;
+using Game.Util;
 
 namespace Game.Main
 {
@@ -43,8 +44,9 @@ namespace Game.Main
             Layers.Add(LayerParameters.Scale(layer1, 0.75f, 2));
             Layers.Add(LayerParameters.Scale(layer1, 0.5f, 3));
 
-            Sodas.Add(new DefaultSodaScene(new(Vector3.Zero, this), new Vector3(1, 0.5f, 0)));
-            Sodas.Add(new DefaultSodaScene(new(Vector3.Zero, this), new Vector3(0, 0.75f, 0)));
+            Sodas.Add(
+                new DefaultSodaScene(new(Vector3.Zero, this), new SodaInfo("Soda/Orange/Name",   "RESERVED TEXT FIELD ========"), new Vector3(1, 0.5f, 0)),
+                new DefaultSodaScene(new(Vector3.Zero, this), new SodaInfo("Soda/Tarkhuna/Name", "RESERVED TEXT FIELD ========"), new Vector3(0, 0.75f, 0)));
 
             UITabs = new Tabs(new WorldObject(Vector3.Zero, this));
 

@@ -22,8 +22,8 @@ namespace Game.UI.Interactors
          *          ModelToggle, TexturedToggle, etc
          *          Switch - changes child object position
          *       
-         *  UIBounds - bounds to check clicks *
-         *      TransformBounds - bounding box is rectangle transformed by transform *
+         *  UIBounds - bounds to check clicks
+         *      TransformBounds - bounding box is rectangle transformed by transform
          *      
         */
 

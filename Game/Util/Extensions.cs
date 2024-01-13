@@ -55,5 +55,10 @@ namespace Game.Util
 			}
 			else return dict.TryGetValue(closerKey, out value);
 		}
+
+		public static void Add<T>(this ICollection<T> coll, params T[] items)
+		{
+			foreach (T item in items) coll.Add(item);
+		}
 	}
 }

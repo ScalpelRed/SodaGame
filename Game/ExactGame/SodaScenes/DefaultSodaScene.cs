@@ -13,7 +13,7 @@ namespace Game.ExactGame.SodaScenes
         }
         
 
-        public DefaultSodaScene(WorldObject linkedObject, Vector3 color) : base(linkedObject)
+        public DefaultSodaScene(WorldObject linkedObject, SodaInfo info, Vector3 color) : base(linkedObject, info)
         {
             Color = color;
 

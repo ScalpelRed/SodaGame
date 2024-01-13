@@ -19,6 +19,7 @@ namespace Game.ExactGame.UI
         public const float EntryHeight = 100;
 
         private readonly UITextRenderer NameText;
+        private readonly UITextRenderer CommText;
 
         public SodaListEntry(WorldObject linkedObject, SodaScene soda) : base(linkedObject, false)
         {
@@ -28,9 +29,20 @@ namespace Game.ExactGame.UI
 
             Background = new UIModelRenderer(linkedObject, Game.Core.Assets.Shaders.Get("meshSolid"));
 
-            NameText = new(new WorldObject(Game, UITransform), "NAME", Game.Fonts);
-            NameText.UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
-            NameText.UITransform.SetAnchoringY(UITransform.AnchoringY.Stretch);
+            NameText = new(new WorldObject(Game, UITransform), soda.Info.Name, Game.Fonts)
+            {
+                Scale = 30
+            };
+            NameText.UITransform.SetAnchoringX(UITransform.AnchoringX.Left);
+            NameText.UITransform.SetAnchoringY(UITransform.AnchoringY.Up);
+
+            CommText = new(new WorldObject(Game, UITransform), soda.Info.Commentary, Game.Fonts)
+            {
+                Scale = 20
+            };
+            CommText.UITransform.SetAnchoringX(UITransform.AnchoringX.Left);
+            CommText.UITransform.SetAnchoringY(UITransform.AnchoringY.Up);
+            CommText.UITransform.AnchorRectCenter = Vector2.UnitY * 0.5f;
 
             new UIButton(new UITransformBounds(linkedObject)).MouseUp += (MouseButton _) => Game.SetActiveSoda(soda);
         }
@@ -39,12 +51,14 @@ namespace Game.ExactGame.UI
         {
             Background.SetValue("color", new Vector4(color, Opacity));
             NameText.SetValue("color", new Vector4(Vector3.One - color, Opacity));
+            CommText.SetValue("color", new Vector4(Vector3.One - color, Opacity * 0.8f));
         }
 
         public override void Step()
         {
             Background.Step();
             NameText.Step();
+            CommText.Step();
         }
     }
 }

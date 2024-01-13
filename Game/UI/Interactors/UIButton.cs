@@ -10,7 +10,7 @@ namespace Game.UI.Interactors
 
         }
 
-        public UIButton(UIBounds bounds) : base(bounds)
+        public UIButton(Bounds.Bounds bounds) : base(bounds)
         {
 
         }

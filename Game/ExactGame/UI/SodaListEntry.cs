@@ -32,7 +32,7 @@ namespace Game.ExactGame.UI
             NameText.UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
             NameText.UITransform.SetAnchoringY(UITransform.AnchoringY.Stretch);
 
-            new UIButton(new TransformBounds(linkedObject)).MouseUp += (MouseButton _) => Game.SetActiveSoda(soda);
+            new UIButton(new UITransformBounds(linkedObject)).MouseUp += (MouseButton _) => Game.SetActiveSoda(soda);
         }
 
         public void SetColor(Vector3 color)

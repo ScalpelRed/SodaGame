@@ -45,20 +45,17 @@ namespace Game.ExactGame.UI
             Highlighting.UITransform.SetAnchors(new Vector2(ButtonWidth * 1, 0), new Vector2(ButtonWidth * 2, 1));
             Highlighting.UITransform.PosZ = 0.1f;
 
-            Button1L = new UIButton(new TransformBounds(new WorldObject(Vector3.Zero, Game, Transform)));
-            Button1L.UITransform.Parent = UITransform;
+            Button1L = new UIButton(new UITransformBounds(new WorldObject(Game, UITransform)));
             Button1L.UITransform.SetAnchors(new Vector2(0, 0), new Vector2(ButtonWidth, 1));
             Button1L.UITransform.PosZ = 0.1f;
             Button1L.MouseUp += (MouseButton _) => MoveHighlighning(Button1L);
 
-            Button00 = new UIButton(new TransformBounds(new WorldObject(Vector3.Zero, Game, Transform)));
-            Button00.UITransform.Parent = UITransform;
+            Button00 = new UIButton(new UITransformBounds(new WorldObject(Game, UITransform)));
             Button00.UITransform.SetAnchors(new Vector2(ButtonWidth, 0), new Vector2(ButtonWidth * 2, 1));
             Button00.UITransform.PosZ = 0.1f;
             Button00.MouseUp += (MouseButton _) => MoveHighlighning(Button00);
 
-            Button1R = new UIButton(new TransformBounds(new WorldObject(Vector3.Zero, Game, Transform)));
-            Button1R.UITransform.Parent = UITransform;
+            Button1R = new UIButton(new UITransformBounds(new WorldObject(Game, UITransform)));
             Button1R.UITransform.SetAnchors(new Vector2(ButtonWidth * 2, 0), new Vector2(ButtonWidth * 3, 1));
             Button1R.UITransform.PosZ = 0.1f;
             Button1R.MouseUp += (MouseButton _) => MoveHighlighning(Button1R);

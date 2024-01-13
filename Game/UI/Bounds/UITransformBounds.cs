@@ -1,14 +1,18 @@
 ﻿using Game.Main;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Game.UI.Bounds
 {
-    public class TransformBounds : Bounds
+    public class UITransformBounds : Bounds
     {
-
-        public TransformBounds(WorldObject linkedObject) : base(linkedObject)
+        public UITransformBounds(WorldObject linkedObject) : base(linkedObject)
         {
-            Transform.Changed += InvokeChanged;
+            UITransform.Changed += InvokeChanged;
         }
 
         public override bool Contains(Vector2 pos)
@@ -22,14 +26,14 @@ namespace Game.UI.Bounds
         {
             if (NeedsUpdate)
             {
-                Matrix4x4.Invert(Transform.Matrix, out TransformInv);
+                Matrix4x4.Invert(UITransform.Matrix, out TransformInv);
                 NeedsUpdate = false;
             }
         }
 
         public override void Step()
         {
-            
+
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Game.UI.Interactors
 {
     public class MouseInteractor : UIModule
     {
-        protected UIBounds Bounds;
+        protected Bounds.Bounds Bounds;
 
         public event Action<Vector2>? MouseIn;
         public event Action<Vector2>? MouseOut;
@@ -34,12 +34,12 @@ namespace Game.UI.Interactors
 
         public MouseInteractor(WorldObject linkedObject) : base(linkedObject, false)
         {
-            if (!LinkedObject.TryGetModule(out UIBounds bounds)) throw new ModuleRequiredException<MouseInteractor, UIBounds>();
+            if (!LinkedObject.TryGetModule(out Bounds.Bounds bounds)) throw new ModuleRequiredException<MouseInteractor, Bounds.Bounds>();
             Bounds = bounds;
             setup();
         }
 
-        public MouseInteractor(UIBounds bounds) : base(bounds.LinkedObject, false)
+        public MouseInteractor(Bounds.Bounds bounds) : base(bounds.LinkedObject, false)
         {
             Bounds = bounds;
             setup();

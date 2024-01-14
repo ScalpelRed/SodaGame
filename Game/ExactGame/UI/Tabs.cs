@@ -1,6 +1,8 @@
 ﻿using Game.Animation;
 using Game.Animation.Interpolations;
+using Game.ExactGame.Items;
 using Game.Main;
+using Game.Text;
 using Game.UI;
 using Game.Util;
 using Silk.NET.Input;
@@ -10,8 +12,9 @@ namespace Game.ExactGame.UI
 {
     public sealed class Tabs : UIModule
     {
-        public readonly SodaSelection SodaSelection;
         public readonly BottomPanel BottomPanel;
+        public readonly SodaSelection SodaSelection;
+        public readonly UITextRenderer BubbleCountText;
 
         private readonly UITransform TabsTransform;
 
@@ -41,6 +44,16 @@ namespace Game.ExactGame.UI
             SodaSelection.UITransform.Parent = TabsTransform;
             SodaSelection.UITransform.AnchorRectCenter = new Vector2(-0.5f, 0.5f);
 
+            BubbleCountText = new UITextRenderer(new WorldObject(Game, TabsTransform), Game.Fonts);
+            BubbleCountText.UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
+            BubbleCountText.UITransform.SetAnchoringY(UITransform.AnchoringY.Up);
+            BubbleCountText.AlignmentX = 0;
+            BubbleCountText.AlignmentY = 1;
+            Game.GetItemSlot<ItemBubble>()!.CountChanged += (float c) =>
+            {
+                BubbleCountText.StringText = c.ToString();
+            };
+
             AnimPos = new(0, 0, 0.05f, new LinearFloatInterpolation());
             MoveAnimator = new(new Range<float>(0, AnimPos.Duration),
                 new SetterAnimator<float>(AnimPos, (float v) =>
@@ -60,6 +73,7 @@ namespace Game.ExactGame.UI
         {
             BottomPanel.SetColor(color);
             SodaSelection.SetColor(color);
+            BubbleCountText.SetValue("color", new Vector4(color, 1));
         }
 
         private void MoveTab(int tab)
@@ -77,6 +91,7 @@ namespace Game.ExactGame.UI
 
             BottomPanel.Step();
             SodaSelection.Step();
+            BubbleCountText.Step();
         }
     }
 }

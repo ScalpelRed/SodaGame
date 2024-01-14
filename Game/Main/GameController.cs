@@ -37,7 +37,6 @@ namespace Game.Main
             //Fonts = core.Assets.Multifonts.Get("default");
 
             AddItemSlot(new ItemBubble(core), 0);
-            GetItemSlot<ItemBubble>()!.CountChanged += Console.WriteLine;
 
             LayerParameters layer1 = new(1, 100, 50f, 50f);
             Layers.Add(layer1);

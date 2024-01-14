@@ -7,8 +7,8 @@ namespace Game.ExactGame.Items
     {
         public readonly TranslatableString Name;
 
-        protected double count;
-        public double Count
+        protected float count;
+        public float Count
         {
             get => count;
             set
@@ -17,7 +17,7 @@ namespace Game.ExactGame.Items
                 CountChanged?.Invoke(value);
             }
         }
-        public event Action<double>? CountChanged;
+        public event Action<float>? CountChanged;
 
         public readonly GameCore Core;
 

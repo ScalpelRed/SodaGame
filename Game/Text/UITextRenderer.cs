@@ -22,6 +22,11 @@ namespace Game.Text
 				NeedsUpdate = true;
 			}
 		}
+		public string StringText
+		{
+			get => text.Value;
+			set => text.Value = value;
+		}
 
 		private IGlyphProvider font;
 		public IGlyphProvider Font
@@ -84,7 +89,7 @@ namespace Game.Text
 		private readonly List<Vector2> LineAlignments = [];
 		private readonly List<Char> CharData = [];
 
-		public UITextRenderer(WorldObject linkedObject, ReferenceValue<string> text, IGlyphProvider font) : base(linkedObject)
+		public UITextRenderer(WorldObject linkedObject, IGlyphProvider font, ReferenceValue<string> text) : base(linkedObject)
 		{
 			this.text = text;
 			this.font = font;
@@ -98,7 +103,8 @@ namespace Game.Text
             NeedsUpdate = true;
 		}
 
-		public UITextRenderer(WorldObject linkedObject, string text, IGlyphProvider font) : this(linkedObject, new ReferenceValue<string>(text), font)
+		public UITextRenderer(WorldObject linkedObject, IGlyphProvider font, string text = "") 
+			: this(linkedObject, font, new ReferenceValue<string>(text))
 		{
 			
 		}

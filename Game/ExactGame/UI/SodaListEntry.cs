@@ -29,14 +29,14 @@ namespace Game.ExactGame.UI
 
             Background = new UIModelRenderer(linkedObject, Game.Core.Assets.Shaders.Get("meshSolid"));
 
-            NameText = new(new WorldObject(Game, UITransform), soda.Info.Name, Game.Fonts)
+            NameText = new(new WorldObject(Game, UITransform), Game.Fonts, soda.Info.Name)
             {
                 Scale = 30
             };
             NameText.UITransform.SetAnchoringX(UITransform.AnchoringX.Left);
             NameText.UITransform.SetAnchoringY(UITransform.AnchoringY.Up);
 
-            CommText = new(new WorldObject(Game, UITransform), soda.Info.Commentary, Game.Fonts)
+            CommText = new(new WorldObject(Game, UITransform), Game.Fonts, soda.Info.Commentary)
             {
                 Scale = 20
             };

@@ -30,7 +30,7 @@ namespace Game.ExactGame.SodaLayers
 
         private bool Initialized;
 
-        public SodaLayer(WorldObject linkedObject, LayerParameters bubbleLayer) : base(linkedObject, false)
+        public SodaLayer(WorldObject linkedObject, LayerParameters bubbleLayer) : base(linkedObject)
         {
             Layer = bubbleLayer;
 
@@ -131,7 +131,7 @@ namespace Game.ExactGame.SodaLayers
             }
             ActiveSwitchQueue.Clear();
 
-            foreach (Bubble v in Bubbles) v.LinkedObject.Step();
+            foreach (Bubble v in Bubbles) v.Step();
 
             if (LastBubble!.Transform.GlobalPosition.Y - LowerBound >= Layer.BubbleDistance)
             {

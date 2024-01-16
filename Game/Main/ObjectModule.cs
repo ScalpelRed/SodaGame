@@ -3,7 +3,6 @@
     public abstract class ObjectModule
     {
         public readonly WorldObject LinkedObject;
-        public readonly bool StepFromObject;
 
         public GameController Game
         {
@@ -15,11 +14,10 @@
             get => LinkedObject.Transform;
         }
 
-        public ObjectModule(WorldObject linkedObject, bool stepFromObject)
+        public ObjectModule(WorldObject worldObject)
         {
-            LinkedObject = linkedObject;
-            linkedObject.AddModule(this);
-            StepFromObject = stepFromObject;
+            LinkedObject = worldObject;
+            worldObject.AddModule(this);
         }
 
         public abstract void Step();

@@ -11,7 +11,7 @@ namespace Game.UI
     {
         public readonly UITransform UITransform;
 
-        public UITransformCont(WorldObject linkedObject) : base(linkedObject, false)
+        public UITransformCont(WorldObject linkedObject) : base(linkedObject)
         {
             UITransform = new UITransform(Game.Core.OpenGL);
         }

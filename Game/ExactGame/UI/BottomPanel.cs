@@ -30,7 +30,7 @@ namespace Game.ExactGame.UI
         private readonly AnimationController HighlightingAnim;
         private readonly InterpolationScale<float> HAnimPos;
 
-        public BottomPanel(WorldObject linkedObject) : base(linkedObject, false)
+        public BottomPanel(WorldObject linkedObject) : base(linkedObject)
         {
             Gl = Game.Core.OpenGL;
             Width = (int)Gl.ScreenSize.X;
@@ -89,7 +89,7 @@ namespace Game.ExactGame.UI
         {
             Background.Step();
             HighlightingAnim.Update();
-            Highlighting.LinkedObject.Step();
+            Highlighting.Step();
         }
     }
 }

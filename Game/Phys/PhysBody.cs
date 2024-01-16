@@ -15,7 +15,7 @@ namespace Game.Phys
 
         private bool transformUpdated;
 
-        public PhysBody(WorldObject linkedObject, float mass, PhysWorld world, Shape collisionShape) : base(linkedObject, true)
+        public PhysBody(WorldObject linkedObject, float mass, PhysWorld world, Shape collisionShape) : base(linkedObject)
         {
             JitterBody = new RigidBody(collisionShape)
             {

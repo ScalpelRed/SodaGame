@@ -15,7 +15,7 @@ namespace Game.ExactGame.SodaScenes
         public readonly List<SodaLayer> SodaLayers = [];
         protected ModelRenderer Background;
 
-        public SodaScene(WorldObject linkedObject, SodaInfo info) : base(linkedObject, false)
+        public SodaScene(WorldObject linkedObject, SodaInfo info) : base(linkedObject)
         {
             Info = info;
 

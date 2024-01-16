@@ -32,14 +32,14 @@ namespace Game.UI.Interactors
         protected volatile float DownX;
         protected volatile float DownY;*/
 
-        public MouseInteractor(WorldObject linkedObject) : base(linkedObject, false)
+        public MouseInteractor(WorldObject linkedObject) : base(linkedObject)
         {
-            if (!LinkedObject.TryGetModule(out Bounds.Bounds bounds)) throw new ModuleRequiredException<MouseInteractor, Bounds.Bounds>();
+            if (!LinkedObject.TryGetFirstModule(out Bounds.Bounds bounds)) throw new ModuleRequiredException<MouseInteractor, Bounds.Bounds>();
             Bounds = bounds;
             setup();
         }
 
-        public MouseInteractor(Bounds.Bounds bounds) : base(bounds.LinkedObject, false)
+        public MouseInteractor(Bounds.Bounds bounds) : base(bounds.LinkedObject)
         {
             Bounds = bounds;
             setup();

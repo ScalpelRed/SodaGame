@@ -21,7 +21,7 @@ namespace Game.ExactGame.UI
         private readonly UITextRenderer NameText;
         private readonly UITextRenderer CommText;
 
-        public SodaListEntry(WorldObject linkedObject, SodaScene soda) : base(linkedObject, false)
+        public SodaListEntry(WorldObject linkedObject, SodaScene soda) : base(linkedObject)
         {
             UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
             UITransform.SetAnchoringY(UITransform.AnchoringY.Center);

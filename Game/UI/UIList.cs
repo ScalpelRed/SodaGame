@@ -21,7 +21,7 @@ namespace Game.UI
 
         private volatile bool PauseUpdateEvent = false;
 
-        public UIList(WorldObject linkedObject) : base(linkedObject, false)
+        public UIList(WorldObject linkedObject) : base(linkedObject)
         {
             Affected.Added += (UITransform uit, int _) =>
             {

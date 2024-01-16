@@ -9,7 +9,7 @@ namespace Game.UI
 
         protected UIRenderer(WorldObject linkedObject) : base(linkedObject)
         {
-            UITransform = (linkedObject.TryGetModule(out UITransformCont uiTransform) ? uiTransform : new UITransformCont(linkedObject)).UITransform;
+            UITransform = (linkedObject.TryGetFirstModule(out UITransformCont uiTransform) ? uiTransform : new UITransformCont(linkedObject)).UITransform;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Game.ExactGame.UI
         private readonly AnimationController MoveAnimator;
         private readonly InterpolationScale<float> AnimPos;
 
-        public Tabs(WorldObject linkedObject) : base(linkedObject, false)
+        public Tabs(WorldObject linkedObject) : base(linkedObject)
         {
             UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
             UITransform.SetAnchoringY(UITransform.AnchoringY.Stretch);

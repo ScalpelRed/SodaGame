@@ -4,7 +4,7 @@ namespace Game.Graphics
 {
     public abstract class Renderer : ObjectModule
     {
-        protected Renderer(WorldObject linkedObject) : base(linkedObject, true)
+        protected Renderer(WorldObject linkedObject) : base(linkedObject)
         {
 
         }

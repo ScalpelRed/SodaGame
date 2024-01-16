@@ -10,7 +10,7 @@ namespace Game.UI.Bounds
         protected bool NeedsUpdate = true;
         protected Matrix4x4 TransformInv;
 
-        public Bounds(WorldObject linkedObject) : base(linkedObject, false)
+        public Bounds(WorldObject linkedObject) : base(linkedObject)
         {
 
         }

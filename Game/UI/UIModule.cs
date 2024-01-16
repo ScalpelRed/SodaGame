@@ -6,9 +6,9 @@ namespace Game.UI
     {
         public UITransform UITransform { get; private set; }
 
-        protected UIModule(WorldObject linkedObject, bool stepFromObject) : base(linkedObject, stepFromObject)
+        protected UIModule(WorldObject linkedObject) : base(linkedObject)
         {
-            UITransform = (linkedObject.TryGetModule(out UITransformCont uiTransform) ? uiTransform : new UITransformCont(linkedObject)).UITransform;
+            UITransform = (linkedObject.TryGetFirstModule(out UITransformCont uiTransform) ? uiTransform : new UITransformCont(linkedObject)).UITransform;
         }
     }
 }

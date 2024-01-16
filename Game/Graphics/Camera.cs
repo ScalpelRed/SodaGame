@@ -70,7 +70,7 @@ namespace Game.Graphics
         }
 
 
-        public Camera(WorldObject linkedObject, OpenGL gl, float far, float near = 0.05f) : base(linkedObject, false)
+        public Camera(WorldObject linkedObject, OpenGL gl, float far, float near = 0.05f) : base(linkedObject)
         {
             Gl = gl;
             this.far = far;

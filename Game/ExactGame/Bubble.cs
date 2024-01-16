@@ -17,13 +17,13 @@ namespace Game.ExactGame
         protected ModelRenderer Renderer;
 
 
-        public Bubble(WorldObject linkedObject, SodaLayer sodaLayer) : base(linkedObject, true)
+        public Bubble(WorldObject linkedObject, SodaLayer sodaLayer) : base(linkedObject)
         {
             SodaLayer = sodaLayer;
             Transform.Scale = Vector3.One * SodaLayer.Layer.BubbleScale;
 
             MouseInteractor = new(new TransformBounds(linkedObject));
-            MouseInteractor.MouseIn += (_) => Pop();
+            MouseInteractor.MouseIn += (_) => TryPop();
 
             Renderer = new(linkedObject, sodaLayer.BubbleModel);
             Renderer.AssignValuesDictionary(sodaLayer.BubbleRendererValues);
@@ -31,7 +31,7 @@ namespace Game.ExactGame
             Active = true;
         }
 
-        protected void Pop()
+        protected void TryPop()
         {
             if (Active)
             {
@@ -41,15 +41,19 @@ namespace Game.ExactGame
             }
         }
 
+        /// <summary>
+        /// Called from SodaLayer.ClearBubbles() in order to clear memory
+        /// </summary>
+        public void Dispose()
+        {
+            MouseInteractor.MouseIn -= (_) => TryPop();
+        }
+
         public override void Step()
         {
             Transform.LocalPosition += SodaLayer.GetSpeedAt(Transform.LocalPosition.Y) * Vector3.UnitY * Game.DeltaTime;
             if (Transform.GlobalPosition.Y > SodaLayer.UpperBound) SodaLayer.MakeBubbleInactive(this);
-        }
-
-        public void Dispose()
-        {
-            Game.Core.Input.MouseMove -= (_) => Pop();
+            if (Active) Renderer.Step();
         }
     }
 }

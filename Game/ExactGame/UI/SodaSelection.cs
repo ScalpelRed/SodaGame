@@ -15,7 +15,7 @@ namespace Game.ExactGame.UI
 
         private const float EntrySpacing = 10f;
 
-        public SodaSelection(WorldObject linkedObject) : base(linkedObject, false)
+        public SodaSelection(WorldObject linkedObject) : base(linkedObject)
         {
             UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
             UITransform.SetAnchoringY(UITransform.AnchoringY.Stretch);

@@ -13,9 +13,9 @@ namespace Game.ExactGame
 
         public Vector3 Bone; // idk how to name properly
 
-        public Jelly(WorldObject linkedObject) : base(linkedObject, true)
+        public Jelly(WorldObject linkedObject) : base(linkedObject)
         {
-            if (!linkedObject.TryGetModule(out rend)) throw new ModuleRequiredException<Jelly, Renderer>();
+            if (!linkedObject.TryGetFirstModule(out rend)) throw new ModuleRequiredException<Jelly, Renderer>();
         }
 
         public override void Step()

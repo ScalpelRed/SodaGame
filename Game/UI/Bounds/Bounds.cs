@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace Game.UI.Bounds
 {
-    public abstract class Bounds : UIModule
+    public abstract class Bounds : ObjectModule
     {
         public event Action? Changed;
 

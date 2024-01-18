@@ -91,7 +91,7 @@ namespace Game.ExactGame.SodaLayers
             }
             else
             {
-                WorldObject t = new(new Vector3(GetNextX(), y, Layer.Index), Game, LinkedObject.Transform);
+                WorldObject t = new(new Vector3(GetNextX(), y, Layer.Index), Game, Transform);
                 bubble = new(t, this);
             }
 

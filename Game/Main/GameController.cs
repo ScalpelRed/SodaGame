@@ -47,7 +47,7 @@ namespace Game.Main
                 new DefaultSodaScene(new(Vector3.Zero, this), new SodaInfo("Soda/Orange/Name",   "RESERVED TEXT FIELD ========"), new Vector3(1, 0.5f, 0)),
                 new DefaultSodaScene(new(Vector3.Zero, this), new SodaInfo("Soda/Tarkhuna/Name", "RESERVED TEXT FIELD ========"), new Vector3(0, 0.75f, 0)));
 
-            UITabs = new Tabs(new WorldObject(Vector3.Zero, this));
+            UITabs = new Tabs(UITransform.CreateObjectForUI(this));
 
             //Core.Assets.GlMeshes.Enlist("jellyCube", Jelly.CreateRiggedGlMesh(Core.OpenGL, Core.Assets.RawMeshes.Get("jellyCube"), -Vector3.UnitY));
             //Core.Assets.GlMeshes.Enlist("jellyTest", Jelly.CreateRiggedGlMesh(Core.OpenGL, Core.Assets.RawMeshes.Get("jellyTest"), -Vector3.UnitY));

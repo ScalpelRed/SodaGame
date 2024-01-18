@@ -23,28 +23,28 @@ namespace Game.ExactGame.UI
 
         public SodaListEntry(WorldObject linkedObject, SodaScene soda) : base(linkedObject)
         {
-            UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
-            UITransform.SetAnchoringY(UITransform.AnchoringY.Center);
-            UITransform.MarginUp = EntryHeight;
+            Transform.SetAnchoringX(UITransform.AnchoringX.Stretch);
+            Transform.SetAnchoringY(UITransform.AnchoringY.Center);
+            Transform.MarginUp = EntryHeight;
 
             Background = new UIModelRenderer(linkedObject, Game.Core.Assets.Shaders.Get("meshSolid"));
 
-            NameText = new(new WorldObject(Game, UITransform), Game.Fonts, soda.Info.Name)
+            NameText = new(UITransform.CreateObjectForUI(Game, Transform), Game.Fonts, soda.Info.Name)
             {
                 Scale = 30
             };
-            NameText.UITransform.SetAnchoringX(UITransform.AnchoringX.Left);
-            NameText.UITransform.SetAnchoringY(UITransform.AnchoringY.Up);
+            NameText.Transform.SetAnchoringX(UITransform.AnchoringX.Left);
+            NameText.Transform.SetAnchoringY(UITransform.AnchoringY.Up);
 
-            CommText = new(new WorldObject(Game, UITransform), Game.Fonts, soda.Info.Commentary)
+            CommText = new(UITransform.CreateObjectForUI(Game, Transform), Game.Fonts, soda.Info.Commentary)
             {
                 Scale = 20
             };
-            CommText.UITransform.SetAnchoringX(UITransform.AnchoringX.Left);
-            CommText.UITransform.SetAnchoringY(UITransform.AnchoringY.Up);
-            CommText.UITransform.AnchorRectCenter = Vector2.UnitY * 0.5f;
+            CommText.Transform.SetAnchoringX(UITransform.AnchoringX.Left);
+            CommText.Transform.SetAnchoringY(UITransform.AnchoringY.Up);
+            CommText.Transform.AnchorRectCenter = Vector2.UnitY * 0.5f;
 
-            new UIButton(new UITransformBounds(linkedObject)).MouseUp += (MouseButton _) => Game.SetActiveSoda(soda);
+            new UIButton(new AnyTransformBounds(linkedObject)).MouseUp += (MouseButton _) => Game.SetActiveSoda(soda);
         }
 
         public void SetColor(Vector3 color)

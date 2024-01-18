@@ -3,12 +3,12 @@ using System.Numerics;
 
 namespace Game.UI.Bounds
 {
-    public class TransformBounds : Bounds
+    public class AnyTransformBounds : Bounds
     {
 
-        public TransformBounds(WorldObject linkedObject) : base(linkedObject)
+        public AnyTransformBounds(WorldObject linkedObject) : base(linkedObject)
         {
-            Transform.Changed += InvokeChanged;
+            LinkedObject.Transform.Changed += InvokeChanged;
         }
 
         public override bool Contains(Vector2 pos)
@@ -22,7 +22,7 @@ namespace Game.UI.Bounds
         {
             if (NeedsUpdate)
             {
-                Matrix4x4.Invert(Transform.Matrix, out TransformInv);
+                Matrix4x4.Invert(LinkedObject.Transform.Matrix, out TransformInv);
                 NeedsUpdate = false;
             }
         }

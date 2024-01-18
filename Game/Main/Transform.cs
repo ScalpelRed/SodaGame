@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace Game.Main
 {
-    public sealed class Transform
+    public sealed class Transform : ITransform
     {
         private Vector3 pivot;
         private Matrix4x4 PivotMatrix = Matrix4x4.Identity;
@@ -121,9 +121,9 @@ namespace Game.Main
 
 
 
-        private Transform? parent;
+        private ITransform? parent;
 
-        public Transform? Parent
+        public ITransform? Parent
         {
             get => parent;
             set
@@ -143,11 +143,11 @@ namespace Game.Main
 
 
 
-        private bool needsMatrixUpdate = false;
+        private bool needsUpdate = false;
         public event Action? Changed;
         private void InvokeChanged()
         {
-            needsMatrixUpdate = true;
+            needsUpdate = true;
             Changed?.Invoke();
         }
 
@@ -161,20 +161,30 @@ namespace Game.Main
 
             get
             {
-                if (needsMatrixUpdate)
-                {
-                    matrix = PivotMatrix * ScaleMatrix * RotMatrix * LocalPosMatrix * (HasParent ? parent!.Matrix : Matrix4x4.Identity);
-                    needsMatrixUpdate = false;
-                }
+                UpdateIfNecessary();
                 return matrix;
             }
         }
 
-        public Transform(Vector3 pos, Transform? parent = null)
+        public Matrix4x4 InheritableMatrix
+        {
+            get => Matrix;
+        }
+
+        public void UpdateIfNecessary()
+        {
+            if (needsUpdate)
+            {
+                matrix = PivotMatrix * ScaleMatrix * RotMatrix * LocalPosMatrix * (HasParent ? parent!.InheritableMatrix : Matrix4x4.Identity);
+                needsUpdate = false;
+            }
+        }
+
+        public Transform(Vector3 pos, ITransform? parent = null)
         {
             LocalPosition = pos;
             Parent = parent;
-            needsMatrixUpdate = true;
+            needsUpdate = true;
         }
     }
 }

@@ -25,28 +25,26 @@ namespace Game.ExactGame.UI
 
         public Tabs(WorldObject linkedObject) : base(linkedObject)
         {
-            UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
-            UITransform.SetAnchoringY(UITransform.AnchoringY.Stretch);
+            Transform.SetAnchoringX(UITransform.AnchoringX.Stretch);
+            Transform.SetAnchoringY(UITransform.AnchoringY.Stretch);
 
-            BottomPanel = new BottomPanel(new WorldObject(Vector3.Zero, Game, Transform));
-            BottomPanel.UITransform.Parent = UITransform;
-            BottomPanel.UITransform.PosZ = 0.1f;
+            BottomPanel = new BottomPanel(UITransform.CreateObjectForUI(Game, Transform));
+            BottomPanel.Transform.PosZ = 0.1f;
 
             TabsTransform = new UITransform(Game)
             {
-                Parent = UITransform,
+                Parent = Transform,
                 PosZ = 0.1f
             };
             TabsTransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
             TabsTransform.SetAnchoringY(UITransform.AnchoringY.Stretch);
 
-            SodaSelection = new SodaSelection(new WorldObject(Vector3.Zero, Game));
-            SodaSelection.UITransform.Parent = TabsTransform;
-            SodaSelection.UITransform.AnchorRectCenter = new Vector2(-0.5f, 0.5f);
+            SodaSelection = new SodaSelection(UITransform.CreateObjectForUI(Game, TabsTransform));
+            SodaSelection.Transform.AnchorRectCenter = new Vector2(-0.5f, 0.5f);
 
-            BubbleCountText = new UITextRenderer(new WorldObject(Game, TabsTransform), Game.Fonts);
-            BubbleCountText.UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
-            BubbleCountText.UITransform.SetAnchoringY(UITransform.AnchoringY.Up);
+            BubbleCountText = new UITextRenderer(UITransform.CreateObjectForUI(Game, TabsTransform), Game.Fonts, Game.GetItemSlot<ItemBubble>()!.Count.ToString());
+            BubbleCountText.Transform.SetAnchoringX(UITransform.AnchoringX.Stretch);
+            BubbleCountText.Transform.SetAnchoringY(UITransform.AnchoringY.Up);
             BubbleCountText.AlignmentX = 0;
             BubbleCountText.AlignmentY = 1;
             Game.GetItemSlot<ItemBubble>()!.CountChanged += (float c) =>

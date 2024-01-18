@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace Game.UI
 {
-    public class UITransform
+    public class UITransform : ITransform
 	{
         // pivot = pivot
         // scale = anchors and margins
@@ -141,9 +141,9 @@ namespace Game.UI
 
 
 
-        private UITransform? parent;
+        private ITransform? parent;
 
-        public UITransform? Parent
+        public ITransform? Parent
         {
             get => parent;
             set
@@ -159,7 +159,7 @@ namespace Game.UI
 
         public bool HasParent { get; private set; }
 
-
+        
         private Vector2 bound1;
         private Vector2 bound2;
 
@@ -181,17 +181,6 @@ namespace Game.UI
             }
         }
 
-        private Matrix4x4 inheritableMatrix;
-        public Matrix4x4 InheritableMatrix
-        {
-            get
-            {
-                UpdateIfNecessary();
-                return inheritableMatrix;
-            }
-        }
-
-
         private bool needsMatrixUpdate = false;
         public event Action? Changed;
         private void InvokeChanged()
@@ -211,7 +200,17 @@ namespace Game.UI
             }
         }
 
-        private void UpdateIfNecessary()
+        private Matrix4x4 inheritableMatrix;
+        public Matrix4x4 InheritableMatrix
+        {
+            get
+            {
+                UpdateIfNecessary();
+                return inheritableMatrix;
+            }
+        }
+
+        public void UpdateIfNecessary()
         {
             if (needsMatrixUpdate)
             {
@@ -224,11 +223,18 @@ namespace Game.UI
 
                 if (HasParent)
                 {
-                    var parentn = parent!; // For some reason it's ~40 ns faster
-                    parentn.UpdateIfNecessary();
-                    pborder1 = parentn.bound1;
-                    pborder2 = parentn.bound2;
-                    pmatrix = parentn.InheritableMatrix;
+                    if (parent is UITransform parentn)
+                    {
+                        pmatrix = parentn.InheritableMatrix;
+                        pborder1 = parentn.Bound1;
+                        pborder2 = parentn.Bound2;
+                    }
+                    else
+                    {
+                        pmatrix = parent!.InheritableMatrix;
+                        pborder1 = Vector2.Zero;
+                        pborder2 = Vector2.One;
+                    }
                 }
                 else
                 {
@@ -259,16 +265,17 @@ namespace Game.UI
 
         public readonly OpenGL Gl;
 
-        public UITransform(OpenGL gl)
+        public UITransform(OpenGL gl, ITransform? parent = null)
 		{
             Gl = gl;
-            gl.Resized += () => needsMatrixUpdate = true;
+            Parent = parent;
+            gl.Resized += InvokeChanged;
             needsMatrixUpdate = true;
 		}
 
-        public UITransform(GameController game) : this(game.Core.OpenGL)
+        public UITransform(GameController game, ITransform? parent = null) : this(game.Core.OpenGL, parent)
         {
-            
+
         }
 
         public void SetAnchoringX(AnchoringX anchoring)
@@ -499,6 +506,11 @@ namespace Game.UI
             Down,
             Center,
             Stretch
+        }
+
+        public static WorldObject CreateObjectForUI(GameController game, ITransform? parent = null)
+        {
+            return new WorldObject(new UITransform(game, parent), game);
         }
     }
 }

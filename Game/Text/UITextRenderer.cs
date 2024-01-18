@@ -96,7 +96,7 @@ namespace Game.Text
 			Model = new GlModel(Game.Core.OpenGL, Game.Core.Assets.Shaders.Get("textSolid"));
 
 			text.Changed += (string _) => NeedsUpdate = true;
-			UITransform.Changed += () => NeedsUpdate = true;
+			Transform.Changed += () => NeedsUpdate = true;
 
             SetValue("color", Vector4.UnitW);
 
@@ -121,7 +121,7 @@ namespace Game.Text
                 float cposX = 0;
 				int line = 0;
 
-				float edgeX = (UITransform.Bound2.X - UITransform.Bound1.X) * 0.5f * alignmentX;
+				float edgeX = (Transform.Bound2.X - Transform.Bound1.X) * 0.5f * alignmentX;
 
                 for (int i = 0; i < Text.Value.Length; i++)
 				{
@@ -149,7 +149,7 @@ namespace Game.Text
                 LineAlignments.Add(new Vector2(edgeX - cposX * (alignmentX + 1) * 0.5f, totalHeight));
 
                 // Not simplified: VerticalAlignment = (UITransform.Bound2.Y - UITransform.Bound1.Y) * 0.5f * alignmentY - totalHeight * (-alignmentY + 1) * 0.5f;
-                VerticalAlignment = ((UITransform.Bound2.Y - UITransform.Bound1.Y + totalHeight) * alignmentY - totalHeight) * 0.5f;
+                VerticalAlignment = ((Transform.Bound2.Y - Transform.Bound1.Y + totalHeight) * alignmentY - totalHeight) * 0.5f;
 				
                 NeedsUpdate = false;
 			}
@@ -159,7 +159,7 @@ namespace Game.Text
 		{
 			UpdateIfNecessary();
 
-			Model.Shader.SetUniform("transform", UITransform.InheritableMatrix);
+			Model.Shader.SetUniform("transform", Transform.InheritableMatrix);
 			Model.Shader.SetUniform("camera", camera.ViewMatrix);
 			foreach (var value in Values) Model.Shader.SetUniform(value.Key, value.Value);
 

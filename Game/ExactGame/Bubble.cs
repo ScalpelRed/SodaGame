@@ -22,7 +22,7 @@ namespace Game.ExactGame
             SodaLayer = sodaLayer;
             Transform.Scale = Vector3.One * SodaLayer.Layer.BubbleScale;
 
-            MouseInteractor = new(new TransformBounds(linkedObject));
+            MouseInteractor = new(new AnyTransformBounds(linkedObject));
             MouseInteractor.MouseIn += (_) => TryPop();
 
             Renderer = new(linkedObject, sodaLayer.BubbleModel);

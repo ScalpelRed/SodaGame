@@ -19,7 +19,7 @@ namespace Game.UI
 
         public override void Draw(Camera camera)
         {
-            Model.Shader.SetUniform("transform", UITransform.Matrix);
+            Model.Shader.SetUniform("transform", Transform.Matrix);
             Model.Shader.SetUniform("camera", camera.ViewMatrix);
             foreach (var value in Values) Model.Shader.SetUniform(value.Key, value.Value);
 

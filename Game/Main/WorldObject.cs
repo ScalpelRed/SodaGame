@@ -6,19 +6,36 @@ namespace Game.Main
     public class WorldObject
     {
         public readonly GameController Game;
-        public readonly Transform Transform;
-        private readonly List<ObjectModule> Modules;
 
-        public WorldObject(Vector3 position, GameController game, Transform? parent = null)
+        private ITransform transform;
+        public ITransform Transform
+        {
+            get => transform;
+            set
+            {
+                transform = value;
+                NewTransform?.Invoke(transform);
+            }
+        }
+        public Action<ITransform>? NewTransform;
+
+        private readonly List<ObjectModule> Modules;
+        public Action<ObjectModule>? ModuleAttached;
+        public Action<ObjectModule>? ModuleDetached;
+        public Action<int>? ModuleOrderChanged;
+
+        public WorldObject(Vector3 position, GameController game, ITransform? parent = null)
         {
             Game = game;
             Modules = [];
-            Transform = new Transform(position, parent);
+            transform = new Transform(position, parent);
         }
 
-        public WorldObject(GameController game, UITransform? parent = null) : this(Vector3.Zero, game, null)
+        public WorldObject(ITransform transform, GameController game)
         {
-            new UITransformCont(this).UITransform.Parent = parent;
+            Game = game;
+            Modules = [];
+            this.transform = transform;
         }
 
         internal void AddModule(ObjectModule module)
@@ -32,10 +49,6 @@ namespace Game.Main
             Modules.Remove(module);
             ModuleDetached?.Invoke(module);
         }
-
-        public Action<ObjectModule>? ModuleAttached;
-        public Action<ObjectModule>? ModuleDetached;
-        public Action<int>? ModuleOrderChanged;
 
         public T GetFirstModule<T>(bool allowInheritance = true) where T : ObjectModule
         {
@@ -71,17 +84,24 @@ namespace Game.Main
 
         public int GetModuleIndex(ObjectModule module) => Modules.IndexOf(module);
 
-        public bool SetModuleIndex(ObjectModule module, int index)
+        public bool MoveModule(ObjectModule module, int newIndex)
         {
-            int ci = GetModuleIndex(module);
-            if (ci == -1) return false;
+            int oldIndex = GetModuleIndex(module);
+            if (oldIndex == -1) return false;
 
-            Modules.RemoveAt(ci);
+            Modules.RemoveAt(oldIndex);
+            Modules.Insert(newIndex, module);
 
-            if (index < 0 || index >= Modules.Count) throw new IndexOutOfRangeException();
-            Modules.Insert(index, module);
-            ModuleOrderChanged?.Invoke(int.Min(index, ci));
+            ModuleOrderChanged?.Invoke(int.Min(newIndex, oldIndex));
             return true;
+        }
+
+        public void MoveModule(int oldIndex, int newIndex)
+        {
+            ObjectModule module = Modules[oldIndex];
+            Modules.RemoveAt(oldIndex);
+            Modules.Insert(newIndex, module);
+            ModuleOrderChanged?.Invoke(int.Min(oldIndex, newIndex));
         }
     }
 }

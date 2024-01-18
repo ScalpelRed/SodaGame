@@ -17,9 +17,9 @@ namespace Game.ExactGame.UI
 
         public SodaSelection(WorldObject linkedObject) : base(linkedObject)
         {
-            UITransform.SetAnchoringX(UITransform.AnchoringX.Stretch);
-            UITransform.SetAnchoringY(UITransform.AnchoringY.Stretch);
-            UITransform.MarginDown = -BottomPanel.Height;
+            Transform.SetAnchoringX(UITransform.AnchoringX.Stretch);
+            Transform.SetAnchoringY(UITransform.AnchoringY.Stretch);
+            Transform.MarginDown = -BottomPanel.Height;
 
             Background = new UIModelRenderer(linkedObject, Game.Core.Assets.Shaders.Get("meshSolid"));
 
@@ -30,9 +30,9 @@ namespace Game.ExactGame.UI
 
             foreach (SodaScene s in Game.Sodas)
             {
-                SodaListEntry e = new(new WorldObject(Vector3.Zero, Game, Transform), s);
+                SodaListEntry e = new(UITransform.CreateObjectForUI(Game), s);
                 SodaEntries.Add(e);
-                SodaList.Affected.Add(e.UITransform);
+                SodaList.Affected.Add(e.Transform);
             }
         }
 

@@ -25,7 +25,7 @@ namespace Game.UI
         {
             Affected.Added += (UITransform uit, int _) =>
             {
-                uit.Parent = UITransform;
+                uit.Parent = Transform;
                 uit.Changed += () => OnAffectedChange(uit);
                 UpdatePositions();
             };
@@ -46,7 +46,7 @@ namespace Game.UI
         private void OnAffectedChange(UITransform uit)
         {
             if (PauseUpdateEvent) return;
-            if (uit.Parent != UITransform) Affected.Remove(uit);
+            if (uit.Parent != Transform) Affected.Remove(uit);
             else UpdatePositions();
         }
 
@@ -54,11 +54,11 @@ namespace Game.UI
         {
             PauseUpdateEvent = true;
 
-            Vector2 pos = new(UITransform.Bound1.X, UITransform.Bound2.Y);
+            Vector2 pos = new(Transform.Bound1.X, Transform.Bound2.Y);
 
             foreach (UITransform v in Affected)
             {
-                Vector2 cpos = UITransform.ToNormalized(pos + new Vector2(v.MarginLeft, -v.MarginUp));
+                Vector2 cpos = Transform.ToNormalized(pos + new Vector2(v.MarginLeft, -v.MarginUp));
                 v.AnchorRectLeft = cpos.X;
                 v.AnchorRectUp = cpos.Y;
                 pos.Y -= v.Bound2.Y - v.Bound1.Y + offset;

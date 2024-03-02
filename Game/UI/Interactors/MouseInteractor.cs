@@ -1,38 +1,81 @@
 ﻿using Game.Main;
-using Game.UI.Bounds;
+using Game.Util;
 using Silk.NET.Input;
 using System.Numerics;
 
 namespace Game.UI.Interactors
 {
-    public class MouseInteractor : UIModule
+    public class MouseInteractor : ObjectModule
     {
-        protected Bounds.Bounds Bounds;
+        /*  MouseInteractor - provides events, has list of other interactors, events from them fires same events on this interactor
+        *      Button - simplest one: no special events
+        *          ModelButton - changes UIModelRenderer's model
+        *          TexturedButton - changes texture
+        *      Toggle - has event StateChanged(bool state)
+        *          ModelToggle, TexturedToggle, etc
+        *          Switch - changes child object position
+        *       
+        *  UIBounds - bounds to check clicks
+        *      TransformBounds - bounding box is a rectangle of scale 1
+        */
+
+        public ListenableList<Bounds.Bounds> RelatedBounds = new();
 
         public event Action<Vector2>? MouseIn;
         public event Action<Vector2>? MouseOut;
         public event Action<MouseButton>? MouseDown;
         public event Action<MouseButton>? MouseUp;
 
-        /*  MouseInteractor - provides events, has list of other interactors, events from them fires same events on this interactor
-         *      Button - simplest one: no special events
-         *          ModelButton - changes UIModelRenderer's model
-         *          TexturedButton - changes texture
-         *      Toggle - has event StateChanged(bool state)
-         *          ModelToggle, TexturedToggle, etc
-         *          Switch - changes child object position
-         *       
-         *  UIBounds - bounds to check clicks
-         *      TransformBounds - bounding box is rectangle transformed by transform
-         *      
-        */
-
-        /*public static float DefaultIgnoreUpDelta = 50;
-        public float IgnoreUpDelta = DefaultIgnoreUpDelta;
-        protected volatile float DownX;
-        protected volatile float DownY;*/
-
         public MouseInteractor(WorldObject linkedObject) : base(linkedObject)
+        {
+            
+        }
+
+        protected override void Initialize()
+        {
+            RelatedBounds.Added += (bounds, _) =>
+            {
+                bounds.Changed
+            };
+        }
+
+        protected override void LinkWithObject()
+        {
+            
+        }
+
+        protected override void LinkWithTransform()
+        {
+            
+        }
+
+        protected override void UnlinkFromObject()
+        {
+            RelatedBounds.Clear(); // Most likely all the bounds are on the old object and should not be used anymore
+            // if not, they should be reattached and added again
+        }
+
+        protected override void UnlinkFromTransform()
+        {
+            
+        }
+
+        private bool Hover;
+
+        private void CheckHover()
+        {
+            for (int i = 0; i < RelatedBounds.Count; i++)
+            {
+                if (RelatedBounds[i].Contains())
+                {
+
+                }
+            }
+        }
+
+        /*protected Bounds.Bounds Bounds;
+
+        /*public MouseInteractor(WorldObject linkedObject) : base(linkedObject)
         {
             if (!LinkedObject.TryGetFirstModule(out Bounds.Bounds bounds)) throw new ModuleRequiredException<MouseInteractor, Bounds.Bounds>();
             Bounds = bounds;
@@ -49,7 +92,7 @@ namespace Game.UI.Interactors
 
         private void setup()
         {
-            Game.Core.Input.MouseMove += (pos) =>
+            void onMove(Vector2 pos)
             {
                 if (Bounds.Contains(Game.MainCamera.WorldToScreen(pos)))
                 {
@@ -67,7 +110,10 @@ namespace Game.UI.Interactors
                         MouseOut?.Invoke(pos);
                     }
                 }
-            };
+            }
+
+            Game.Core.Input.MouseMove += onMove;
+            // TODO onMove also should be called when transform changes
 
             Game.Core.Input.MouseDown += (button) =>
             {
@@ -83,6 +129,6 @@ namespace Game.UI.Interactors
         public override void Step()
         {
 
-        }
+        }*/
     }
 }

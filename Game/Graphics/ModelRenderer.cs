@@ -7,7 +7,8 @@ namespace Game.Graphics
     {
         public GlModel Model;
 
-        public ModelRenderer(WorldObject linkedObject, GlShader shader) : this(linkedObject, new GlModel(linkedObject.Game.Core.OpenGL, shader))
+        public ModelRenderer(WorldObject linkedObject, GlShader shader) 
+            : this(linkedObject, new GlModel(linkedObject.GameCore.OpenGL, shader))
         {
 
         }
@@ -19,11 +20,36 @@ namespace Game.Graphics
 
         public override void Draw(Camera camera)
         {
-            Model.Shader.SetUniform("transform", Transform.Matrix);
+            Model.Shader.SetUniform("transform", Transform.FinalMatrix);
             Model.Shader.SetUniform("camera", camera.FinalMatrix);
             foreach (var value in Values) Model.Shader.SetUniform(value.Key, value.Value);
 
             Model.Draw();
+        }
+
+        protected override void Initialize()
+        {
+            
+        }
+
+        protected override void LinkWithObject()
+        {
+            
+        }
+
+        protected override void LinkWithTransform()
+        {
+            
+        }
+
+        protected override void UnlinkFromObject()
+        {
+            
+        }
+
+        protected override void UnlinkFromTransform()
+        {
+            
         }
     }
 }

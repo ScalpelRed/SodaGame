@@ -3,7 +3,7 @@ using Game.UI.Bounds;
 
 namespace Game.UI.Interactors
 {
-    public class UIButton : MouseInteractor
+   /* public class UIButton : MouseInteractor
     {
         public UIButton(WorldObject linkedObject) : base(linkedObject)
         {
@@ -14,5 +14,5 @@ namespace Game.UI.Interactors
         {
 
         }
-    }
+    }*/
 }

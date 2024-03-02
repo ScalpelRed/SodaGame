@@ -5,13 +5,13 @@ using System.Numerics;
 
 namespace Game.ExactGame
 {
-    public class Jelly : ObjectModule
+    /*public class Jelly : ObjectModule
     {
-        Renderer rend;
+        readonly Renderer rend;
 
         public float Stretching = 1.5f;
 
-        public Vector3 Bone; // idk how to name properly
+        public Vector3 Bone;
 
         public Jelly(WorldObject linkedObject) : base(linkedObject)
         {
@@ -42,5 +42,5 @@ namespace Game.ExactGame
 
             return new GlMesh(gl, mesh, dists);
         }
-    }
+    }*/
 }

@@ -30,7 +30,7 @@ namespace Game.Graphics
 
         public override void Step()
         {
-            Draw(Game.MainCamera);
+            Draw(GameCore.Controller.MainCamera);
         }
     }
 }

@@ -1,42 +1,52 @@
-﻿using Game.UI;
+﻿using Game.Transforming;
+using Game.UI;
+using Game.Util;
 using System.Numerics;
 
 namespace Game.Main
 {
     public class WorldObject
     {
-        public readonly GameController Game;
+        public readonly GameCore GameCore;
 
-        private ITransform transform;
-        public ITransform Transform
+        private Transform transform;
+        public Transform Transform
         {
             get => transform;
             set
             {
                 transform = value;
-                NewTransform?.Invoke(transform);
+                NewTransform?.Invoke(value);
             }
         }
-        public Action<ITransform>? NewTransform;
+        public Action<Transform>? NewTransform;
 
-        private readonly List<ObjectModule> Modules;
-        public Action<ObjectModule>? ModuleAttached;
-        public Action<ObjectModule>? ModuleDetached;
-        public Action<int>? ModuleOrderChanged;
-
-        public WorldObject(Vector3 position, GameController game, ITransform? parent = null)
+        public WorldObject(GameCore gameCore)
         {
-            Game = game;
+            transform = NullTransform.Null;
+            GameCore = gameCore;
             Modules = [];
-            transform = new Transform(position, parent);
         }
 
-        public WorldObject(ITransform transform, GameController game)
+        public WorldObject(Vector3 position, GameCore gameCore, Transform? parent = null)
         {
-            Game = game;
+            GameCore = gameCore;
+            Modules = [];
+            transform = NullTransform.Null;
+        }
+
+        public WorldObject(Transform transform, GameCore gameCore)
+        {
+            GameCore = gameCore;
             Modules = [];
             this.transform = transform;
         }
+
+
+        private readonly ListenableList<ObjectModule> Modules;
+        public Action<ObjectModule>? ModuleAttached;
+        public Action<ObjectModule>? ModuleDetached;
+        public Action<int>? ModuleOrderChanged;
 
         internal void AddModule(ObjectModule module)
         {

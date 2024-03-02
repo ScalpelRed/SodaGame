@@ -98,7 +98,7 @@ namespace Game.Graphics
             Api.StencilMask(0x00);
             //Api.Clear(ClearBufferMask.DepthBufferBit);
 
-            Core.Game.Step();
+            Core.Controller.Step();
 
             View.SwapBuffers();
 

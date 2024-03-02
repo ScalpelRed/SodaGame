@@ -1,9 +1,9 @@
 ﻿using Game.Util;
 using System.Numerics;
 
-namespace Game.Main
+namespace Game.Transforming
 {
-    public sealed class Transform : ITransform
+    public sealed class WorldTransform : Transform
     {
         private Vector3 pivot;
         private Matrix4x4 PivotMatrix = Matrix4x4.Identity;
@@ -121,9 +121,9 @@ namespace Game.Main
 
 
 
-        private ITransform? parent;
+        private Transform? parent;
 
-        public ITransform? Parent
+        public Transform? Parent
         {
             get => parent;
             set
@@ -147,6 +147,7 @@ namespace Game.Main
         public event Action? Changed;
         private void InvokeChanged()
         {
+            if (severalChanges) return;
             needsUpdate = true;
             Changed?.Invoke();
         }
@@ -154,7 +155,7 @@ namespace Game.Main
 
         private Matrix4x4 matrix = Matrix4x4.Identity;
 
-        public Matrix4x4 Matrix
+        public Matrix4x4 FinalMatrix
         {
             // TODO optimize, it processes all the values even if only one changed
             // may be done with bit mask to avoid using boolean array
@@ -168,7 +169,7 @@ namespace Game.Main
 
         public Matrix4x4 InheritableMatrix
         {
-            get => Matrix;
+            get => FinalMatrix;
         }
 
         public void UpdateIfNecessary()
@@ -180,7 +181,16 @@ namespace Game.Main
             }
         }
 
-        public Transform(Vector3 pos, ITransform? parent = null)
+        private bool severalChanges = false;
+        public void SeveralChanges(Action? changes)
+        {
+            severalChanges = true;
+            changes?.Invoke();
+            severalChanges = false;
+            InvokeChanged();
+        }
+
+        public WorldTransform(Vector3 pos, Transform? parent = null)
         {
             LocalPosition = pos;
             Parent = parent;

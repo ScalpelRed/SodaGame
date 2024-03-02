@@ -1,12 +1,13 @@
 ﻿using Game.Graphics;
 using Game.Main;
+using Game.Transforming;
 using Game.Util;
 using System.Diagnostics;
 using System.Numerics;
 
 namespace Game.UI
 {
-    public class UITransform : ITransform
+    public class UITransform : Transform
 	{
         // pivot = pivot
         // scale = anchors and margins
@@ -141,9 +142,9 @@ namespace Game.UI
 
 
 
-        private ITransform? parent;
+        private Transform? parent;
 
-        public ITransform? Parent
+        public Transform? Parent
         {
             get => parent;
             set
@@ -185,13 +186,23 @@ namespace Game.UI
         public event Action? Changed;
         private void InvokeChanged()
         {
+            if (severalChanges) return;
             needsMatrixUpdate = true;
             Changed?.Invoke();
         }
 
+        private bool severalChanges = false;
+        public void SeveralChanges(Action? changes)
+        {
+            severalChanges = true;
+            changes?.Invoke();
+            severalChanges = false;
+            InvokeChanged();
+        }
+
 
         private Matrix4x4 matrix;
-        public Matrix4x4 Matrix
+        public Matrix4x4 FinalMatrix
         {
             get
             {
@@ -265,7 +276,7 @@ namespace Game.UI
 
         public readonly OpenGL Gl;
 
-        public UITransform(OpenGL gl, ITransform? parent = null)
+        public UITransform(OpenGL gl, Transform? parent = null)
 		{
             Gl = gl;
             Parent = parent;
@@ -273,7 +284,7 @@ namespace Game.UI
             needsMatrixUpdate = true;
 		}
 
-        public UITransform(GameController game, ITransform? parent = null) : this(game.Core.OpenGL, parent)
+        public UITransform(GameCore gameCore, Transform? parent = null) : this(gameCore.OpenGL, parent)
         {
 
         }
@@ -506,11 +517,6 @@ namespace Game.UI
             Down,
             Center,
             Stretch
-        }
-
-        public static WorldObject CreateObjectForUI(GameController game, ITransform? parent = null)
-        {
-            return new WorldObject(new UITransform(game, parent), game);
         }
     }
 }

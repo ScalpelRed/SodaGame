@@ -7,7 +7,7 @@ using Jitter.LinearMath;
 
 namespace Game.Phys
 {
-    public class PhysBody : ObjectModule
+    /*public class PhysBody : ObjectModule
     {
         public readonly PhysWorld PhysWorld;
 
@@ -26,7 +26,7 @@ namespace Game.Phys
             PhysWorld = world;
             world.AddBody(this);
 
-            Transform.Changed += () => transformUpdated = true;
+            LinkedObject.TransformChanged += () => transformUpdated = true;
         }
 
         public override void Step()
@@ -95,5 +95,5 @@ namespace Game.Phys
         {
             JitterBody.AngularVelocity += JVector.Backward * angularVelocity;
         }
-    }
+    }*/
 }

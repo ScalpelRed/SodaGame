@@ -1,44 +1,71 @@
-﻿namespace Game.Main
+﻿using System.Diagnostics.CodeAnalysis;
+using Game.Transforming;
+
+namespace Game.Main
 {
     public abstract class ObjectModule
     {
-        public readonly WorldObject LinkedObject;
+        public readonly GameCore GameCore;
+        public WorldObject LinkedObject { get; private set; }
 
-        public GameController Game
-        {
-            get => LinkedObject.Game;
-        }
-
-        private bool transformAccessible;
-        private Transform? transform;
         public Transform Transform
         {
-            get
-            {
-                if (transformAccessible) return transform!;
-                else throw new DifferentTransformException();
-            }
+            get => LinkedObject.Transform;
+            set => LinkedObject.Transform = value;
         }
 
-        public ObjectModule(WorldObject worldObject)
+        public ObjectModule(WorldObject linkedObject)
+        {
+            GameCore = linkedObject.GameCore;
+            LinkedObject = null!;
+            InitAttachTo(linkedObject);
+        }
+
+        /// <summary>
+        /// Called on first attacment when LinkedObject was set but before calling LinkWithObject
+        /// </summary>
+        protected abstract void Initialize();
+        protected abstract void LinkWithObject();
+        protected abstract void LinkWithTransform();
+        protected abstract void UnlinkFromObject();
+        protected abstract void UnlinkFromTransform();
+
+        public event Action<WorldObject>? Reattached;
+
+        public void AttachTo(WorldObject worldObject)
+        {
+            UnlinkFromTransform();
+            UnlinkFromObject();
+            LinkedObject.NewTransform -= ChangeTransform;
+            LinkedObject.RemoveModule(this);
+
+            LinkedObject = worldObject;
+            LinkedObject.AddModule(this);
+            LinkedObject.NewTransform += ChangeTransform;
+
+            LinkWithObject();
+            LinkWithTransform();
+
+            Reattached?.Invoke(worldObject);
+        }
+
+        private void InitAttachTo(WorldObject worldObject)
         {
             LinkedObject = worldObject;
-            worldObject.AddModule(this);
-            OnNewTransform(worldObject.Transform);
-            worldObject.NewTransform += OnNewTransform;
+            LinkedObject.AddModule(this);
+            LinkedObject.NewTransform += ChangeTransform;
+
+            Initialize();
+            LinkWithObject();
+            LinkWithTransform();
+
+            Reattached?.Invoke(worldObject);
         }
 
-        private void OnNewTransform(ITransform transform)
+        private void ChangeTransform(Transform _)
         {
-            if (transform is Transform t)
-            {
-                transformAccessible = true;
-                this.transform = t;
-            }
-            else
-            {
-                transformAccessible = false;
-            }
+            UnlinkFromTransform();
+            LinkWithTransform();
         }
 
         public virtual void Step()

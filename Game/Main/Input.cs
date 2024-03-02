@@ -45,7 +45,7 @@ namespace Game.Main
 					pos -= Gl.ScreenSize * 0.5f;
 					MousePosition = new Vector2(pos.X, -pos.Y);
 					MouseMove?.Invoke(MousePosition);
-					Gl.Core.Game.MainCamera.WorldToScreen(pos);
+					Gl.Core.Controller.MainCamera.WorldToScreen(pos);
 				};
 				v.MouseDown += (IMouse mouse, MouseButton button) => MouseDown?.Invoke(button);
 				v.MouseUp += (IMouse mouse, MouseButton button) => MouseUp?.Invoke(button);

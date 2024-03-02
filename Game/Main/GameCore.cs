@@ -9,7 +9,7 @@ namespace Game.Main
         public readonly OpenGL OpenGL;
         public readonly Triode.Platform Platform;
         public readonly Input Input;
-        public readonly GameController Game;
+        public readonly GameController Controller;
         public readonly AssetManager Assets;
         public readonly Audio.AudioCore Audio;
 
@@ -20,7 +20,7 @@ namespace Game.Main
             Assets = new AssetManager(this);
             Audio = new Audio.AudioCore(this);
             Input = new Input(OpenGL);
-            Game = new GameController(this);
+            Controller = new GameController(this);
         }
 
         public void Log(object? message)

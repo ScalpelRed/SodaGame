@@ -4,7 +4,43 @@ using System.Numerics;
 
 namespace Game.UI
 {
-    public class UIList : UIModule
+
+    public class UIList : ObjectModule // TODO more directions
+    {
+
+
+        public UIList(WorldObject linkedObject) : base(linkedObject)
+        {
+
+        }
+
+        protected override void Initialize()
+        {
+            
+        }
+
+        protected override void LinkWithObject()
+        {
+            
+        }
+
+        protected override void LinkWithTransform()
+        {
+            
+        }
+
+        protected override void UnlinkFromObject()
+        {
+            
+        }
+
+        protected override void UnlinkFromTransform()
+        {
+            
+        }
+    }
+
+    /*public class UIList : ObjectModule
     {
         public readonly ListenableList<UITransform> Affected = [];
 
@@ -59,12 +95,15 @@ namespace Game.UI
             foreach (UITransform v in Affected)
             {
                 Vector2 cpos = Transform.ToNormalized(pos + new Vector2(v.MarginLeft, -v.MarginUp));
-                v.AnchorRectLeft = cpos.X;
-                v.AnchorRectUp = cpos.Y;
+                v.SeveralChanges(() =>
+                {
+                    v.AnchorRectLeft = cpos.X;
+                    v.AnchorRectUp = cpos.Y;
+                });
                 pos.Y -= v.Bound2.Y - v.Bound1.Y + offset;
             }
 
             PauseUpdateEvent = false;
         }
-    }
+    }*/
 }

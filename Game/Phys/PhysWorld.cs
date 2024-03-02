@@ -9,7 +9,7 @@ using Jitter.Dynamics;
 
 namespace Game.Phys
 {
-    public class PhysWorld
+    /*public class PhysWorld
     {
         protected GameController Game;
 
@@ -58,5 +58,5 @@ namespace Game.Phys
         }
 
         protected PhysBody GetPhysBodyFor(RigidBody rigidBody) => PhysBodies[rigidBody];
-    }
+    }*/
 }

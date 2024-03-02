@@ -17,7 +17,13 @@ namespace Game.OtherAssets
 
         }
 
-        public RawMesh(string[] source)
+        private static readonly char[] separator = new[] { '\r', '\n' };
+        public RawMesh(string objSource) : this(objSource.Split(separator))
+        {
+
+        }
+
+        public RawMesh(string[] objSource)
         {
             List<Vector3> pos = [];
             List<Vector2> texc = [];
@@ -26,7 +32,7 @@ namespace Game.OtherAssets
             SortedDictionary<Vertex, int> vertInds = [];
             List<Vertex[]> faces = [];
 
-            foreach (string v in source)
+            foreach (string v in objSource)
             {
                 string[] words = v.Replace('.', ',').Split(' ', '/');
 

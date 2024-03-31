@@ -1,4 +1,4 @@
-﻿namespace Game.Animation.Interpolations
+﻿namespace Triode.Game.Animation.Interpolations
 {
     public interface IInterpolation<T>
     {

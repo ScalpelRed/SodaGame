@@ -1,13 +1,13 @@
-﻿using Game.Main;
+﻿using Triode.Game.General;
 using System.Numerics;
-using Game.Util;
+using Triode.Game.Util;
 
 using Jitter;
 using Jitter.LinearMath;
 using Jitter.Collision;
 using Jitter.Dynamics;
 
-namespace Game.Phys
+namespace Triode.Game.Phys
 {
     /*public class PhysWorld
     {

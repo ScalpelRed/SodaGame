@@ -1,4 +1,4 @@
-﻿namespace Game.Main
+﻿namespace Triode.Game.General
 {
     public class ModuleRequiredException<TThrowed, TRequired> : Exception where TThrowed : ObjectModule where TRequired : ObjectModule
     { 

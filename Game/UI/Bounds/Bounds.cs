@@ -1,7 +1,7 @@
-﻿using Game.Main;
+﻿using Triode.Game.General;
 using System.Numerics;
 
-namespace Game.UI.Bounds
+namespace Triode.Game.UI.Bounds
 {
     public abstract class Bounds : ObjectModule
     {

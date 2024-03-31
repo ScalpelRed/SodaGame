@@ -1,11 +1,10 @@
-﻿using Game.Graphics;
-using Game.Main;
-using Game.Transforming;
-using Game.Util;
-using System.Diagnostics;
+﻿using Triode.Game.Graphics;
+using Triode.Game.General;
+using Triode.Game.Util;
 using System.Numerics;
+using Triode.Game.Transforming;
 
-namespace Game.UI
+namespace Triode.Game.UI
 {
     public class UITransform : Transform
 	{

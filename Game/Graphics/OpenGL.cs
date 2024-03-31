@@ -1,10 +1,10 @@
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using System.Numerics;
-using Game.Main;
+using Triode.Game.General;
 using System.Diagnostics;
 
-namespace Game.Graphics
+namespace Triode.Game.Graphics
 {
     public class OpenGL
     {
@@ -26,12 +26,13 @@ namespace Game.Graphics
 
         public readonly Stencil Stencil;
 
-        public OpenGL(IView view, GameCore core)
+        public OpenGL(GameCore core)
         {
             Core = core;
 
-            View = view;
-            Api = GL.GetApi(view);
+            View = core.Platform.CreateView();
+            View.Initialize();
+            Api = GL.GetApi(View);
 
             string openglInfo = "OpenGL info:";
             openglInfo += $"\n   Version: {Api.GetStringS(StringName.Version)}";
@@ -87,6 +88,11 @@ namespace Game.Graphics
             else RenderersToDraw[DrawCount] = rend;
             DrawCount++;
         }*/
+
+        public void Start()
+        {
+            View.Run();
+        }
 
         public void RenderFrame(double delta)
         {

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Triode.Game.Transforming;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Game.Transforming
+namespace Triode.Game.Transforming
 {
     public class NullTransform : Transform
     {

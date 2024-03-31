@@ -1,8 +1,8 @@
-﻿using Game.Graphics;
-using Game.OtherAssets;
-using Game.Text.Ttf2mesh;
+﻿using Triode.Game.Graphics;
+using Triode.Game.OtherAssets;
+using Triode.Game.Text.Ttf2mesh;
 
-namespace Game.Text
+namespace Triode.Game.Text
 {
     public interface IGlyphProvider
     {

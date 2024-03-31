@@ -1,11 +1,11 @@
-﻿using Game.Audio;
-using Game.Graphics;
-using Game.Main;
-using Game.OtherAssets;
-using Game.Text;
+﻿using Triode.Game.Audio;
+using Triode.Game.Graphics;
+using Triode.Game.General;
+using Triode.Game.OtherAssets;
+using Triode.Game.Text;
 using System.Numerics;
 
-namespace Game.Assets
+namespace Triode.Game.Assets
 {
     public class AssetManager
     {

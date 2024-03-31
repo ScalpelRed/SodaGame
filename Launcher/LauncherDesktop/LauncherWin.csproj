@@ -3,7 +3,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-	<RootNamespace>Triode.PlWin</RootNamespace>
+	<RootNamespace>Triode.Launcher.Win</RootNamespace>
 	<PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
@@ -17,6 +17,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Game\Game.csproj" />
-    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 </Project>

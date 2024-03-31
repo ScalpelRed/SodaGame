@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 
 
-namespace Game.Util
+namespace Triode.Game.Util
 {
     public struct Rectangle
     {

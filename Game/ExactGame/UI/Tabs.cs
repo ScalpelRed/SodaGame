@@ -1,15 +1,15 @@
-﻿using Game.Animation;
-using Game.Animation.Interpolations;
-using Game.ExactGame.Items;
-using Game.Main;
-using Game.Transforming;
-using Game.UI;
-using Game.Util;
+﻿using Triode.Game.Animation;
+using Triode.Game.Animation.Interpolations;
+using Triode.Game.ExactGame.Items;
+using Triode.Game.General;
+using Triode.Game.Transforming;
+using Triode.Game.UI;
+using Triode.Game.Util;
 using Silk.NET.Input;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
-namespace Game.ExactGame.UI
+namespace Triode.Game.ExactGame.UI
 {
     public sealed class Tabs : ObjectModule
     {

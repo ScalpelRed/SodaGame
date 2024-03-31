@@ -1,7 +1,7 @@
-﻿using Game.Main;
-using Game.Util;
+﻿using Triode.Game.General;
+using Triode.Game.Util;
 
-namespace Game.ExactGame.Items
+namespace Triode.Game.ExactGame.Items
 {
     public abstract class Item
     {
@@ -27,6 +27,6 @@ namespace Game.ExactGame.Items
             Name = new(rawName);
         }
 
-        public abstract WorldObject InstantiateDisplay();
+        public abstract WorldObject InstantiateIcon();
     }
 }

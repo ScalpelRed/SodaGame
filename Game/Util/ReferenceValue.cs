@@ -1,4 +1,4 @@
-﻿namespace Game.Util
+﻿namespace Triode.Game.Util
 {
     public class ReferenceValue<T> // возможно, это костыль
     {

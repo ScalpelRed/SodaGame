@@ -1,7 +1,7 @@
-﻿using Game.Main;
+﻿using Triode.Game.General;
 
 
-namespace Game.Graphics
+namespace Triode.Game.Graphics
 {
     public class ModelRenderer : Renderer
     {

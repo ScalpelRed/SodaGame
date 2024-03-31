@@ -1,23 +1,18 @@
 ﻿using Silk.NET.Maths;
-using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 
-namespace Triode.PlWin
+namespace Triode.Launcher.Win
 {
     public class WinPlatform : Platform
     {
-        IView view;
-
-        public WinPlatform()
+        public WinPlatform() : base()
         {
             IO = new WinIO(this);
         }
 
-        public override GL CreateGL() => GL.GetApi(
-            view ?? throw new Exception("View was not initialized"));
-
         public override IView CreateView()
-            => view = Window.Create(new()
+        {
+            return Window.Create(new()
             {
                 Title = "Soda game",
                 WindowBorder = WindowBorder.Resizable,
@@ -33,24 +28,35 @@ namespace Triode.PlWin
                 PreferredDepthBufferBits = 8,
                 PreferredStencilBufferBits = 8,
             });
-
-        public override void StartGame(IView view)
-        {
-            try
-            {
-                new Game.Main.GameCore(this, view);
-                
-            }
-            catch (Exception e)
-            {
-                Debug("[LAUNCHER] " + e);
-                Environment.Exit(e.HResult);
-            }
         }
 
         public override void Debug(object text)
         {
             Console.WriteLine("[GAME] " + text);
         }
+
+
+        /*IView view;
+
+        public WinPlatform()
+        {
+            
+        }
+
+        public override GL CreateGL() => GL.GetApi(
+            view ?? throw new Exception("View was not initialized"));
+
+        public override IView CreateView()
+            => 
+
+        public override void StartGame(IView view)
+        {
+            
+        }
+
+        public override void Debug(object text)
+        {
+            Console.WriteLine("[GAME] " + text);
+        }*/
     }
 }

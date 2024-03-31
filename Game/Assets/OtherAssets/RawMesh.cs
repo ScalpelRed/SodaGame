@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Game.OtherAssets
+namespace Triode.Game.OtherAssets
 {
     public partial class RawMesh
     {

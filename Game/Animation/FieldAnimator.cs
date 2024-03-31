@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace Game.Animation
+namespace Triode.Game.Animation
 {
     public struct FieldAnimator<TTarget, TValue> : IAnimator
     {

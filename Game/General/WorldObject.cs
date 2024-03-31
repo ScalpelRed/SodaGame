@@ -1,9 +1,9 @@
-﻿using Game.Transforming;
-using Game.UI;
-using Game.Util;
+﻿using Triode.Game.Transforming;
+using Triode.Game.UI;
+using Triode.Game.Util;
 using System.Numerics;
 
-namespace Game.Main
+namespace Triode.Game.General
 {
     public class WorldObject
     {

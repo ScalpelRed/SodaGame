@@ -1,11 +1,11 @@
-﻿using Game.Main;
+﻿using Triode.Game.General;
 using System.Numerics;
-using Game.Util;
+using Triode.Game.Util;
 using Jitter.Dynamics;
 using Jitter.Collision.Shapes;
 using Jitter.LinearMath;
 
-namespace Game.Phys
+namespace Triode.Game.Phys
 {
     /*public class PhysBody : ObjectModule
     {

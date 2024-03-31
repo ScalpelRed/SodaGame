@@ -1,6 +1,6 @@
-﻿using Game.Main;
+﻿using Triode.Game.General;
 
-namespace Game.Graphics
+namespace Triode.Game.Graphics
 {
     public abstract class Renderer : ObjectModule
     {

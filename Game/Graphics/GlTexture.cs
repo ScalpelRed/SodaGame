@@ -1,9 +1,9 @@
 ﻿using System.Numerics;
 using Silk.NET.OpenGL;
-using Game.Main;
-using Game.OtherAssets;
+using Triode.Game.General;
+using Triode.Game.OtherAssets;
 
-namespace Game.Graphics
+namespace Triode.Game.Graphics
 {
     public class GlTexture
     {

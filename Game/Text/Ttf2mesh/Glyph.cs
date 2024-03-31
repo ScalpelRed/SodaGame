@@ -5,10 +5,10 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
-using static Game.Text.Ttf2mesh.Binding;
-using static Game.Text.Ttf2mesh.TTF2Mesh;
+using static Triode.Game.Text.Ttf2mesh.Binding;
+using static Triode.Game.Text.Ttf2mesh.TTF2Mesh;
 
-namespace Game.Text.Ttf2mesh
+namespace Triode.Game.Text.Ttf2mesh
 {
     public class Glyph
     {

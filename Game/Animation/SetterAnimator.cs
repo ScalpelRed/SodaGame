@@ -1,4 +1,4 @@
-﻿namespace Game.Animation
+﻿namespace Triode.Game.Animation
 {
     public struct SetterAnimator<TValue> : IAnimator
     {

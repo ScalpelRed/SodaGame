@@ -1,6 +1,6 @@
-﻿using Game.Main;
+﻿using Triode.Game.General;
 
-namespace Game.Assets
+namespace Triode.Game.Assets
 {
     public sealed class Asset<K, V>
     {

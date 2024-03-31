@@ -1,10 +1,15 @@
-﻿using Game.Graphics;
-using Game.Main;
+﻿using Triode.Game.Graphics;
+using Triode.Game.General;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Game.ExactGame.Items
+namespace Triode.Game.ExactGame.Items
 {
-    public class ItemJelly : Item
+    /*public class ItemJelly : SpecialItem
     {
         protected Vector3 Color;
 
@@ -13,15 +18,20 @@ namespace Game.ExactGame.Items
             Color = color;
         }
 
-        public override WorldObject InstantiateDisplay()
+        public override WorldObject InstantiateIcon()
         {
-            ModelRenderer m = new(new WorldObject(Vector3.Zero, Core.Game), new GlModel(Core.OpenGL, Core.Assets.GlMeshes.Get("jellyCube"),
-                Core.Assets.SolidTextures.Get(Vector4.One), Core.Assets.Shaders.Get("jellymeshTextured")));
-            m.SetValue("tint", new Vector4(Color, 1));
+            WorldObject res = new(Vector3.Zero, Core.Controller);
+            ModelRenderer m = new(res, new GlModel(Core.OpenGL, Core.Assets.GlMeshes.Get("jellyCubeRigged"),
+                Core.Assets.SolidTextures.Get(new Vector4(Color, 1)), Core.Assets.Shaders.Get("jellymeshTextured")));
             m.Transform.Scale *= 50f;
-            new Jelly(m.LinkedObject);
+            _ = new Jelly(res);
 
-            return m.LinkedObject;
+            return res;
         }
-    }
+
+        public override WorldObject InstantiateSodaObject()
+        {
+            return new WorldObject(Vector3.Zero, Core.Controller);
+        }
+    }*/
 }

@@ -1,7 +1,7 @@
-﻿using Game.Assets;
+﻿using Triode.Game.Assets;
 using SoLoud;
 
-namespace Game.Audio
+namespace Triode.Game.Audio
 {
     public class Sound
     {
@@ -18,7 +18,7 @@ namespace Game.Audio
             Stream stream;
 
             {
-                Triode.IO io = audioCore.GameCore.Platform.IO;
+                Launcher.IO io = audioCore.GameCore.Platform.IO;
                 string fullname = "sounds/" + name;
                 if (io.ReadableExists(fullname + ".ogg")) stream = io.GetReadableStream(fullname + ".ogg");
                 else if (io.ReadableExists(fullname + ".wav")) stream = io.GetReadableStream(fullname + ".wav");

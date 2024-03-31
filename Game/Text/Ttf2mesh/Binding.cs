@@ -1,18 +1,19 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Game.Text.Ttf2mesh
+namespace Triode.Game.Text.Ttf2mesh
 {
     internal class Binding
     {
 
-#if PL_WIN64
+#if WIN_64
         public const string libpath = "ttf2mesh_x64.dll";
-#elif PL_WIN86 || PL_WIN32
+#elif WIN_32
         public const string libpath = "ttf2mesh_x86.dll";
-#elif PL_ANDROID
+#elif PLATFORM_ANDROID
         public const string libpath = "ttf2mesh.so";
 #else
 #error Unknown platform
+        public const string libpath = "none";
 #endif
 
         const int TTF_GLYPH_USERDATA = 4;

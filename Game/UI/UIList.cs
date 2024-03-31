@@ -1,8 +1,8 @@
-﻿using Game.Main;
-using Game.Util;
+﻿using Triode.Game.General;
+using Triode.Game.Util;
 using System.Numerics;
 
-namespace Game.UI
+namespace Triode.Game.UI
 {
 
     public class UIList : ObjectModule // TODO more directions

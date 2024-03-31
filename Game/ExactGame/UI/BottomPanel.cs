@@ -1,17 +1,17 @@
-﻿using Game.Animation;
-using Game.Animation.Interpolations;
-using Game.Graphics;
-using Game.Main;
-using Game.UI;
-using Game.Transforming;
-using Game.UI.Bounds;
-using Game.UI.Interactors;
-using Game.Util;
+﻿using Triode.Game.Animation;
+using Triode.Game.Animation.Interpolations;
+using Triode.Game.Graphics;
+using Triode.Game.General;
+using Triode.Game.UI;
+using Triode.Game.Transforming;
+using Triode.Game.UI.Bounds;
+using Triode.Game.UI.Interactors;
+using Triode.Game.Util;
 using Silk.NET.Input;
 using System.Numerics;
-using static Game.UI.UITransform;
+using static Triode.Game.UI.UITransform;
 
-namespace Game.ExactGame.UI
+namespace Triode.Game.ExactGame.UI
 {
 	public sealed class BottomPanel : ObjectModule
 	{

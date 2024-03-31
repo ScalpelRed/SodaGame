@@ -1,6 +1,6 @@
-﻿using Game.Util;
+﻿using Triode.Game.Util;
 
-namespace Game.ExactGame.SodaScenes
+namespace Triode.Game.ExactGame.SodaScenes
 {
     public class SodaInfo
     {

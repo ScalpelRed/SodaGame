@@ -9,14 +9,15 @@ namespace SoLoud
 
     public class SoLoud : SoloudObject
     {
-#if PL_WIN64
+#if WIN_64
         public const string libpath = "soloud_x64.dll";
-#elif PL_WIN86 || PL_WIN32
+#elif WIN_32
         public const string libpath = "soloud_x86.dll";
-#elif PL_ANDROID
+#elif PLATFORM_ANDROID
         public const string libpath = "libsoloud-android.so";
 #else
 #error Unknown platform
+        public const string libpath = "none";
 #endif
 
         public const int AUTO = 0;

@@ -1,6 +1,6 @@
-﻿using Game.Main;
+﻿using Triode.Game.General;
 
-namespace Game.Audio
+namespace Triode.Game.Audio
 {
     public class AudioCore
     {

@@ -1,6 +1,6 @@
-﻿using static Game.Text.Ttf2mesh.Binding;
+﻿using static Triode.Game.Text.Ttf2mesh.Binding;
 
-namespace Game.Text.Ttf2mesh
+namespace Triode.Game.Text.Ttf2mesh
 {
     public sealed class FontList : List<File>
     {

@@ -1,9 +1,9 @@
-﻿using Game.Main;
-using Game.Util;
+﻿using Triode.Game.General;
+using Triode.Game.Util;
 using Silk.NET.Input;
 using System.Numerics;
 
-namespace Game.UI.Interactors
+namespace Triode.Game.UI.Interactors
 {
     public class MouseInteractor : ObjectModule
     {
@@ -15,8 +15,6 @@ namespace Game.UI.Interactors
         *          ModelToggle, TexturedToggle, etc
         *          Switch - changes child object position
         *       
-        *  UIBounds - bounds to check clicks
-        *      TransformBounds - bounding box is a rectangle of scale 1
         */
 
         public ListenableList<Bounds.Bounds> RelatedBounds = new();
@@ -33,10 +31,7 @@ namespace Game.UI.Interactors
 
         protected override void Initialize()
         {
-            RelatedBounds.Added += (bounds, _) =>
-            {
-                bounds.Changed
-            };
+            
         }
 
         protected override void LinkWithObject()
@@ -60,18 +55,6 @@ namespace Game.UI.Interactors
             
         }
 
-        private bool Hover;
-
-        private void CheckHover()
-        {
-            for (int i = 0; i < RelatedBounds.Count; i++)
-            {
-                if (RelatedBounds[i].Contains())
-                {
-
-                }
-            }
-        }
 
         /*protected Bounds.Bounds Bounds;
 
@@ -112,15 +95,15 @@ namespace Game.UI.Interactors
                 }
             }
 
-            Game.Core.Input.MouseMove += onMove;
+            Game.Core.InputDevices.MouseMove += onMove;
             // TODO onMove also should be called when transform changes
 
-            Game.Core.Input.MouseDown += (button) =>
+            Game.Core.InputDevices.MouseDown += (button) =>
             {
                 if (Hover) MouseDown?.Invoke(button);
             };
 
-            Game.Core.Input.MouseUp += (button) =>
+            Game.Core.InputDevices.MouseUp += (button) =>
             {
                 if (Hover) MouseUp?.Invoke(button);
             };

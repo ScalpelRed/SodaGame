@@ -9,7 +9,4 @@
   <ItemGroup>
     <PackageReference Include="Silk.NET.Windowing.Sdl" Version="2.10.1" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
-  </ItemGroup>
 </Project>

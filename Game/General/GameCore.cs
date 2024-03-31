@@ -1,26 +1,26 @@
 ﻿using Silk.NET.Windowing;
-using Game.Graphics;
-using Game.Assets;
+using Triode.Game.Graphics;
+using Triode.Game.Assets;
+using Triode.Launcher;
 
-namespace Game.Main
+namespace Triode.Game.General
 {
     public class GameCore
     {
         public readonly OpenGL OpenGL;
-        public readonly Triode.Platform Platform;
-        public readonly Input Input;
+        public readonly Platform Platform;
         public readonly GameController Controller;
         public readonly AssetManager Assets;
         public readonly Audio.AudioCore Audio;
 
-        public GameCore(Triode.Platform platform, IView view)
+        public GameCore(Platform platform)
         {
             Platform = platform;
-            OpenGL = new OpenGL(view, this);
+            OpenGL = new OpenGL(this);
             Assets = new AssetManager(this);
             Audio = new Audio.AudioCore(this);
-            Input = new Input(OpenGL);
             Controller = new GameController(this);
+            OpenGL.Start();
         }
 
         public void Log(object? message)

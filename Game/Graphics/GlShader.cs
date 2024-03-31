@@ -1,9 +1,9 @@
 ﻿using Silk.NET.OpenGL;
 using System.Numerics;
 using System.Text;
-using Game.Assets;
+using Triode.Game.Assets;
 
-namespace Game.Graphics
+namespace Triode.Game.Graphics
 {
     public class GlShader
     {

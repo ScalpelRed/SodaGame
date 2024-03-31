@@ -1,10 +1,10 @@
-﻿using Game.Graphics;
-using Game.Main;
-using Game.Text;
-using Game.Text.Ttf2mesh;
-using Game.Util;
+﻿using Triode.Game.Graphics;
+using Triode.Game.General;
+using Triode.Game.Text;
+using Triode.Game.Text.Ttf2mesh;
+using Triode.Game.Util;
 using System.Numerics;
-using static Game.UI.UITransform;
+using static Triode.Game.UI.UITransform;
 
 namespace Game.UI
 {

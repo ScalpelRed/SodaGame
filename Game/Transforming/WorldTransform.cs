@@ -1,7 +1,8 @@
-﻿using Game.Util;
+﻿using Triode.Game.Util;
 using System.Numerics;
+using Triode.Game.Transforming;
 
-namespace Game.Transforming
+namespace Triode.Game.Transforming
 {
     public sealed class WorldTransform : Transform
     {

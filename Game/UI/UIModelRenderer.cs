@@ -1,7 +1,7 @@
-﻿using Game.Graphics;
-using Game.Main;
+﻿using Triode.Game.Graphics;
+using Triode.Game.General;
 
-namespace Game.UI
+namespace Triode.Game.UI
 {
     public class UIModelRenderer : Renderer
     {

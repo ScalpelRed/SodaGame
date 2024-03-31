@@ -1,4 +1,4 @@
-﻿namespace Game.Assets
+﻿namespace Triode.Game.Assets
 {
 
 

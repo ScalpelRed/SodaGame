@@ -1,16 +1,17 @@
 ﻿using System.Numerics;
 using System.Runtime.InteropServices;
-using Game.ExactGame;
-using Game.ExactGame.Items;
-using Game.ExactGame.SodaLayers;
-using Game.ExactGame.SodaScenes;
-using Game.ExactGame.UI;
-using Game.Graphics;
-using Game.Text;
-using Game.UI;
-using Game.Util;
+using Triode.Game.ExactGame;
+using Triode.Game.ExactGame.Items;
+using Triode.Game.ExactGame.SodaLayers;
+using Triode.Game.ExactGame.SodaScenes;
+using Triode.Game.ExactGame.UI;
+using Triode.Game.General;
+using Triode.Game.Graphics;
+using Triode.Game.Text;
+using Triode.Game.UI;
+using Triode.Game.Util;
 
-namespace Game.Main
+namespace Triode.Game.General
 {
     public class GameController
     {
@@ -82,7 +83,7 @@ namespace Game.Main
             return Inventory.TryGetValue(name, out item);
         }
 
-        public Item GetItem(string name) 
+        public Item GetItem(string name)
         {
             return Inventory[name];
         }

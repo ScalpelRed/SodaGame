@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Game.Transforming;
+using Triode.Game.Transforming;
 
-namespace Game.Main
+namespace Triode.Game.General
 {
     public class IncompatibleTransformException : Exception
     {

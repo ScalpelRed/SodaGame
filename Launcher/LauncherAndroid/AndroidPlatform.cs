@@ -2,6 +2,7 @@
 using Silk.NET.OpenGLES;
 using Silk.NET.Windowing;
 using Silk.NET.Windowing.Sdl.Android;
+using Triode.Launcher;
 
 namespace Triode.PlAndroid
 {
@@ -36,7 +37,7 @@ namespace Triode.PlAndroid
         {
             try
             {
-                new Game.Main.GameCore(this, view);
+                new Triode.Game.General.GameCore(this, view);
             }
             catch (Exception e)
             {

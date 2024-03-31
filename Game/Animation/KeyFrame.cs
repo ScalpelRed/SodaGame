@@ -1,6 +1,6 @@
-﻿using Game.Animation.Interpolations;
+﻿using Triode.Game.Animation.Interpolations;
 
-namespace Game.Animation
+namespace Triode.Game.Animation
 {
     public struct KeyFrame<T>
     {

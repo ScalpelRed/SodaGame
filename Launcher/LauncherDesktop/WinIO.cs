@@ -1,84 +1,82 @@
-﻿namespace Triode.PlWin
+﻿namespace Triode.Launcher.Win;
+
+public class WinIO : IO
 {
-    public class WinIO : IO
+    private readonly string AssetDirectory = "../../../../../Assets/";
+
+    public WinIO(WinPlatform platform)
     {
-        private string AssetDirectory = "../../../../../Assets/";
-
-        public WinIO(WinPlatform platform)
+        /*try
         {
-            /*try
-            {
-                AssetDirectory = GetAssetStreamReader("assetDirectory.ini", "").ReadToEnd();
-            }
-            catch (FileNotFoundException e)
-            {
-                _03310.Program.ReportException(e);
-            }*/
-
-            platform.Debug("Asset directory is " + AssetDirectory);
+           AssetDirectory = GetAssetStreamReader("assetDirectory.ini", "").ReadToEnd();
         }
-
-        public override Stream GetWriteableStream(string name)
+        catch (FileNotFoundException e)
         {
+           _03310.Program.ReportException(e);
+        }*/
 
-            return new FileStream(AssetDirectory + name, FileMode.Open);
-        }
+        platform.Debug("Asset directory is " + AssetDirectory);
+    }
 
-        public override StreamReader GetWriteableStreamReader(string name)
-        {
-            return new StreamReader(AssetDirectory + name);
-        }
+    public override Stream GetWriteableStream(string name)
+    {
+        return new FileStream(AssetDirectory + name, FileMode.Open);
+    }
 
-        public override StreamWriter GetWriteableStreamWriter(string name)
-        {
-            return new StreamWriter(AssetDirectory + name);
-        }
+    public override StreamReader GetWriteableStreamReader(string name)
+    {
+        return new StreamReader(AssetDirectory + name);
+    }
 
-        public override bool WriteableExists(string name)
-        {
-            return File.Exists(AssetDirectory + name);
-        }
+    public override StreamWriter GetWriteableStreamWriter(string name)
+    {
+        return new StreamWriter(AssetDirectory + name);
+    }
 
-        public override FileStream CreateWriteable(string name)
-        {
+    public override bool WriteableExists(string name)
+    {
+        return File.Exists(AssetDirectory + name);
+    }
 
-            return new FileStream(AssetDirectory + name, FileMode.OpenOrCreate);
-        }
+    public override FileStream CreateWriteable(string name)
+    {
 
-        public override string[] ReadAllLinesWriteable(string name)
-        {
-            return File.ReadAllLines(AssetDirectory + name);
-        }
+        return new FileStream(AssetDirectory + name, FileMode.OpenOrCreate);
+    }
 
-        public override string ReadAllTextWriteable(string name)
-        {
-            return File.ReadAllText(AssetDirectory + name);
-        }
+    public override string[] ReadAllLinesWriteable(string name)
+    {
+        return File.ReadAllLines(AssetDirectory + name);
+    }
+
+    public override string ReadAllTextWriteable(string name)
+    {
+        return File.ReadAllText(AssetDirectory + name);
+    }
 
 
-        public override Stream GetReadableStream(string name)
-        {
-            return GetWriteableStream(name);
-        }
+    public override Stream GetReadableStream(string name)
+    {
+        return GetWriteableStream(name);
+    }
 
-        public override StreamReader GetReadableStreamReader(string name)
-        {
-            return GetWriteableStreamReader(name);
-        }
+    public override StreamReader GetReadableStreamReader(string name)
+    {
+        return GetWriteableStreamReader(name);
+    }
 
-        public override bool ReadableExists(string name)
-        {
-            return WriteableExists(name);
-        }
+    public override bool ReadableExists(string name)
+    {
+        return WriteableExists(name);
+    }
 
-        public override string[] ReadAllLinesReadable(string name)
-        {
-            return ReadAllLinesWriteable(name);
-        }
+    public override string[] ReadAllLinesReadable(string name)
+    {
+        return ReadAllLinesWriteable(name);
+    }
 
-        public override string ReadAllTextReadable(string name)
-        {
-            return ReadAllTextWriteable(name);
-        }
+    public override string ReadAllTextReadable(string name)
+    {
+        return ReadAllTextWriteable(name);
     }
 }

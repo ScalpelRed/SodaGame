@@ -1,4 +1,4 @@
-﻿namespace Game.Util
+﻿namespace Triode.Game.Util
 {
     public struct Range<T> where T : IComparable<T>
     {

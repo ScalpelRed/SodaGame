@@ -1,4 +1,4 @@
-﻿namespace Game.Phys
+﻿namespace Triode.Game.Phys
 {
     public class PhysicalMesh2D
     {

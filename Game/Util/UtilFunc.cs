@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Game.Util
+namespace Triode.Game.Util
 {
     public static class UtilFunc
 	{

@@ -1,6 +1,6 @@
 ﻿using Silk.NET.OpenGL;
 
-namespace Game.Graphics
+namespace Triode.Game.Graphics
 {
     public class GlModel
     {

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Game.Transforming;
+using Triode.Game.Transforming;
 
-namespace Game.Main
+namespace Triode.Game.General
 {
     public abstract class ObjectModule
     {

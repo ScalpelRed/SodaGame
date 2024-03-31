@@ -1,5 +1,5 @@
-﻿using Game.Main;
-using Game.UI.Bounds;
+﻿using Triode.Game.General;
+using Triode.Game.UI.Bounds;
 
 namespace Game.UI.Interactors
 {

@@ -1,4 +1,4 @@
-﻿using Game.Util;
+﻿using Triode.Game.Util;
 
 // AnimationController - контроллирует время анимации
 // IAnimator - контроллирует установку значения
@@ -10,7 +10,7 @@
 // IInterpolation - интерполяция (функция и параметры)
 
 
-namespace Game.Animation
+namespace Triode.Game.Animation
 {
     public class AnimationController
     {

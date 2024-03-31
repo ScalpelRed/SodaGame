@@ -1,9 +1,9 @@
-﻿using Game.OtherAssets;
-using Game.Util;
+﻿using Triode.Game.OtherAssets;
+using Triode.Game.Util;
 using Silk.NET.OpenGL;
 using System.Numerics;
 
-namespace Game.Graphics
+namespace Triode.Game.Graphics
 {
     public class GlMesh
     {

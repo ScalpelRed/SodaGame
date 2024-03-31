@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Game.Animation.Interpolations
+namespace Triode.Game.Animation.Interpolations
 {
     public struct CubicFloatInterpolation : IInterpolation<float>
     {

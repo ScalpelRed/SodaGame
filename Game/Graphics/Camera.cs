@@ -1,8 +1,7 @@
 ﻿using System.Numerics;
-using Game.Main;
-using SixLabors.ImageSharp.Advanced;
+using Triode.Game.General;
 
-namespace Game.Graphics
+namespace Triode.Game.Graphics
 {
     public class Camera : ObjectModule
     {

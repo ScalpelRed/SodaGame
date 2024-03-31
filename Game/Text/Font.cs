@@ -1,10 +1,10 @@
-﻿using Game.Assets;
-using Game.Graphics;
-using Game.Main;
-using Game.OtherAssets;
-using Game.Text.Ttf2mesh;
+﻿using Triode.Game.Assets;
+using Triode.Game.Graphics;
+using Triode.Game.General;
+using Triode.Game.OtherAssets;
+using Triode.Game.Text.Ttf2mesh;
 
-namespace Game.Text
+namespace Triode.Game.Text
 {
     public class Font : IGlyphProvider
     {

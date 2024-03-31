@@ -1,6 +1,6 @@
-﻿using Game.Util;
+﻿using Triode.Game.Util;
 
-namespace Game.Animation
+namespace Triode.Game.Animation
 {
     public class FrameScale<T> : ITimeScale<T>
     {

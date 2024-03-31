@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
-namespace Game.Util
+namespace Triode.Game.Util
 {
     public static class Extensions
     {

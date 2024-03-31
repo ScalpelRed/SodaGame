@@ -1,8 +1,11 @@
-﻿using Game.Main;
+﻿using Triode.Game.General;
 using System.Numerics;
-using Game.Assets;
+using Triode.Game.Assets;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
-namespace Game.OtherAssets
+namespace Triode.Game.OtherAssets
 {
     public class RawTexture
     {

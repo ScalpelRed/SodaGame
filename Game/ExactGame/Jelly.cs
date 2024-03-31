@@ -1,9 +1,9 @@
-﻿using Game.Graphics;
-using Game.Main;
-using Game.OtherAssets;
+﻿using Triode.Game.Graphics;
+using Triode.Game.General;
+using Triode.Game.OtherAssets;
 using System.Numerics;
 
-namespace Game.ExactGame
+namespace Triode.Game.ExactGame
 {
     /*public class Jelly : ObjectModule
     {

@@ -1,4 +1,4 @@
-﻿namespace Game.ExactGame.SodaLayers
+﻿namespace Triode.Game.ExactGame.SodaLayers
 {
     public readonly struct LayerParameters
     {
